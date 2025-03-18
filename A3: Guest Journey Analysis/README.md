@@ -14,20 +14,31 @@ Guest Journey Patterns:
       1. Finding Relationships Between Visitor Traffics around Major Attractions and the Surrounding Environments in Theme Parks \[[1](https://www.researchgate.net/publication/309316799_FINDING_RELATIONSHIPS_BETWEEN_VISITOR_TRAFFICS_AROUND_MAJOR_ATTRACTIONS_AND_THE_SURROUNDING_ENVIRONMENTS_IN_THEME_PARKS)\]  
 2. Data Collection and Preparation  
    1. Data sources   
-      1. [https://www.kaggle.com/datasets/ayushtankha/hackathon?select=entity\_schedule.csv](https://www.kaggle.com/datasets/ayushtankha/hackathon?select=entity_schedule.csv) across the four theme parks of Walt Disney World (WDW) in Orlando, Florida. This dataset, gathered from "touringplans.com" between the years 2012 and 2018, encompasses the wait times for 13 different rides across 17 seasons, resulting in 884 unique combinations for analysis.  
+      1. [https://sites.google.com/site/limkwanhui/datacode](https://sites.google.com/site/limkwanhui/datacode) This dataset comprises a set of users and their visits to various attractions in five theme parks (Disneyland, Epcot, California Adventure, Disney Hollywood and Magic Kindgom). The user-attraction visits are determined based on geo-tagged Flickr photos that are: (i) posted from Aug 2007 to Aug 2017 and retrieved using the Flickr API; (ii) then mapped to specific attraction location and attraction categories; and (iii) then grouped into individual travel sequences (consecutive user-attraction visits that differ by \<8hrs)  
+         1. userVisits  
+            1. id   
+            2. nsid   
+            3. takenUnix- the date/time that the photo was taken (unix timestamp format).  
+            4. poiID \- identifier of the attraction (Flickr photos are mapped to attraction based on their lat/long).  
+            5. poiTheme \- category of the attraction (e.g., Roller Coaster, Family, Water, etc).  
+            6. poiFreq \- number of times this attraction has been visited.  
+            7. rideDuration \- the normal ride duration of this attraction  
+            8. seqID \- travel sequence no. (consecutive attraction visits by the same user that differ by \<8hrs are grouped as one travel sequence).  
+      2. [https://www.kaggle.com/datasets/ayushtankha/hackathon?select=entity\_schedule.csv](https://www.kaggle.com/datasets/ayushtankha/hackathon?select=entity_schedule.csv) across the four theme parks of Walt Disney World (WDW) in Orlando, Florida. This dataset, gathered from "touringplans.com" between the years 2012 and 2018, encompasses the wait times for 13 different rides across 17 seasons, resulting in 884 unique combinations for analysis.  
          1. Wait times  
          2. Daily operational data   
          3. Attendance data for each ride  
-      2. [https://github.com/annachant/Capstone-Disney-World-Date-and-Attendance-Predictor/blob/main/README.md](https://github.com/annachant/Capstone-Disney-World-Date-and-Attendance-Predictor/blob/main/README.md) It contains wait time information that was collected every 5-10 minutes for the top rides in Disney World from January 2015 to Dec 2021\. There are wait times for the following 12 rides across all 4 parks:  
-      3. [https://queue-times.com/](https://queue-times.com/) Waiting times and crowd data for the biggest theme parks in the world\!  
+      3. [https://github.com/annachant/Capstone-Disney-World-Date-and-Attendance-Predictor/blob/main/README.md](https://github.com/annachant/Capstone-Disney-World-Date-and-Attendance-Predictor/blob/main/README.md) It contains wait time information that was collected every 5-10 minutes for the top rides in Disney World from January 2015 to Dec 2021\. There are wait times for the following 12 rides across all 4 parks:  
+      4. [https://queue-times.com/](https://queue-times.com/) Waiting times and crowd data for the biggest theme parks in the world\!  
          1. Queue times, ride statistics, crowd levels, historical attendance, crowd forecast  
-      4. [https://themeparks.wiki/](https://themeparks.wiki/) API to fetch wait times for world’s best theme parks ([github](https://github.com/ThemeParks/parksapi))  
-      5. Ticketing Data: When guests arrive, what they purchase, and their entry times. (I can only find attendance data)  
+      5. [https://themeparks.wiki/](https://themeparks.wiki/) API to fetch wait times for world’s best theme parks ([github](https://github.com/ThemeParks/parksapi))  
+      6. [https://www.kaggle.com/datasets/romansydorchuk/dino-fun-world-assessment-1?select=dinofunworld.sequences.json](https://www.kaggle.com/datasets/romansydorchuk/dino-fun-world-assessment-1?select=dinofunworld.sequences.json) 2015 challenge Dino Fun World dataset (fictional data)  
+      7. Ticketing Data: When guests arrive, what they purchase, and their entry times. (I can only find attendance data)  
          1. Colab with QN 1 for data  
-      6. Point-of-Sale Data: Purchases made during the visit (e.g., food, merchandise) → touringplans.com API? Paid service tho   
+      8. Point-of-Sale Data: Purchases made during the visit (e.g., food, merchandise) → touringplans.com API? Paid service tho   
          1. Colab with QN 1 for data  
-      7. ~~Guest Feedback: Post-visit surveys or reviews.~~ (not the question’s focus, covered by qn 1 and maybe qn 2\)  
-      8. Synthetic Data (not as relevant here)  
+      9. ~~Guest Feedback: Post-visit surveys or reviews.~~ (not the question’s focus, covered by qn 1 and maybe qn 2\)  
+      10. Synthetic Data   
    2. Data Cleaning:  
       1. Handle missing data (e.g., impute missing values or remove incomplete records).  
       2. Standardize data formats (e.g., timestamps, categorical variables).  
@@ -67,5 +78,4 @@ Guest Journey Patterns:
 6. Propose Recommendations  
    1. Personalization:  \- Tailor marketing messages or offers based on guest segments, recommend attractions or services based on past behavior.  
    2. Operational Improvements: Optimize staffing levels at high-traffic areas, redesign queue systems to reduce wait times  
-   3. Guest Experience Enhancements:  Add more rest areas or food options in high-traffic zones, improve signage to guide guests more effectively.
-
+   3. Guest Experience Enhancements:  Add more rest areas or food options in high-traffic zones, improve signage to guide guests more effectively
