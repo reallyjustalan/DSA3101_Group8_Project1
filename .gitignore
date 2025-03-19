@@ -1,2 +1,4 @@
 data/processed_with_vectors.csv
 data/documents_with_topics.csv
+.DS_Store
+*/.DS_Store
