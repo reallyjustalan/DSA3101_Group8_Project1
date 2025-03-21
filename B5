@@ -139,7 +139,7 @@ lr_scheduler = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0
 
 # Train model
 epochs = 50
-result = model.fit(
+history = model.fit(
     train_x_scaled,
     train_y.values.astype('float'),
     validation_data=(test_x_scaled, test_y),
