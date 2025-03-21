@@ -77,6 +77,6 @@ avg_crowd_data = avg_crowd_data.sort_values('date').loc[avg_crowd_data['date'].d
 
 
 plot_overall_time_series(avg_crowd_data)
-plot_STL_decomposition(avg_crowd_data)
+#plot_STL_decomposition(avg_crowd_data)
 
 
