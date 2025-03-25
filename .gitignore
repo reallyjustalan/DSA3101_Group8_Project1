@@ -1,0 +1,3 @@
+# Ignore common data files
+data/
+configurations.py
