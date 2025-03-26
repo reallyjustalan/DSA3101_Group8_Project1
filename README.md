@@ -13,22 +13,6 @@ flowchart TD
     B4[B4: High-Risk Interactions]
     B5[B5: IoT Crowd Tracking]
 
-    subgraph "Understanding Guests"
-    A1[A1: Satisfaction Drivers]
-    A2[A2: Guest Segmentation]
-    A5[A5: Seasonality & Demographics]
-    B4[B4: High-Risk Interactions]
-    end
-
-    subgraph "Guest Movement"
-    A3[A3: Opportunity Zones]
-    B5[B5: IoT Crowd Tracking]
-    end
-
-    subgraph "Operations Optimization"
-    B2[B2: Attraction Layout]
-    B3[B3: Staff Allocation]
-    end
 
     %% woah u can comment using this
     A1 -->|"Allocation of staff impacts guest satisfaction"| B3
