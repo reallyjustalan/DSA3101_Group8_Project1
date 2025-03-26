@@ -1,5 +1,5 @@
 
-# Theme Park Consulting
+# Our Science to Smiles
 
 The global amusement park industry is surging forward at an impressive 10.55% CAGR, presenting unprecedented opportunities for growth. Behind this growth, there is a complex ecosystem of operations, customer experiences, and business decisions to be tackled.
 
