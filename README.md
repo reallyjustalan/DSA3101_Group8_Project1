@@ -99,6 +99,8 @@ Target these segments with tailored follow-up and surveys, leverage season-speci
 
 By analyzing 10 years of geo-tagged Flickr photos (2007-2017) at Disney California Adventure, we identified three significant "opportunity zones" within 100 meters of high-traffic attractions that received 88% fewer photos. This pattern persisted across all 17 seasons, indicating structural rather than seasonal factors.
 
+![download](https://github.com/user-attachments/assets/87055e7b-f08c-4ee6-a56e-da2688f250e7)
+
 **Key Insight** 
 
 Many/Numerous attractions nearby popular ones remain consistently unexplored, creating opportunity zones. In the future, **B5's IoT crowd tracking** will validate these zones in real-time, presenting untapped opportunities for guests to be redirected.
