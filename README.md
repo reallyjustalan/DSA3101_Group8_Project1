@@ -119,11 +119,11 @@ By using trend analysis on the monthly average crowd level and total visitors to
 
 *How can a predictive model be used to identify key demand drivers for theme park attractions and services, and guide data-driven decisions for park operators?*
 
-We developed a Random Forest model using data on weather, public holidays, natural disasters, park incidents, night shows, and competition from other local theme parks. This model was then used to predict crowds.
+We developed a Random Forest model using data on weather, public holidays, natural disasters, park incidents, night shows, and competition from other local theme parks. This model was then used to predict attraction demands.
 
-The top 3 predictors in the table were 3 different attractions, suggesting the inherent appeal of these rides may overshadow other external factors in driving attraction demand. Adverse weather conditions, while less influential, remained important variables in predicting lack of attraction demand.
+The top 3 predictors in the importance table were 3 different attractions, suggesting the inherent appeal of these rides may overshadow other external factors in driving attraction demand. Adverse weather conditions, while less influential, remained important variables in predicting attraction demand.
 
-**Business Impact** Theme Park operators can use the model's insights to boost demand by enhancing top-performing attractions, installing shelters near weather-sensitive areas, and adjusting staffing based on forecasted conditions. The model's identification of key demand drivers directly informs **B2's attraction layout optimization**, ensuring high-demand attractions are strategically positioned. Additionally, the predictive capabilities support **B3's staff allocation planning** by anticipating demand fluctuations.
+**Business Impact** Theme Park operators can use the model's insights to boost demand by enhancing attractions with dominating feature importances, installing shelters near weather-sensitive areas, and adjusting staffing based on forecasted conditions. The model's identification of key demand drivers directly informs **B2's attraction layout optimization**, ensuring high-demand attractions are strategically positioned. Additionally, the predictive capabilities support **B3's staff allocation planning** by anticipating demand fluctuations.
 
 ### B2 Attraction Layout
 
