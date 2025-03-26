@@ -36,6 +36,18 @@ flowchart TD
     A2 -->|"Guest segmentation model informs marketing efforts"| A4
     A5 -->|"Use seasonality data to tailor marketing efforts"| A4
     B4 -->|"Allocate staff to address service gaps immediately"| B3
+
+    click A1 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#a1-guest-satisfaction-drivers" _blank
+    click A2 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#a2-guest-segmentation" _blank
+    click A3 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#a3-opportunity-zones" _blank
+    click A4 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#a4-marketing-campaigns" _blank
+    click A5 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#a5-seasonality-demographics" _blank
+    click B1 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#b1-predictive-demand-model" _blank
+    click B2 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#b2-attraction-layout" _blank
+    click B3 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#b3-staff-allocation" _blank
+    click B4 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#b4-high-risk-interactions" _blank
+    click B5 "https://github.com/NotInvalidUsername/DSA3101_Group8_Project1/blob/main/README.md#b5-iot-crowd-tracking" _blank
+
 ```
 
 
