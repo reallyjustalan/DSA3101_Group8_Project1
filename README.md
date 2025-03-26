@@ -27,6 +27,7 @@ flowchart TD
     B1 -->|"Demand drivers inform layout"| B2
     A2 -->|"Guest segmentation model informs marketing efforts"| A4
     A5 -->|"Use seasonality data to tailor marketing efforts"| A4
+    B4 -->|"Allocate staff to address service gaps immediately"| B3
 ```
 
 
