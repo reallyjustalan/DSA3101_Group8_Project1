@@ -26,7 +26,7 @@ flowchart TD
     A4 -->|"Marketing influences expectations"| A1
     B1 -->|"Demand drivers inform layout"| B2
     A2 -->|"Guest segmentation model informs marketing efforts"| A4
-    A5 -->|"Use seasonality data to tailor marketing efforts| A4
+    A5 -->|"Use seasonality data to tailor marketing efforts"| A4
 ```
 
 
