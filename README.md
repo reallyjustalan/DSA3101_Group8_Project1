@@ -83,6 +83,8 @@ Analysed 1,000 reviews from 42,000 entries by using an LLM to identify specific 
 
 Applied clustering and mismatch analysis on key variables, such as ratings, sentiment, and month. Although 80% of the guests rated highly ( around 4.7/5), notable discrepancies exist between ratings and sentiment. Around 55% show no mismatch, while 9% are extreme “over-raters” \- critical in their review but still giving high ratings (mean mismatch of \+6.23). Vice versa, 23% are “under-raters” (mean mismatch of \-1.22).
 
+*![][image1]*
+
 **Key insight** 
 
 Even with high overall satisfaction, mismatches between ratings and review sentiment expose underlying issues in specific segments, suggesting that some guests may mask dissatisfaction or express overly critical ratings.
