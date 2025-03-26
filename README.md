@@ -243,7 +243,7 @@ Our analysis reveals a fundamental truth: in theme parks, guest satisfaction and
 
 To sustain this cycle, we recommend establishing an integrated data platform that combines real-time IoT tracking, guest feedback, and operational metrics. This foundation will allow the models presented here to evolve continuously, adapting to changing guest preferences and operational realities.
 
-Ultimately, we are in the business of fun. Behind every data point is a family making memories. The parks that will thrive tomorrow are those that use data today, not just to fill seats and maximize revenue, but to orchestrate joy. Those who master this will write the next chapter of this industry's remarkable story.  
+Ultimately however, we are in the business of fun. Behind every data point is a family making memories. The parks that will thrive tomorrow are those that use data today, not just to fill seats and maximize revenue, but to orchestrate joy. Those who master this will write the next chapter of this industry's remarkable story.  
 
 ![DSA3101 Video Slides](https://github.com/user-attachments/assets/856087fd-2f8f-4bb5-a9bb-0e719576d272)
 
