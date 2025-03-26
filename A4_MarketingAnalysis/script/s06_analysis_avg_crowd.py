@@ -137,7 +137,7 @@ def get_lift_of_campaign(df_crowd, theme_park, campaign_date, campaign_name):
         campaign_date = pd.to_datetime(campaign_date)
         dates_for_comparison = [campaign_date, campaign_date + pd.DateOffset(months=1)]
         mk_df = get_attraction_campaign_df(df_crowd, theme_park, campaign_date)
-        mk_df['month'] = [list(month_abbr).index(month) for month in mk_df['month']]
+        mk_df.loc[:,'month'] = [list(month_abbr).index(month) for month in mk_df['month'].tolist()]
         mk_df_non_campaign_years = mk_df[~mk_df['date'].isin(dates_for_comparison)]
 
         avg_seasonal = mk_df_non_campaign_years.groupby('month').mean('avg_crowd_level').reset_index()
@@ -149,12 +149,14 @@ def get_lift_of_campaign(df_crowd, theme_park, campaign_date, campaign_name):
         absolute_lift_campaign = (mk_df_current.iloc[1,6] - mk_df_current.iloc[0,6])
         perc_lift_campaign = round( absolute_lift_campaign / abs(mk_df_current.iloc[0,6]) * 100,1) 
         absolute_lift_campaign = round(absolute_lift_campaign, 1)
-        print(f'{theme_park}: {campaign_name}')
-        print('-------------------------------')
-        print(mk_df_current)
-        print('------------------------------- \n')
-        print(f'absolute lift of campaign: {absolute_lift_campaign}')
-        print(f'percentage lift of campaign: {perc_lift_campaign}%')
+        
+        # uncomment to see the the different lifts of campaign and df of   
+        # print(f'{theme_park}: {campaign_name}')
+        # print('-------------------------------')
+        # print(mk_df_current)
+        # print('------------------------------- \n')
+        # print(f'absolute lift of campaign: {absolute_lift_campaign}')
+        # print(f'percentage lift of campaign: {perc_lift_campaign}%')
         
         return (absolute_lift_campaign, perc_lift_campaign, mk_df_current.iloc[0, 3])
 # save plot

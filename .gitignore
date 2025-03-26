@@ -1,3 +1,6 @@
 # Ignore common data files
 data/
 configurations.py
+
+# Ignore venv files
+venv/
