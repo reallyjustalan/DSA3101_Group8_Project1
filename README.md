@@ -42,7 +42,7 @@ pip install -r requirements.txt
 Launch the Streamlit application:
 
 ```bash
-streamlit run app.py
+streamlit run Hello.py
 ```
 
 The application should automatically open in your default web browser. If not, the terminal will display a URL (typically http://localhost:8501) that you can open manually.
