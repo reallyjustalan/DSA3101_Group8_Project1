@@ -4,3 +4,4 @@ configurations.py
 
 # Ignore venv files
 venv/
+.DS_Store
