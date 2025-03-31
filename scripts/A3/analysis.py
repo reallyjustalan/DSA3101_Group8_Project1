@@ -62,7 +62,6 @@ def plot_poi_map(poi):
             "<extra></extra>"
         ),
         textposition="top center",
-        textfont=dict(color="black", size=10, family="Arial"),
     )
     
     # Improve layout
@@ -73,8 +72,7 @@ def plot_poi_map(poi):
         hoverlabel=dict(
             bgcolor="white",
             font_size=12,
-            font_family="Arial",
-            font_color="black"
+            font_family="Arial"
         ),
         legend_title_text="<b>Theme</b>",
         legend=dict(
@@ -82,20 +80,17 @@ def plot_poi_map(poi):
             yanchor="top",
             y=0.99,
             xanchor="left",
-            x=1.02,
-            font=dict(color="black")
+            x=1.02
         ),
         xaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
-            title_font=dict(size=14),
-            tickfont=dict(color="black")
+            title_font=dict(size=14)
         ),
         yaxis=dict(
             showgrid=True,
             gridcolor="lightgray",
-            title_font=dict(size=14),
-            tickfont=dict(color="black")
+            title_font=dict(size=14)
         ),
         margin=dict(l=20, r=20, t=60, b=20)
     )

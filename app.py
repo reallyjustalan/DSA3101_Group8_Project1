@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
-from analysis import (
+from scripts.analysis import (
     load_data, 
     plot_poi_map, 
     analyze_journey_patterns, 
@@ -11,6 +11,8 @@ from analysis import (
     analyze_opportunity_zones,
     plot_opportunity_zones,
     get_business_insights
+)
+from scripts.cost_profit_analysis import (load_cost_profit_data, plot_cost_profit_scatter, get_cost_profit_insights
 )
 
 # Page config
@@ -46,7 +48,7 @@ if data_loaded:
     st.sidebar.title("Navigation")
     page = st.sidebar.radio(
         "Select a page:",
-        ["Park Overview", "Journey Patterns", "Visitor Flow Network", "Opportunity Zones", "Business Insights"]
+        ["Park Overview", "Journey Patterns", "Visitor Flow Network", "Opportunity Zones", "Business Insights", "Cost-Profit Analysis"]
     )
     
     # Page 1: Park Overview
@@ -69,7 +71,7 @@ if data_loaded:
     # Page 2: Journey Patterns
     elif page == "Journey Patterns":
         st.header("Guest Journey Patterns")
-        st.write("Analysis of common paths taken by visitors through the park")
+        st.write("Analysis of common paths taken by visitors through the park (journeys must contain non-repititive transitions)")
         
         journey_patterns, top_patterns = analyze_journey_patterns(df, poi)
         
@@ -82,15 +84,80 @@ if data_loaded:
         # Summary stats
         st.write(f"Total unique journey patterns: {len(journey_patterns)}")
         
-        # Add an explanation
+        # Business Insights & Recommendations
         st.markdown("""
-        ### Insights from Journey Patterns
-        
-        - **Popular Sequences**: The most common guest paths reveal how visitors naturally flow through the park
-        - **Family-Focused Paths**: Many top journeys connect family-friendly attractions
-        - **Photo Opportunity Points**: These patterns highlight where guests prefer to take photos
+        ## Business Insights & Recommendations from Popular Pairings & Guest Flow
+        Based on the top journey patterns, we can derive key insights about guest behavior, optimize operations, and enhance revenue opportunities.
         """)
-    
+        
+        with st.expander("### 1. Key Insights", expanded=True):
+            st.markdown("""
+            ### A. Popular Attraction Pairings  
+            - **Radiator Springs Racers (RSR)** is a major traffic driver, frequently paired with:  
+              - **Disney Junior - Live on Stage!** (8x)  
+              - **The Bakery Tour** (8x)  
+            - **Disney Junior - Live on Stage!** is a strong family/kiddie attraction, often leading to:  
+              - **The Bakery Tour** (7x)  
+              - **The Little Mermaid Ride** (7x)  
+            - **The Bakery Tour** is a high-traffic secondary attraction, commonly followed by:  
+              - **King Triton's Carousel** (7x)  
+
+            *Note: The Bakery Tour is not a very popular attraction, it is just more popular for photos so we will use it cautiously for our insights.*
+            """)
+            
+            st.markdown("""
+            ### B. Guest Flow Trends  
+            - **Families with young children** dominate these paths (Disney Junior + Carousel + Little Mermaid).  
+            - **Food & Ride Combos**: Bakery Tour acts as a "resting spot" between rides.  
+            - **RSR as a Crowd Puller**: Guests often pair high-thrill rides (RSR) with low-intensity shows (Disney Junior) or food experiences (Bakery Tour).  
+              - Possible reason: Guests tire of waiting for RSR (70 min avg wait time in 2015 vs <10 mins for others ([source](https://queue-times.com/parks/17/stats/2015)))
+            """)
+        
+        with st.expander("### 2. Strategic Recommendations", expanded=False):
+            cols = st.columns(2)
+            with cols[0]:
+                st.markdown("""
+                ### A. Optimize Queue & Crowd Management  
+                - Extend RSR FastPass/Genie+ Slots to reduce congestion  
+                - Deploy Mobile Food Carts near Disney Junior exit  
+                """)
+                
+                st.markdown("""
+                ### B. Enhance Cross-Promotion  
+                - Bundle Experiences: "Family Fun Pack" (RSR + Disney Junior + Bakery Tour)  
+                """)
+            
+            with cols[1]:
+                st.markdown("""
+                ### C. Increase F&B Revenue  
+                - Upsell Bakery Tour samples as premium add-ons  
+                - Place snack kiosks between Carousel and Little Mermaid  
+                """)
+                
+                st.markdown("""
+                ### D. Improve Show Scheduling  
+                - Align Disney Junior showtimes with RSR ride exits  
+                """)
+        
+        with st.expander("### 3. Success KPIs & ROI", expanded=False):
+            st.markdown("""
+            #### Key Performance Indicators
+            | Objective               | KPI                          | Target       |
+            |-------------------------|------------------------------|-------------|
+            | Increase Guest Spending | Avg. F&B spend per guest     | +15%        |
+            | Improve Attraction Flow | Wait time reduction at RSR   | -20%        |
+            | Guest Satisfaction      | Post-experience survey       | ≥4.5/5      |
+            """)
+            
+            st.markdown("""
+            #### ROI Calculations (Based on 2015 attendance)
+            | Initiative               | Cost       | Daily Revenue | Monthly ROI  |
+            |--------------------------|-----------|---------------|-------------|
+            | Mobile Food Cart         | $5k       | $2,500        | $70k net    |
+            | Family Fun Pack Bundle   | $0        | $2,500        | $75k profit |
+            """)
+            st.caption("Data sources: [Queue Times](https://queue-times.com), [AECOM Report](https://aecom.com/content/wp-content/uploads/2015/10/2014_Theme_Index.pdf)")
+             
     # Page 3: Visitor Flow Network
     elif page == "Visitor Flow Network":
         st.header("Visitor Flow Network")
@@ -123,7 +190,15 @@ if data_loaded:
     # Page 4: Opportunity Zones
     elif page == "Opportunity Zones":
         st.header("Opportunity Zones Analysis")
-        st.write("Identifying underutilized areas near popular attractions")
+
+        st.write("Identifying underutilized areas near popular attractions to disperse guests at top attractions and serve as strong complements")
+
+        st.markdown("""
+        Note: Not all top attractions (stars) here correspond to the actuals top attractions. The data used is based on number of photos taken, which favour more photogenic attractions.
+        
+        - This is just a proof of concept with some suggested theoretical insights. 
+        - Actual results may differ based on the specific data used.
+        """)
         
         # Run the opportunity zone analysis
         plot_df, top_coords, far_percentage = analyze_opportunity_zones(df)
@@ -140,6 +215,7 @@ if data_loaded:
         - **Green circles** highlight opportunity zones - underutilized areas near popular spots
         - **Gold stars** mark the top attractions by visitor photos
         - **Red points** show locations within 100m of popular attractions
+        - The smaller the red point, the bigger the potential as an effective opportunity zone (underutilized area)
         
         These opportunity zones represent potential areas for:
         - New food & beverage locations
@@ -187,6 +263,56 @@ if data_loaded:
         
         roi_df = pd.DataFrame(roi_data)
         st.table(roi_df)
+
+    # Page 6: Cost-Profit Analysis
+    elif page == "Cost-Profit Analysis":
+        st.header("Cost-Profit Analysis of Attraction Routes")
+        st.write("Analyzing the relationship between distance traveled and attraction popularity")
+        
+        # Load the data
+        cost_profit_df = load_cost_profit_data("data/costProfCat-caliAdv-all.csv")
+        
+        # Show the scatter plot
+        st.subheader("Distance vs Popularity Analysis")
+        scatter_fig = plot_cost_profit_scatter(cost_profit_df)
+        st.pyplot(scatter_fig)
+        
+        # Get insights
+        insights = get_cost_profit_insights(cost_profit_df)
+        
+        # Display insights in columns
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("Top 5 Most Cost-Effective Routes")
+            st.dataframe(insights["top_efficient"][['from', 'to', 'distance', 'popularity', 'cost_effectiveness']])
+            
+            st.subheader("Key Observations")
+            for observation in insights["summary"]:
+                st.markdown(f"- {observation}")
+        
+        with col2:
+            st.subheader("Top 5 Most Popular Routes")
+            st.dataframe(insights["top_popular"][['from', 'to', 'distance', 'popularity', 'cost_effectiveness']])
+            
+            st.markdown("""
+            ### Business Recommendations
+            - Promote efficient show/show combinations to optimize guest experience
+            - Improve pathways to The Little Mermaid to handle its popularity
+            - Create bundled experiences for high-efficiency routes
+            - Consider adding amenities along popular long-distance routes
+            """)
+        
+        # Add distribution plots
+        st.subheader("Data Distributions")
+        fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+        sns.histplot(cost_profit_df['distance'], bins=30, kde=True, ax=axes[0])
+        axes[0].set_title('Distribution of Distance')
+        sns.histplot(cost_profit_df['popularity'], bins=30, kde=True, ax=axes[1])
+        axes[1].set_title('Distribution of Popularity')
+        sns.histplot(cost_profit_df['rideDuration'], bins=30, kde=True, ax=axes[2])
+        axes[2].set_title('Distribution of Ride Duration')
+        st.pyplot(fig)
 
 # Footer
 st.markdown("---")
