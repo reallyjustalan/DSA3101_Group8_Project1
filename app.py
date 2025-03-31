@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 import plotly.graph_objects as go
 from scripts.analysis import (
     load_data, 
@@ -258,7 +259,7 @@ if data_loaded:
             "Initiative": ["Mobile Food Cart Near Disney Junior", "Family Fun Pack Bundle"],
             "Cost": ["$5,000", "$0 (existing infrastructure)"],
             "Monthly Revenue": ["$75,000", "$75,000"],
-            "ROI": ["$70,000 (1400%)", "$75,000 (∞)"]
+            "ROI": ["$70,000 (1400%)", "$75,000"]
         }
         
         roi_df = pd.DataFrame(roi_data)
@@ -271,11 +272,6 @@ if data_loaded:
         
         # Load the data
         cost_profit_df = load_cost_profit_data("data/costProfCat-caliAdv-all.csv")
-        
-        # Show the scatter plot
-        st.subheader("Distance vs Popularity Analysis")
-        scatter_fig = plot_cost_profit_scatter(cost_profit_df)
-        st.pyplot(scatter_fig)
         
         # Get insights
         insights = get_cost_profit_insights(cost_profit_df)
