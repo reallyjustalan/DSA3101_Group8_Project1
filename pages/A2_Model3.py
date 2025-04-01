@@ -13,11 +13,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 scripts_a2_path = BASE_DIR / "scripts" / "A2"
 sys.path.append(str(scripts_a2_path))
 
-import dataprocessing
+import A2_dataprocessing
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, "../data/A2/updated_disneylandreviews.csv")
-df = dataprocessing.load_and_clean_data(csv_path)
+df = A2_dataprocessing.load_and_clean_data(csv_path)
 
 df_all = df
 df_hongkong = df_all[df_all['Branch'] == 'Disneyland_HongKong']
