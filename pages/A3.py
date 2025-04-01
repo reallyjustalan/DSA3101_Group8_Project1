@@ -49,17 +49,44 @@ if data_loaded:
     st.sidebar.title("Navigation")
     page = st.sidebar.radio(
         "Select a page:",
-        ["Park Overview", "Journey Patterns", "Visitor Flow Network", "Opportunity Zones", "Business Insights", "Cost-Profit Analysis"]
+        ["Overview", "Journey Patterns", "Visitor Flow Network", "Opportunity Zones", "Business Insights", "Cost-Profit Analysis"]
     )
     
-    # Page 1: Park Overview
-    if page == "Park Overview":
-        st.header("Park Overview")
-        st.write("Map of attractions at Disney California Adventure")
+    # Page 1: Overview
+    if page == "Overview":
+        st.header("Overview")
         
+        # About the Task: Guest Journey Patterns
+        st.subheader("About the Task: Guest Journey Patterns")
+        
+        st.markdown("""
+        ### **Suggested Solutions**
+        
+        1. Use process mining or sequence analysis to identify common guest journey paths.  
+        2. Compare these patterns across segments to uncover opportunities for personalization and operational improvements.  
+        
+        ### **Solutions Implemented**
+        
+        1. **Sequence & Network Analysis**  
+        - Identified frequent multi-attraction sequences (e.g., `7 → 18`) and built a transition network using NetworkX to analyze guest flow.  
+        - Segmented paths by attraction themes (e.g., Family, Thrill Rides) to compare movement patterns.  
+        
+        2. **Opportunity Zone Mapping**  
+        - Combined sequence data with places of interest (POI) to highlight underutilized areas near high-traffic attractions using KDTree spatial analysis.  
+        
+        3. **Cost-Profit Analysis**  
+        - Assessed travel cost (based on distance) between attractions/POIs.  
+        - Evaluated the potential profit (based on attraction popularity) gained from reaching specific POIs, optimizing guest flow strategies.  
+        """)
+
+
+
+        st.subheader("About the Park: Disney California Adventure")
+
+        # Map visualization
         map_fig = plot_poi_map(poi)
         st.plotly_chart(map_fig, use_container_width=True)
-        
+
         # Basic stats
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -68,6 +95,7 @@ if data_loaded:
             st.metric("Unique Visitors", seq["nsid"].nunique())
         with col3:
             st.metric("Total Photo Records", len(seq))
+
     
     # Page 2: Journey Patterns
     elif page == "Journey Patterns":
@@ -294,8 +322,11 @@ if data_loaded:
             st.markdown("""
             ### Business Recommendations
             - Promote efficient show/show combinations to optimize guest experience
+
             - Improve pathways to The Little Mermaid to handle its popularity
+
             - Create bundled experiences for high-efficiency routes
+
             - Consider adding amenities along popular long-distance routes
             """)
         
