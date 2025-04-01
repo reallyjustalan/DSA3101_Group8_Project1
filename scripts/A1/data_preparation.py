@@ -8,7 +8,6 @@ from sklearn.preprocessing import StandardScaler
 def prepare_attendance_data(filepath):
     """Prepare attendance data from CSV file."""
     attendance_data = pd.read_csv(filepath)
-    attendance_data.isnull().any()
     attendance_data.drop_duplicates(inplace=True)
     attendance_data["USAGE_DATE"] = pd.to_datetime(attendance_data["USAGE_DATE"])
     attendance_data["Year"] = attendance_data["USAGE_DATE"].dt.year
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     waiting_times_combined = pd.concat(waiting_times_list, ignore_index=True)
 
     # Check
-    print(waiting_times_combined.shape())
+    print(waiting_times_combined.shape)
     print(waiting_times_combined.head())
 
 
@@ -89,7 +88,7 @@ def prepare_park_data(filepath):
     park_raw = pd.read_csv(filepath)
     park_raw['hour_adjusted'] = park_raw['hour'] + 1
     park_daily_hourly = park_raw[['day','hour_adjusted','peak_frc']]
-    park_daily_hourly["prev_peak_frc"] = park_daily_hourly.groupby("day")["peak_frc"].shift(fill_value=0)
+    park_daily_hourly["prev_peak_frc"] = park_daily_hourly.groupby("day")["peak_frc"].shift().fillna(0)
     park_daily_hourly["peak_frc_diff"] = park_daily_hourly["peak_frc"] - park_daily_hourly["prev_peak_frc"]
     park_daily_hourly = park_daily_hourly.drop(columns=["prev_peak_frc"])
     return park_daily_hourly
