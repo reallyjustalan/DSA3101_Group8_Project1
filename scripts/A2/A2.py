@@ -1,11 +1,11 @@
 import pandas as pd
-from dataprocessing import load_and_clean_data
-from createplots import create_plots
-from DBSCAN import DBSCANmodel
-from KMeans_all import KM_all
-from KMeansContinent import KMContinent
-from Mismatch import mm
-from KMeansVisit import KMVisit
+from A2_dataprocessing import load_and_clean_data
+from A2_createplots import create_plots
+from A2_DBSCAN import DBSCANmodel
+from A2_KMeans_all import KM_all
+from A2_KMeansContinent import KMContinent
+from A2_Mismatch import mm
+from A2_KMeansVisit import KMVisit
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
