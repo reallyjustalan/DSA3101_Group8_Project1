@@ -26,13 +26,11 @@ st.markdown(
 
     Target these segments with tailored follow-up and surveys, leverage season-specific service improvements, and refine engagement strategies to convert hidden dissatisfaction into loyalty. These segmentation insights also inform A4's marketing campaign strategies.
     
-    **👈 Select a page from the sidebar** to see the models
     ### Plots (Exploratory Data Analysis to better understand the data.)
     ### Model 1: DBSCAN on the whole data (Behavioural and preferences-based)
     ### Model 2: KMeans on the whole data (Behavioural and preferences-based)
     ### Model 3: KMeans Analysis on Mistmach (Behavioural)
     ### Model 4: KMeans Analysis on data split by Continent (Demographic)
     ### Model 5: KMeans Analysis on data split by Visit_Type (Demographic)
-    
 """
 )
