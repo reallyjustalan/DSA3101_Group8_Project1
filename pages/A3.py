@@ -296,42 +296,71 @@ if data_loaded:
     # Page 6: Cost-Profit Analysis
     elif page == "Cost-Profit Analysis":
         st.header("Cost-Profit Analysis of Attraction Routes")
-        st.write("Analyzing the relationship between distance traveled and attraction popularity")
-        
-        # Load the data
+        st.subheader("Calculated using distance as cost, and attraction popularity as profit")
+
+        # Load data
         cost_profit_df = load_cost_profit_data("data/costProfCat-caliAdv-all.csv")
-        
-        # Get insights
         insights = get_cost_profit_insights(cost_profit_df)
+
+        # Summary Insights
+        st.markdown("### Key Findings")
+        for observation in insights["summary"]:
+            st.markdown(f"- {observation}")
         
-        # Display insights in columns
-        col1, col2 = st.columns(2)
+        # Layout Optimization
+        tab1, tab2 = st.tabs(["Most Cost-Effective Routes", "Most Popular Routes"])
         
-        with col1:
+        with tab1:
             st.subheader("Top 5 Most Cost-Effective Routes")
             st.dataframe(insights["top_efficient"][['from', 'to', 'distance', 'popularity', 'cost_effectiveness']])
             
-            st.subheader("Key Observations")
-            for observation in insights["summary"]:
-                st.markdown(f"- {observation}")
+            st.markdown("#### Why These Routes Stand Out")
+            st.markdown("""
+            **1. Turtle Talk with Crush → Animation Academy**  
+            - **Cost-effectiveness**: 145.38  
+            - Shortest distance (32.3m), maximizing efficiency  
+            - Both are engaging, family-friendly indoor experiences  
+            - Long combined ride duration (2100s)  
+
+            **2. Red Car Trolley & News Boys → Disney Junior - Live on Stage!**  
+            - **Cost-effectiveness**: 117.26  
+            - Moderate distance (56.03m) with high popularity (6570)  
+            - Combines a moving ride and a live stage show for variety  
+            """)
         
-        with col2:
+        with tab2:
             st.subheader("Top 5 Most Popular Routes")
             st.dataframe(insights["top_popular"][['from', 'to', 'distance', 'popularity', 'cost_effectiveness']])
             
+            st.markdown("#### Why These Routes Attract the Most Visitors")
             st.markdown("""
-            ### Business Recommendations
-            - Promote efficient show/show combinations to optimize guest experience
+            **Key Trend:** Every top route leads to **The Little Mermaid ~ Ariel's Undersea Adventure**, confirming its status as the most in-demand attraction.  
+            
+            **1. Tower of Terror → The Little Mermaid**  
+            - **Longest distance** (426.44m)  
+            - Combines two high-thrill dark rides  
+            - **Lowest cost-effectiveness** (17.97) but extremely high demand  
 
-            - Improve pathways to The Little Mermaid to handle its popularity
-
-            - Create bundled experiences for high-efficiency routes
-
-            - Consider adding amenities along popular long-distance routes
+            **2. Ladybug Boogie → The Little Mermaid**  
+            - Medium distance (365.04m)  
+            - Transition from a light kiddie ride to a major family ride  
+            
+            **3. Mater’s Junkyard Jamboree → The Little Mermaid**  
+            - **Shortest distance** in this group (224.79m)  
+            - Best cost-effectiveness (34.09)  
             """)
         
-        # Add distribution plots
-        st.subheader("Data Distributions")
+        # Business Recommendations
+        st.subheader("📌 Business Recommendations")
+        st.markdown("""
+        - **Enhance signage and pathways** to The Little Mermaid to manage high traffic.  
+        - **Promote efficient ride/show combinations** (e.g., Turtle Talk + Animation Academy).  
+        - **Create bundled experiences** for top cost-effective routes.  
+        - **Improve amenities** along popular long-distance routes to enhance visitor comfort.  
+        """)
+        
+        # Data Visualizations
+        st.subheader("📊 Data Distributions")
         fig, axes = plt.subplots(1, 3, figsize=(18, 5))
         sns.histplot(cost_profit_df['distance'], bins=30, kde=True, ax=axes[0])
         axes[0].set_title('Distribution of Distance')
