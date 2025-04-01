@@ -9,7 +9,19 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 def load_data(poi_path, visits_path):
-    """Load and preprocess the dataset"""
+    """
+    Load and preprocess the POI and visitor data from CSV files.
+    
+    Args:
+        poi_path (str): Path to the Points of Interest (POI) CSV file
+        visits_path (str): Path to the visitor sequence CSV file
+    
+    Returns:
+        tuple: Contains three DataFrames:
+            - poi: Processed POI data
+            - seq: Processed visitor sequence data
+            - df: Merged dataframe combining both datasets
+    """
     # Load POI and visits data
     poi = pd.read_csv(poi_path, delimiter=";")
     seq = pd.read_csv(visits_path, delimiter=";")
@@ -26,7 +38,16 @@ def load_data(poi_path, visits_path):
     return poi, seq, df
 
 def plot_poi_map(poi):
-    """Create interactive scatter plot of POI locations"""
+    """
+    Create an interactive scatter plot map of all Points of Interest (POIs).
+    
+    Args:
+        poi (pd.DataFrame): DataFrame containing POI information with columns:
+                           ['poiID', 'poiName', 'lat', 'long', 'theme', 'rideDuration']
+    
+    Returns:
+        plotly.graph_objects.Figure: Interactive map figure showing all attractions
+    """
     fig = px.scatter(
         poi,
         x="long",
@@ -107,7 +128,18 @@ def plot_poi_map(poi):
     return fig
 
 def analyze_journey_patterns(df, poi):
-    """Analyze guest journey patterns and extract top patterns"""
+    """
+    Analyze visitor journey patterns to identify common sequences of attraction visits.
+    
+    Args:
+        df (pd.DataFrame): Merged dataframe containing visitor sequences
+        poi (pd.DataFrame): POI dataframe for name mapping
+    
+    Returns:
+        tuple: Contains two elements:
+            - journey_patterns: Dictionary of raw journey patterns with counts
+            - formatted_patterns: List of top patterns with POI names and counts
+    """
     # Create poi name mapping
     poi_name_map = dict(zip(poi['poiID'].astype(str), poi['poiName']))
     
@@ -149,7 +181,19 @@ def analyze_journey_patterns(df, poi):
     return journey_patterns, formatted_patterns
 
 def create_flow_network(journey_patterns, poi_name_map, top_n=50):
-    """Create a network graph of visitor flows between attractions"""
+    """
+    Create a directed network graph representing visitor flows between attractions.
+    
+    Args:
+        journey_patterns (dict): Dictionary of journey patterns from analyze_journey_patterns
+        poi_name_map (dict): Mapping of POI IDs to names
+        top_n (int): Number of top edges to include in the graph
+    
+    Returns:
+        tuple: Contains two elements:
+            - G: NetworkX directed graph object
+            - filtered_edges: Dictionary of filtered edges with weights
+    """
     # Extract all POIs from journey patterns
     all_pois = set()
     for journey in journey_patterns.keys():
@@ -186,7 +230,16 @@ def create_flow_network(journey_patterns, poi_name_map, top_n=50):
     return G, filtered_edges
 
 def plot_flow_network(G, filtered_edges):
-    """Plot the visitor flow network"""
+    """
+    Visualize the visitor flow network using matplotlib.
+    
+    Args:
+        G (networkx.DiGraph): Visitor flow network graph
+        filtered_edges (dict): Dictionary of filtered edges with weights
+    
+    Returns:
+        matplotlib.figure.Figure: The generated network visualization figure
+    """
     plt.figure(figsize=(12, 10))
     pos = nx.spring_layout(G,
                           k=5,
@@ -219,7 +272,18 @@ def plot_flow_network(G, filtered_edges):
     return plt.gcf()
 
 def analyze_opportunity_zones(df):
-    """Analyze opportunity zones near top attractions"""
+    """
+    Identify opportunity zones - areas near top attractions that are underutilized.
+    
+    Args:
+        df (pd.DataFrame): Merged dataframe containing visitor data with coordinates
+    
+    Returns:
+        tuple: Contains three elements:
+            - plot_df: DataFrame with opportunity zone flags added
+            - top_coords: List of (lat, long) tuples for top attractions
+            - far_percentage: Percentage of photos taken far from top attractions
+    """
     # Identify top locations (top 20% most photographed POIs)
     top_locations = df['poiID'].value_counts().nlargest(
         int(0.2 * len(df['poiID'].unique()))
@@ -260,7 +324,17 @@ def analyze_opportunity_zones(df):
     return plot_df, top_coords, far_percentage
 
 def plot_opportunity_zones(plot_df, top_coords, far_percentage):
-    """Plot opportunity zones near top attractions"""
+    """
+    Visualize opportunity zones on a scatter plot map.
+    
+    Args:
+        plot_df (pd.DataFrame): DataFrame from analyze_opportunity_zones
+        top_coords (list): List of (lat, long) tuples for top attractions
+        far_percentage (float): Percentage of photos far from top attractions
+    
+    Returns:
+        matplotlib.figure.Figure: The generated opportunity zones visualization
+    """
     plt.figure(figsize=(12, 8))
     plt.title(
         'Opportunity Zones Near Top Attractions\n'
@@ -334,7 +408,16 @@ def plot_opportunity_zones(plot_df, top_coords, far_percentage):
     return plt.gcf()
 
 def get_business_insights():
-    """Return key business insights"""
+    """
+    Generate and return predefined business insights based on the analysis.
+    
+    Returns:
+        dict: Dictionary containing categorized business insights with keys:
+            - popular_pairings: List of popular attraction pairings
+            - guest_flow_trends: List of observed guest flow patterns
+            - recommendations: List of business recommendations
+            - opportunity_zones: List of identified opportunity zones
+    """
     insights = {
         "popular_pairings": [
             "Radiator Springs Racers is a major traffic driver, frequently paired with Disney Junior and The Bakery Tour",
