@@ -408,16 +408,6 @@ def plot_opportunity_zones(plot_df, top_coords, far_percentage):
     return plt.gcf()
 
 def get_business_insights():
-    """
-    Generate and return predefined business insights based on the analysis.
-    
-    Returns:
-        dict: Dictionary containing categorized business insights with keys:
-            - popular_pairings: List of popular attraction pairings
-            - guest_flow_trends: List of observed guest flow patterns
-            - recommendations: List of business recommendations
-            - opportunity_zones: List of identified opportunity zones
-    """
     insights = {
         "popular_pairings": [
             "Radiator Springs Racers is a major traffic driver, frequently paired with Disney Junior and The Bakery Tour",
