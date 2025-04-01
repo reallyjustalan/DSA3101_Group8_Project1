@@ -1,6 +1,15 @@
 from Imports import (pd, np, MinMaxScaler, VarianceThreshold, r2_score, mean_squared_error, plt,
                      Dense, Input, Model)
 
+def load_and_preprocess(df):
+    """Load and preprocess raw dataframe"""
+    df = df.sort_values(by=['TIMESTAMP'])
+    df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], unit='s')
+    df['DATE'] = pd.to_datetime(df['TIMESTAMP'].dt.date)
+    df['TIME'] = pd.to_datetime(df['TIMESTAMP'])
+    # df = df.drop(columns=[col for col in df.columns if df[col].nunique() == 1] + ['RELATIVEPOSITION'])
+    return df
+
 def mean_exclude_100(arr):
     return arr[arr != 100].mean()
 
