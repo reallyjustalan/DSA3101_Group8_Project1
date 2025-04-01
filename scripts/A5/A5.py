@@ -518,10 +518,9 @@ st.set_page_config(
 st.title("🍁 Seasonality Demographics")
 st.write("How does seasonality, public holidays and visitor demographics impact theme park attendance and reviews?")
 
-
 # Side bar
 st.sidebar.title("Navigation")
-option = st.sidebar.selectbox("Choose a section", ["Periodic Trends", "Sentiment and Ratings", "Visitor Demographics", "Ratings vs Attendance"])
+option = st.sidebar.radio("Choose a section", ["Periodic Trends", "Sentiment and Ratings", "Visitor Demographics", "Ratings vs Attendance"])
 
 if option == "Periodic Trends":
     st.header("Periodic Trends")
