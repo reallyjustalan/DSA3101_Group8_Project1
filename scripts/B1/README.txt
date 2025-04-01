@@ -16,3 +16,4 @@ This folder contains modular Python scripts for:
 14. feature_imp.py -> feature importance table and final evaluation on test set
 
 Please run the scripts in chronological sequence given above.
+Note: Before running main_dataset.py, please extract the waiting_times.csv file into the data folder. GitHub prohibits such large files to be uploaded, so the csv file was compressed into a zip.
