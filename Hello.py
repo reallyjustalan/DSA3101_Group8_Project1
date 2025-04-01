@@ -30,8 +30,8 @@ st.write("Analysis of guest movement patterns and opportunities for improving gu
 # Data loading (cached to prevent reloading)
 @st.cache_data
 def load_cached_data():
-    poi_path = "data/POI-caliAdv.csv"
-    visits_path = "data/userVisits-caliAdv-allPOI.csv"
+    poi_path = "data/A3/POI-caliAdv.csv"
+    visits_path = "data/A3/userVisits-caliAdv-allPOI.csv"
     return load_data(poi_path, visits_path)
 
 # Try to load data with error handling
@@ -271,7 +271,7 @@ if data_loaded:
         st.write("Analyzing the relationship between distance traveled and attraction popularity")
         
         # Load the data
-        cost_profit_df = load_cost_profit_data("data/costProfCat-caliAdv-all.csv")
+        cost_profit_df = load_cost_profit_data("data/A3/costProfCat-caliAdv-all.csv")
         
         # Get insights
         insights = get_cost_profit_insights(cost_profit_df)
