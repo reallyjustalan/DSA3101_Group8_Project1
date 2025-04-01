@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.graph_objects as go
-from scripts.analysis import (
+from scripts.A3.journey_analysis import (
     load_data, 
     plot_poi_map, 
     analyze_journey_patterns, 
@@ -13,7 +13,7 @@ from scripts.analysis import (
     plot_opportunity_zones,
     get_business_insights
 )
-from scripts.cost_profit_analysis import (load_cost_profit_data, plot_cost_profit_scatter, get_cost_profit_insights
+from scripts.A3.cost_profit_analysis import (load_cost_profit_data, plot_cost_profit_scatter, get_cost_profit_insights
 )
 
 # Page config
