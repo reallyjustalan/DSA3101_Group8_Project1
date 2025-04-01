@@ -69,7 +69,8 @@ elif page == "Modelling":
     st.markdown("### Performance Comparison")
 
     col1, col2 = st.columns(2)
-
+    
+    # CV RMSE & MAE images for models
     with col1:
         rmse_plot = Image.open("C:/Users/awcl2/CV_RMSE.png")
         st.image(rmse_plot, caption="Average 5-Fold CV RMSE by Model", width = 550)
@@ -113,7 +114,7 @@ elif page == "Business Insights":
 
     
 
-# ------------------ Page: Limitations ------------------
+
 # ------------------ Page: Limitations ------------------
 elif page == "Limitations & Improvements":
     st.title("⚠️ Limitations & Improvements")
