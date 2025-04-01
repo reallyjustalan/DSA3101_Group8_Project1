@@ -1,5 +1,6 @@
 import streamlit as st 
 from PIL import Image
+import os
 
 st.set_page_config(page_title="Demand Prediction - B1", layout="wide")
 
@@ -69,15 +70,24 @@ elif page == "Modelling":
     st.markdown("### Performance Comparison")
 
     col1, col2 = st.columns(2)
-    
+
     # CV RMSE & MAE images for models
     with col1:
-        rmse_plot = Image.open("C:/Users/awcl2/CV_RMSE.png")
-        st.image(rmse_plot, caption="Average 5-Fold CV RMSE by Model", width = 550)
+        image_path_RMSE = os.path.join(os.path.dirname(__file__), "..", "data", "B1", "CV_RMSE.png")
+        if os.path.exists(image_path_RMSE):
+            rmse_plot = Image.open(image_path_RMSE)
+            st.image(rmse_plot, caption="Average 5-Fold CV RMSE by Model", width = 550)
+        else:
+            st.error(f"Image not found: {image_path_RMSE}")
+        
 
     with col2:
-        mae_plot = Image.open("C:/Users/awcl2/CV_MAE.png")
-        st.image(mae_plot, caption="Average 5-Fold CV MAE by Model", width = 550)
+        image_path_MAE = os.path.join(os.path.dirname(__file__), "..", "data", "B1", "CV_MAE.png")
+        if os.path.exists(image_path_MAE):
+            mae_plot = Image.open(image_path_MAE)
+            st.image(mae_plot, caption="Average 5-Fold CV MAE by Model", width = 550)
+        else:
+            st.error(f"Image not found: {image_path_MAE}")
 
     st.markdown("### Model Conclusion")
 
@@ -100,8 +110,12 @@ elif page == "Business Insights":
     st.markdown("### Key Findings")
 
     # Feature importance image
-    feature_imp = Image.open("C:/Users/awcl2/feature_imp.png")
-    st.image(feature_imp, caption="Top 10 Feature Importances (Random Forest)", width=700)
+    image_path_feature_imp = os.path.join(os.path.dirname(__file__), "..", "data", "B1", "feature_imp.png")
+    if os.path.exists(image_path_feature_imp):
+        feature_imp_plot = Image.open(image_path_feature_imp)
+        st.image(feature_imp_plot, caption="Top 10 Feature Importances (Random Forest)", width = 700)
+    else:
+        st.error(f"Image not found: {image_path_feature_imp}")
 
     st.markdown("""
     - The **Log Flume**, **Merry-Go-Round**, and **Dizzy Dropper** attractions emerged as the top three predictors of attraction demand, ranking above weather-related factors like nearby cyclone risks and rain.
