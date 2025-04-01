@@ -15,7 +15,7 @@ st.markdown(
     In this section, we aim to build a segmentation model using clustering techniques, which include demographic, behavioural, and preferences-based attributes. The business question that we wish to answer is 
     How can we use clustering to uncover distinct guest segments and reveal hidden satisfaction gaps?
     
-    Applied clustering and mismatch analysis on key variables, such as ratings, sentiment, and month. Although 80% of the guests rated highly ( around 4.7/5), notable discrepancies exist between ratings and sentiment. 
+    Applied clustering and mismatch analysis on key variables, such as ratings, sentiment, and month. Although 80% of the guests rated highly (around 4.7/5), notable discrepancies exist between ratings and sentiment. 
     Around 55% show no mismatch, while 9% are extreme “over-raters” - critical in their review but still giving high ratings (mean mismatch of +6.23). Vice versa, 23% are “under-raters” (mean mismatch of -1.22).
     
     Key insight
