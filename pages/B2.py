@@ -1,32 +1,49 @@
 import streamlit as st
-import random
 import requests
 from PIL import Image
 from io import BytesIO
+import random
 
 # Set up the page
-st.title("Ride layout Optimisation")
+st.title("Ride Layout Optimisation")
 
-GITHUB_USERNAME = "your-username"
-REPO_NAME = "your-repo"
-BRANCH_NAME = "main"  # Change if using a different branch
+# GitHub repository information
+GITHUB_USERNAME = "NotInvalidUsername"
+REPO_NAME = "DSA3101_Group8_Project1"
+BRANCH_NAME = "alan_bean"  # Change if using a different branch
 
-# Base URL for raw GitHub content
-GITHUB_API_URL = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/simulations"
-GITHUB_API_URL2 = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/heatmaps"
+# Base URL for GitHub content
+BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/{BRANCH_NAME}"
+SIMULATIONS_PATH = "app/simulations"
+HEATMAPS_PATH = "app/heatmaps"
 
-def get_image_files(model, num_rides,GITHUB_API_URL):
-    folder_path = f"{GITHUB_API_URL}/{model}/number_rides_{num_rides}"
-    response = requests.get(folder_path)
-
-    if response.status_code == 200:
-        files = response.json()
-        image_files = [
-            f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/{BRANCH_NAME}/simulations/{model}/number_rides_{num_rides}/{file['name']}"
-            for file in files if file['name'].lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))
-        ]
-        return image_files
+def get_image_files(model, num_rides, image_type="simulations"):
+    """Get image files from GitHub repository"""
+    if image_type == "simulations":
+        folder_path = f"{SIMULATIONS_PATH}/{model}/number_rides_{num_rides}"
     else:
+        folder_path = f"{HEATMAPS_PATH}/{model}/num_rides_{num_rides}"
+    
+    # GitHub API URL to list contents
+    api_url = f"https://api.github.com/repos/{GITHUB_USERNAME}/{REPO_NAME}/contents/{folder_path}?ref={BRANCH_NAME}"
+    
+    try:
+        response = requests.get(api_url)
+        response.raise_for_status()  # Raise an error for bad status codes
+        
+        files = response.json()
+        image_files = []
+        
+        for file in files:
+            if file['name'].lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+                # Construct raw content URL
+                image_url = f"{BASE_URL}/{folder_path}/{file['name']}"
+                image_files.append(image_url)
+        
+        return image_files if image_files else None
+        
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error accessing GitHub: {e}")
         return None
 
  # Sidebar navigation
@@ -56,7 +73,7 @@ elif page == "Optimised Park layouts":
 
     # Generate button
     if st.button("Generate Optimised Layout"):
-        image_files = get_image_files(model, num_rides, GITHUB_API_URL)
+        image_files = get_image_files(model, num_rides)
 
         if not image_files:
             st.warning("No images found or failed to fetch data from GitHub.")
@@ -90,26 +107,23 @@ elif page == "Simulated Heatmaps":
 
     # Generate button
     if st.button("Generate Density layout"):
-        image_files = get_image_files(model_density, num_rides_density, GITHUB_API_URL2)
+        image_files = get_image_files(model_density, num_rides_density, "heatmaps")
 
         if not image_files:
             st.warning("No images found or failed to fetch data from GitHub.")
         else:
            heatmap_images = [
-            img for img in image_files if any(f"heatmap_step_{i}" in img for i in range(1, 8))
+            img for img in image_files if any(f"heatmap_step_{i}" in img for i in range(0, 7))
         ]
 
-        if len(heatmap_images) < 7:
-            st.warning("Not enough sequential heatmap images found.")
-        else:
             # Display all 7 heatmap images in order
-            for step, img_url in enumerate(sorted(heatmap_images), start=1):
-                response = requests.get(img_url)
-                if response.status_code == 200:
-                    image = Image.open(BytesIO(response.content))
-                    st.image(image, caption=f"Heatmap Step {step}")
-                else:
-                    st.error(f"Failed to load image: {img_url}")
+        for step, img_url in enumerate(sorted(heatmap_images), start=0):
+            response = requests.get(img_url)
+            if response.status_code == 200:
+                image = Image.open(BytesIO(response.content))
+                st.image(image, caption=f"Heatmap Step {step}")
+            else:
+                st.error(f"Failed to load image: {img_url}")
     #     if st.button("Generate Random Image"):
     # # Construct the path based on selections
     # folder_path = os.path.join("simulations", model, f"num_rides{num_rides}")
