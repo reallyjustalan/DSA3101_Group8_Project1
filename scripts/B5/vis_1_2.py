@@ -1,24 +1,28 @@
 from Imports import plt
 from LoadData import df
 # Plot the points
-plt.scatter(df["LONGITUDE"], df["LATITUDE"], color='red', marker='o')
 
-# Labels and title
-plt.xlabel("Longitude")
-plt.ylabel("Latitude")
-plt.title("Map of Locations")
-plt.grid()
+def scatter():
+    fig, ax = plt.subplots()
 
-# Show the map
-plt.show()
+    # Scatter plot
+    ax.scatter(df["LONGITUDE"], df["LATITUDE"], color='red', marker='o')
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(df['LONGITUDE'], df['LATITUDE'], df['FLOOR'])
+    # Labels and title
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    ax.set_title("Map of Locations")
+    ax.grid()
+    return fig, ax
 
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
-ax.view_init(elev=10, azim=-82)  # Adjust elevation and azimuth angles
+def plot3d():
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(df['LONGITUDE'], df['LATITUDE'], df['FLOOR'])
 
-plt.show()
+    ax.set_xlabel('X Label')
+    ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+    ax.view_init(elev=10, azim=-82)  # Adjust elevation and azimuth angles
+
+    return fig, ax

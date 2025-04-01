@@ -1,16 +1,25 @@
 from Imports import pd
+import os
+from custom_functions import load_and_preprocess
 
-# 1. Load and preprocess data
-def load_and_preprocess(df):
-    """Load and preprocess raw dataframe"""
-    df = df.sort_values(by=['TIMESTAMP'])
-    df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], unit='s')
-    df['DATE'] = pd.to_datetime(df['TIMESTAMP'].dt.date)
-    df['TIME'] = pd.to_datetime(df['TIMESTAMP'])
-    # df = df.drop(columns=[col for col in df.columns if df[col].nunique() == 1] + ['RELATIVEPOSITION'])
-    return df
+# Get the current script's directory
+script_dir = os.path.dirname(__file__)
 
-dfTrain = pd.read_csv("/Users/ryann_/Library/CloudStorage/OneDrive-NationalUniversityofSingapore/NUS/Y3.2/DSA3101/Prokect/IOT/TrainingData.csv")
-dfValid = pd.read_csv("/Users/ryann_/Library/CloudStorage/OneDrive-NationalUniversityofSingapore/NUS/Y3.2/DSA3101/Prokect/IOT/ValidationData.csv")
+# Construct relative path to the data directory
+data_dir = os.path.join(script_dir, '../../data/B5')
+
+# Create file path and load dfTrain
+filename = 'TrainingData.csv'  
+file_path = os.path.join(data_dir, filename)
+dfTrain = pd.read_csv(file_path)
+
+# Create file path and load dfValid
+filename = 'ValidationData.csv'  
+file_path = os.path.join(data_dir, filename)
+dfValid = pd.read_csv(file_path)
+
+# Combine the CSV files
 df = pd.concat([dfTrain, dfValid])
+
+# Preprocess CSV files
 df = load_and_preprocess(df)
