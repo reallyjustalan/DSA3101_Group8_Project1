@@ -27,7 +27,7 @@ attendee_df, crowd_df = load_data()
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Theme Park Analytics", "Campaign Analysis", "Customer Segmentation"])
+page = st.sidebar.radio("Go to", ["Theme Park Analytics", "Customer Segmentation"])
 
 # Theme Park Analytics Page
 if page == "Theme Park Analytics":
