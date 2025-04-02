@@ -13,11 +13,13 @@ from sklearn.preprocessing import StandardScaler
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent 
 scripts_a2_path = BASE_DIR / "scripts" / "A2"
 sys.path.append(str(scripts_a2_path))
 
 import A2_dataprocessing
+import A2_Streamlitscripts
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, "../data/A2/updated_disneylandreviews.csv")
@@ -28,109 +30,34 @@ df_hongkong = df_all[df_all['Branch'] == 'Disneyland_HongKong']
 df_california = df_all[df_all['Branch'] == 'Disneyland_California']
 df_paris = df_all[df_all['Branch'] == 'Disneyland_Paris']
 
-def plots():
-    st.title("Exploratory Data Analysis")
-    figures = []
+st.write("# A2: Guest Segmentation Model")
 
-    fig1, axs = plt.subplots(3, 2, figsize=(20, 18))
-    datasets = {
-        "All Data": df_all,
-        "Hong Kong": df_hongkong,
-        "California": df_california,
-        "Paris": df_paris
-    }
-    # Average Rating by Continent
-    for name, data in datasets.items():
-        axs[0, 0].plot(data.groupby('Continent')['Rating'].mean(), marker='o', label=name)
-    axs[0, 0].set_title('Average Rating by Continent')
-    axs[0, 0].set_xlabel('Continent')
-    axs[0, 0].set_ylabel('Average Rating')
-    axs[0, 0].legend()
-
-    # Average Sentiment by Continent
-    for name, data in datasets.items():
-        axs[0, 1].plot(data.groupby('Continent')['Sentiment'].mean(), marker='o', label=name)
-    axs[0, 1].set_title('Average Sentiment by Continent')
-    axs[0, 1].set_xlabel('Continent')
-    axs[0, 1].set_ylabel('Average Sentiment')
-    axs[0, 1].legend()
-
-    # Average Rating by Month
-    for name, data in datasets.items():
-        axs[1, 0].plot(data.groupby('Month')['Rating'].mean(), marker='o', label=name)
-    axs[1, 0].set_title('Average Rating by Month')
-    axs[1, 0].set_xlabel('Month')
-    axs[1, 0].set_ylabel('Average Rating')
-    axs[1, 0].legend()
-
-    # Average Sentiment by Month
-    for name, data in datasets.items():
-        axs[1, 1].plot(data.groupby('Month')['Sentiment'].mean(), marker='o', label=name)
-    axs[1, 1].set_title('Average Sentiment by Month')
-    axs[1, 1].set_xlabel('Month')
-    axs[1, 1].set_ylabel('Average Sentiment')
-    axs[1, 1].legend()
-
-    # Average Rating by Year
-    for name, data in datasets.items():
-        axs[2, 0].plot(data.groupby('Year')['Rating'].mean(), marker='o', label=name)
-    axs[2, 0].set_title('Average Rating by Year')
-    axs[2, 0].set_xlabel('Year')
-    axs[2, 0].set_ylabel('Average Rating')
-    axs[2, 0].legend()
-
-    # Average Sentiment by Year
-    for name, data in datasets.items():
-        axs[2, 1].plot(data.groupby('Year')['Sentiment'].mean(), marker='o', label=name)
-    axs[2, 1].set_title('Average Sentiment by Year')
-    axs[2, 1].set_xlabel('Year')
-    axs[2, 1].set_ylabel('Average Sentiment')
-    axs[2, 1].legend()
-
-    plt.tight_layout()
-    figures.append(fig1)
-
-    # Visit_Type Count by Continent
-    fig2, axs2 = plt.subplots(1, 2, figsize=(14, 6))
-    sns.countplot(x='Visit_Type', hue='Continent', data=df_all, ax=axs2[0], palette="Set3")
-    axs2[0].set_title('Visit_Type Count by Continent')
-    axs2[0].set_xlabel('Visit Type')
-    axs2[0].set_ylabel('Count')
-
-    # Visit_Type Count by Branch
-    sns.countplot(x='Visit_Type', hue='Branch', data=df_all, ax=axs2[1], palette="Set3")
-    axs2[1].set_title('Visit_Type Count by Branch')
-    axs2[1].set_xlabel('Visit Type')
-    axs2[1].set_ylabel('Count')
-
-    plt.tight_layout()
-    figures.append(fig2)
-
-    fig3, axs3 = plt.subplots(2, 2, figsize=(14, 12))
+st.markdown(
+"""
+    In this section, we aim to build a segmentation model using clustering techniques, which include demographic, behavioural, and preferences-based attributes. The business question that we wish to answer is 
+    How can we use clustering to uncover distinct guest segments and reveal hidden satisfaction gaps?
     
-    # Average Rating for Visit_Type
-    visit_rating = df_all.groupby('Visit_Type')['Rating'].mean()
-    axs3[0, 0].bar(visit_rating.index, visit_rating.values, color='skyblue')
-    axs3[0, 0].set_title('Average Rating for Visit_Type')
-    axs3[0, 0].set_xlabel('Visit Type')
-    axs3[0, 0].set_ylabel('Average Rating')
+    Applied clustering and mismatch analysis on key variables, such as ratings, sentiment, and month. Although 80% of the guests rated highly (around 4.7/5), notable discrepancies exist between ratings and sentiment. 
+    Around 55% show no mismatch, while 9% are extreme “over-raters” - critical in their review but still giving high ratings (mean mismatch of +6.23). Vice versa, 23% are “under-raters” (mean mismatch of -1.22).
+    
+    Key insight
 
-    # Average Sentiment for Visit_Type
-    visit_sentiment = df_all.groupby('Visit_Type')['Sentiment'].mean()
-    axs3[0, 1].bar(visit_sentiment.index, visit_sentiment.values, color='salmon')
-    axs3[0, 1].set_title('Average Sentiment for Visit_Type')
-    axs3[0, 1].set_xlabel('Visit Type')
-    axs3[0, 1].set_ylabel('Average Sentiment')
+    Even with high overall satisfaction, mismatches between ratings and review sentiment expose underlying issues in specific segments, suggesting that some guests may mask dissatisfaction or express overly critical ratings.
 
-    sns.countplot(x='Branch', hue='Continent', data=df_all, ax=axs3[1, 0], palette="Set3")
-    axs3[1, 0].set_title('Continent Count by Branch')
-    axs3[1, 0].set_xlabel('Branch')
-    axs3[1, 0].set_ylabel('Count')
+    Business Impact
 
-    plt.tight_layout()
-    figures.append(fig3)
+    Target these segments with tailored follow-up and surveys, leverage season-specific service improvements, and refine engagement strategies to convert hidden dissatisfaction into loyalty. These segmentation insights also inform A4's marketing campaign strategies.
+
+"""    
+)
+
+def plots():
+    st.title("Exploratory Data Plots Overview")
+
+    figures = A2_Streamlitscripts.create_plots(df_all, df_hongkong, df_california, df_paris)
 
     for i, fig in enumerate(figures, start=1):
+        st.subheader(f"Figure {i}")
         st.pyplot(fig)
 
 if __name__ == "__main__":
@@ -140,37 +67,12 @@ if __name__ == "__main__":
 def model1():
     st.title("Model 1: DBSCAN analysis")
     df_all = df
-
-    df_dbscan = df_all.copy()
-    df_dbscan['Visit_Type'] = df_dbscan['Visit_Type'].astype('category').cat.codes
-    df_dbscan['Continent'] = df_dbscan['Continent'].astype('category').cat.codes
-    features = ['Rating', 'Sentiment', 'Month', 'Visit_Type', 'Continent']
-    dbscan = DBSCAN(eps=1, min_samples=100)
-    df_dbscan['DBSCAN_Cluster'] = dbscan.fit_predict(df_dbscan[features])
     
-    # Figure 1: Boxplots for DBSCAN Clusters ---
-    fig1, ax = plt.subplots(1, 2, figsize=(12, 6))
-    sns.boxplot(x='DBSCAN_Cluster', y='Rating', data=df_dbscan, palette="Set3", ax=ax[0])
-    ax[0].set_title('DBSCAN Cluster Distribution for Rating')
-    sns.boxplot(x='DBSCAN_Cluster', y='Sentiment', data=df_dbscan, palette="Set3", ax=ax[1])
-    ax[1].set_title('DBSCAN Cluster Distribution for Sentiment')
-    fig1.tight_layout()
-    st.pyplot(fig1)  
+    figures, dbscan_stats = A2_Streamlitscripts.DBSCANmodel(df_all)
 
-    # Compute and Display DBSCAN Descriptive Statistics ---
-    dbscan_stats = df_dbscan.groupby('DBSCAN_Cluster')[['Rating', 'Sentiment', 'Month']].describe()
-    st.subheader("DBSCAN Cluster Descriptive Statistics")
-    st.write(dbscan_stats)
-
-    # Figure 2: Visualizing DBSCAN Clusters in PCA Space ---
-    pca = PCA(n_components=2)
-    pca_components = pca.fit_transform(df_dbscan[features])
-    fig2, ax2 = plt.subplots(figsize=(8, 6))
-    sns.scatterplot(x=pca_components[:, 0], y=pca_components[:, 1],
-                    hue=df_dbscan['DBSCAN_Cluster'], palette='Set3', ax=ax2)
-    ax2.set_title('DBSCAN Clustering in PCA Space')
-    fig2.tight_layout()
-    st.pyplot(fig2)
+    for i, fig in enumerate(figures, start=1):
+        st.subheader(f"Figure {i}")
+        st.pyplot(fig)
     
     st.markdown(
     """
@@ -261,75 +163,16 @@ def model2():
     st.title("Model 2: KMeans Analysis")
 
     df_km = df_all.copy()
-    df_km['Visit_Type_Code'] = df_km['Visit_Type'].astype('category').cat.codes
-    df_km['Continent_Code'] = df_km['Continent'].astype('category').cat.codes
+    
+    figures, cluster_profile = A2_Streamlitscripts.KM_all(df_km)
 
-    features = ['Rating', 'Sentiment', 'Month', 'Visit_Type_Code', 'Continent_Code']
-    X = df_km[features]
-
-    # Compute inertia and silhouette scores for different numbers of clusters
-    inertia = []
-    sil_scores = []
-    k_range = range(2, 10)
-    for k in k_range:
-        km = KMeans(n_clusters=k, random_state=42)
-        labels = km.fit_predict(X)
-        inertia.append(km.inertia_)
-        score = silhouette_score(X, labels)
-        sil_scores.append(score)
-
-    # Plot Elbow Method and Silhouette Score
-    fig1, ax1 = plt.subplots(1, 2, figsize=(12, 5))
-    ax1[0].plot(list(k_range), inertia, marker='o', color='blue')
-    ax1[0].set_title('Elbow Method for KMeans')
-    ax1[0].set_xlabel('Number of Clusters')
-    ax1[0].set_ylabel('Inertia')
-
-    ax1[1].plot(list(k_range), sil_scores, marker='o', color='green')
-    ax1[1].set_title('Silhouette Score for KMeans')
-    ax1[1].set_xlabel('Number of Clusters')
-    ax1[1].set_ylabel('Silhouette Score')
-    fig1.tight_layout()
-
-    st.subheader("Elbow Method and Silhouette Score")
-    st.pyplot(fig1)
-
-    # Assume optimal K based on the plots (here, we choose k=5)
-    optimal_k = 5
-    kmeans = KMeans(n_clusters=optimal_k, random_state=42)
-    df_km['KMeans_Cluster'] = kmeans.fit_predict(X)
-
-    # PCA for visualization of clusters
-    pca = PCA(n_components=2)
-    pca_components = pca.fit_transform(X)
-    fig2, ax2 = plt.subplots(figsize=(8, 6))
-    sns.scatterplot(
-        x=pca_components[:, 0],
-        y=pca_components[:, 1],
-        hue=df_km['KMeans_Cluster'],
-        palette='Set3',
-        ax=ax2
-    )
-    ax2.set_title(f'KMeans Clustering (k={optimal_k}) in PCA Space')
-    ax2.set_xlabel('PCA Component 1')
-    ax2.set_ylabel('PCA Component 2')
-    ax2.legend(title="Cluster")
-    fig2.tight_layout()
-
-    st.subheader("KMeans Clustering in PCA Space")
-    st.pyplot(fig2)
-
-    # Pairplot of features by KMeans Cluster
-    st.subheader("Pairplot of Features by KMeans Cluster")
-    pairplot_grid = sns.pairplot(df_km, vars=features, hue='KMeans_Cluster', palette='Set3')
-    st.pyplot(pairplot_grid.fig)
-
-    # Compute and display descriptive statistics for each cluster
-    cluster_profile = df_km.groupby('KMeans_Cluster')[
-        ['Rating', 'Sentiment', 'Month', 'Visit_Type_Code', 'Continent_Code']
-    ].describe()
-    st.subheader("KMeans Cluster Descriptive Statistics")
+    st.write("### KMeans Cluster Descriptive Statistics")
     st.write(cluster_profile)
+
+    # Display each figure
+    for i, fig in enumerate(figures, start=1):
+        st.subheader(f"Figure {i}")
+        st.pyplot(fig)
     
     st.markdown(
     """
@@ -436,67 +279,21 @@ def model3():
 
     df = df_all
 
-    df["mismatch"] = df["Rating"] - (df["Sentiment"] * 5)
-
-    st.write("### Mismatch Statistics")
-    st.write(df["mismatch"].describe())
-
-    # Create quantile-based mismatch segments
-    df["mismatch_segment"] = pd.qcut(
-        df["mismatch"],
-        q=4,
-        labels=["Low Mismatch", "Moderate Mismatch", "High Mismatch", "Very High Mismatch"]
-    )
+    mismatch_stats, segment_counts, cluster_stats, figures = A2_Streamlitscripts.mm(df)
     
-    st.write("### Mismatch Segment Counts (Quantile-based)")
-    st.write(df["mismatch_segment"].value_counts())
-
-    # KMeans Clustering on Mismatch
-    X = df[["mismatch"]].values
-    kmeans = KMeans(n_clusters=4, random_state=42)
-    df["mismatch_cluster"] = kmeans.fit_predict(X)
-
-    st.write("### KMeans Mismatch Clusters (Mean & Count)")
-    cluster_stats = df.groupby("mismatch_cluster")["mismatch"].agg(["mean", "count"])
+    st.write("### Mismatch Statistics")
+    st.write(mismatch_stats)
+    
+    st.write("### Mismatch Segment Counts")
+    st.write(segment_counts)
+    
+    st.write("### KMeans Mismatch Cluster Statistics")
     st.write(cluster_stats)
-
-    # Plot 1: Histogram of Mismatch
-    fig1, ax1 = plt.subplots(figsize=(8, 6))
-    ax1.hist(df["mismatch"], bins=50, alpha=0.7, color="skyblue", edgecolor="black")
-    ax1.set_xlabel("Mismatch (Rating - Sentiment*5)")
-    ax1.set_ylabel("Count")
-    ax1.set_title("Distribution of Mismatch between Rating and Sentiment")
-    st.pyplot(fig1)
-
-    # Plot 2: KDE Plot by KMeans Cluster
-    fig2, ax2 = plt.subplots(figsize=(8, 6))
-    sns.kdeplot(
-        data=df,
-        x="mismatch",
-        hue="mismatch_cluster",
-        fill=True,
-        common_norm=False,
-        alpha=0.5,
-        ax=ax2
-    )
-    ax2.set_title("Mismatch Distribution by KMeans Cluster")
-    ax2.set_xlabel("Mismatch (Rating - 5 * Sentiment)")
-    ax2.set_ylabel("Density")
-    st.pyplot(fig2)
-
-    # Plot 3: Boxplot of Mismatch by KMeans Cluster
-    fig3, ax3 = plt.subplots(figsize=(8, 6))
-    sns.boxplot(
-        x="mismatch_cluster",
-        y="mismatch",
-        data=df,
-        palette="Set2",
-        ax=ax3
-    )
-    ax3.set_title("Mismatch Boxplot by KMeans Cluster")
-    ax3.set_xlabel("KMeans Cluster")
-    ax3.set_ylabel("Mismatch (Rating - 5 * Sentiment)")
-    st.pyplot(fig3)
+    
+    # Display the plots
+    for i, fig in enumerate(figures, start=1):
+        st.subheader(f"Figure {i}")
+        st.pyplot(fig)
     
     st.markdown(
     """
@@ -554,58 +351,12 @@ def model4():
     
     df = df_all
     
-    df["Mismatch"] = df["Rating"] - (df["Sentiment"] * 5)
-    df["Visit_Type_code"] = df["Visit_Type"].astype('category').cat.codes
-    df["Branch_code"] = df["Branch"].astype('category').cat.codes
+    figures = A2_Streamlitscripts.KMContinent(df)
+   
     
-    features = ["Rating", "Sentiment", "Month", "Mismatch", "Visit_Type_code", "Branch_code"]
-    continents = df["Continent"].unique()
-    
-    for cont in continents:
-        df_subset = df[df["Continent"] == cont].copy()
-        df_subset = df_subset.dropna(subset=features)
-        if df_subset.empty:
-            continue
-        
-        X = df_subset[features].values
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-        
-        # KMeans Clustering
-        kmeans = KMeans(n_clusters=4, random_state=42)
-        kmeans_labels = kmeans.fit_predict(X_scaled)
-        
-        # Hierarchical Clustering
-        linked = linkage(X_scaled, method='ward')
-        
-        # PCA for dimensionality reduction
-        pca = PCA(n_components=2, random_state=42)
-        X_pca = pca.fit_transform(X_scaled)
-        
-        fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-        
-        # Left: PCA scatter plot colored by KMeans cluster
-        axes[0].scatter(
-            X_pca[:, 0], 
-            X_pca[:, 1], 
-            c=kmeans_labels, 
-            cmap="Set2", 
-            alpha=0.7
-        )
-        axes[0].set_title(f"KMeans (PCA) - {cont}")
-        axes[0].set_xlabel("PCA Component 1")
-        axes[0].set_ylabel("PCA Component 2")
-        
-        # Right: Hierarchical dendrogram
-        dendrogram(linked, truncate_mode='level', p=4, ax=axes[1])
-        axes[1].set_title(f"Hierarchical Dendrogram - {cont}")
-        axes[1].set_xlabel("Samples")
-        axes[1].set_ylabel("Distance")
-        
-        plt.tight_layout()
-        st.subheader(f"Clustering Results for {cont}")
+    for cont, fig in figures:
+        st.subheader(f"Clustering Results for Continent: {cont}")
         st.pyplot(fig)
-      
       
       
 if __name__ == "__main__":
@@ -643,59 +394,12 @@ def model5():
 
     df = df_all
     
-    df["Mismatch"] = df["Rating"] - (df["Sentiment"] * 5)
-    df["Branch_code"] = df["Branch"].astype('category').cat.codes
-    df["Continent_code"] = df["Continent"].astype('category').cat.codes
+    results = A2_Streamlitscripts.KMVisit(df)
 
-    features = ["Rating", "Sentiment", "Month", "Mismatch", "Continent_code", "Branch_code"]
-
-    visit_types = df["Visit_Type"].unique()
-
-    for vt in visit_types:
-        df_subset = df[df["Visit_Type"] == vt].copy()
-        df_subset = df_subset.dropna(subset=features)
-        if df_subset.empty:
-            continue
-
-        X = df_subset[features].values
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X)
-
-        # KMeans Clustering
-        kmeans = KMeans(n_clusters=4, random_state=42)
-        kmeans_labels = kmeans.fit_predict(X_scaled)
-
-        # Hierarchical Clustering
-        linked = linkage(X_scaled, method='ward')
-
-        # PCA for visualization
-        pca = PCA(n_components=2, random_state=42)
-        X_pca = pca.fit_transform(X_scaled)
-
-        fig, axes = plt.subplots(1, 2, figsize=(14, 6))
-
-        # Left: PCA scatter plot colored by KMeans cluster
-        axes[0].scatter(
-            X_pca[:, 0],
-            X_pca[:, 1],
-            c=kmeans_labels,
-            cmap="Set2",
-            alpha=0.7
-        )
-        axes[0].set_title(f"KMeans (PCA) - {vt}")
-        axes[0].set_xlabel("PCA Component 1")
-        axes[0].set_ylabel("PCA Component 2")
-
-        # Right: Hierarchical dendrogram
-        dendrogram(linked, truncate_mode='level', p=4, ax=axes[1])
-        axes[1].set_title(f"Hierarchical Dendrogram - {vt}")
-        axes[1].set_xlabel("Samples")
-        axes[1].set_ylabel("Distance")
-
-        plt.tight_layout()
-        st.subheader(f"Clustering Analysis for Visit Type: {vt}")
+    for vt, fig in results:
+        st.subheader(f"Results for Visit Type: {vt}")
         st.pyplot(fig)
-        
+  
 if __name__ == "__main__":
     model5()   
         
