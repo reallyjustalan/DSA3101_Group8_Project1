@@ -14,7 +14,7 @@ from scipy.stats import gaussian_kde
 from sklearn.preprocessing import StandardScaler
 
 # read in clean data
-df = pd.read_csv('../data/analysis/retail_analysis.csv')
+df = pd.read_csv('data/A4/analysis/retail_analysis.csv')
 
 ################################################
 #                                              #

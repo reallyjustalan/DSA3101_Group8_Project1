@@ -150,13 +150,13 @@ elif page == "Customer Segmentation":
     
     if st.button("Determine Optimal Number of Clusters"):
         st.write("### Elbow Method for Optimal K")
-        df = pd.read_csv('../data/clean/rmf.csv')
+        df = pd.read_csv('data/A4/clean/rmf.csv')
         determine_optimal_k(df.iloc[:,1:])  # Using function from s12_retail_modelling
         st.pyplot(plt.gcf())
     
     if st.button("Generate Customer Segments"):
         st.write("### 3D Visualization of Customer Segments")
-        df = pd.read_csv('../data/clean/rmf.csv')
+        df = pd.read_csv('data/A4/clean/rmf.csv')
         df_labelled = get_kmeans_labels(df.iloc[:,1:])
         df_labelled['CustomerID'] = df['CustomerID']
         plot_3d_clusters(df_labelled)

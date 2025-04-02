@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 # read in data
-retail_data = pd.read_csv('../data/raw/retail.csv').iloc[:,1:8]
+retail_data = pd.read_csv('data/A4/raw/retail.csv').iloc[:,1:8]
 
 def explore_df_general_na(retail_data):
     # obtain number of missing values per feature
