@@ -18,7 +18,7 @@ plotly==6.0.0
 pycountry_convert==0.7.2
 pydantic==2.11.1
 Requests==2.32.3
-scikit_learn==1.6.1
+scikit-learn==1.4.0
 scipy==1.15.2
 seaborn==0.13.2
 simpy==4.1.1
@@ -31,3 +31,4 @@ umap_learn==0.5.7
 xgboost==3.0.0
 streamlit==1.44.1
 protobuf
+statsmodels
