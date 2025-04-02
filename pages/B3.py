@@ -1,5 +1,4 @@
 import os
-import sys
 import streamlit as st
 from pathlib import Path
 import pandas as pd
@@ -8,32 +7,35 @@ import calendar
 # Streamlit app to start data preparation
 st.title("Resource Allocation Optimization")
 
-# Dynamically construct paths based on relative paths using Path
-month_day_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_month_day.csv"
+# Use simpler relative paths for data files
+data_dir = Path("data") / "B3"
+
+# Load all data files using the simplified path structure
+month_day_filepath = data_dir / "adjust_month_day.csv"
 adjust_month_day = pd.read_csv(month_day_filepath)
 month_day_adjuster = adjust_month_day.set_index(['Month', 'Day_of_Week'])['adjuster_month_day'].to_dict()
 
-hour_rides_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_hour_rides.csv"
+hour_rides_filepath = data_dir / "adjust_hour_rides.csv"
 adjust_hour_rides = pd.read_csv(hour_rides_filepath)
 hour_adjuster_rides = adjust_hour_rides.set_index('DEB_TIME_HOUR')['adjuster_hourly_rides'].to_dict()
 
-hour_eatery_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_hour_eatery.csv"
+hour_eatery_filepath = data_dir / "adjust_hour_eatery.csv"
 adjust_hour_eatery = pd.read_csv(hour_eatery_filepath)
 hour_adjuster_eatery = adjust_hour_eatery.set_index('hour')['adjuster'].to_dict()
 
-hour_merch_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_hour_merch.csv"
+hour_merch_filepath = data_dir / "adjust_hour_merch.csv"
 adjust_hour_merch = pd.read_csv(hour_merch_filepath)
 hour_adjuster_merch = adjust_hour_merch.set_index('hour')['adjuster'].to_dict()
 
-hour_general_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_hour_general.csv"
+hour_general_filepath = data_dir / "adjust_hour_general.csv"
 adjust_hour_general = pd.read_csv(hour_general_filepath)
 hour_adjuster_general = adjust_hour_general.set_index('hour_adjusted')['adjuster'].to_dict()
 
-public_holiday_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_public_holiday.csv"
+public_holiday_filepath = data_dir / "adjust_public_holiday.csv"
 adjust_public_holiday = pd.read_csv(public_holiday_filepath)
 hour_adjuster_pubhol = adjust_public_holiday.set_index('status')['adjuster'].to_dict()
 
-rain_filepath = Path(__file__).resolve().parent.parent / "data" / "B3" / "adjust_rain.csv"
+rain_filepath = data_dir / "adjust_rain.csv"
 adjust_rain = pd.read_csv(rain_filepath)
 rain_adjuster = adjust_rain.set_index('Rainy')['adjuster_rain'].to_dict()
 
@@ -48,8 +50,7 @@ adjusters = {
     'rain': rain_adjuster
 }
 
-# Add scripts folder to path and import StaffingOptimizer
-sys.path.append(str(Path(__file__).resolve().parent.parent / 'scripts' / 'B3'))
+# Import from scripts using package-style imports
 from scripts.B3.optimization_model import StaffingOptimizer
 from scripts.B3.visualization import plot_staffing
 
