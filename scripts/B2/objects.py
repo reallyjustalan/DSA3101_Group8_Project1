@@ -209,7 +209,7 @@ class ThemeParkGridModel(Model):
             # Default random inflow
             #if self.schedule.steps < 120:
             new_guests_count = int(round(np.random.normal(100, 25),2))
-            #else:
+            # else:
             #    new_guests_count = 1
         
         # Add new guests
