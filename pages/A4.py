@@ -92,53 +92,6 @@ if page == "Theme Park Analytics":
         else:
             st.warning("No data available for the selected filters.")
 
-# Campaign Analysis Page
-elif page == "Campaign Analysis":
-    st.title("📈 Marketing Campaign Impact Analysis")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("Campaign Clustering")
-        st.write("""
-        Campaigns are clustered based on:
-        - Average crowd during campaign month
-        - Absolute lift in attendance
-        - Percentage lift in attendance
-        """)
-        
-        if st.button("Generate Campaign Clusters"):
-            st.write("### K-Means Clustering (PCA Visualization)")
-            plot_clusters(pd.DataFrame())  # Using the function from s08_kmeans_pca
-            st.pyplot(plt.gcf())
-    
-    with col2:
-        st.subheader("Campaign Hierarchy")
-        st.write("""
-        Dendrogram showing hierarchical clustering of campaigns based on performance metrics.
-        """)
-        if st.button("Generate Dendrogram"):
-            st.write("### Hierarchical Clustering Dendrogram")
-            fig, ax = get_dendrogram(pd.DataFrame())  # Using the function from s08_kmeans_pca
-            st.pyplot(fig)
-    
-    st.subheader("Campaign Lift Calculator")
-    park = st.selectbox("Select Theme Park", crowd_df['name'].unique())
-    campaign_date = st.date_input("Campaign Start Date")
-    campaign_name = st.text_input("Campaign Name")
-    
-    if st.button("Calculate Campaign Impact"):
-        abs_lift, perc_lift, avg_crowd = get_lift_of_campaign(
-            crowd_df, 
-            park, 
-            campaign_date.strftime('%Y-%m-%d'), 
-            campaign_name
-        )
-        
-        st.metric("Average Crowd During Campaign Month", f"{avg_crowd:.1f}%")
-        st.metric("Absolute Lift After Campaign", f"{abs_lift:.1f} percentage points")
-        st.metric("Percentage Lift After Campaign", f"{perc_lift:.1f}%")
-
 # Customer Segmentation Page
 elif page == "Customer Segmentation":
     st.title("👥 Customer Segmentation Analysis")
