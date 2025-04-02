@@ -11,9 +11,24 @@ df_floor_2_drilled = df_floor_2_drilled.drop(columns=columns_to_drop).drop(colum
 def create_heatmap():
 
     fig, ax = plt.subplots(figsize=(12, 6))
-    sns.scatterplot(data=df_floor_2_drilled, y="LATITUDE", x="LONGITUDE", ax=ax)
-    sns.kdeplot(data=df_floor_2_drilled, x="LONGITUDE", y="LATITUDE", cmap="coolwarm", ax=ax)
+    
+    # Scatter plot (optional, can be removed if too cluttered)
+    sns.scatterplot(data=df_floor_2_drilled, y="LATITUDE", x="LONGITUDE", ax=ax, alpha=0.5, color='black', s=10)
+    
+    # Hexbin heatmap (adjust gridsize for resolution)
+    hexbin = ax.hexbin(
+        x=df_floor_2_drilled["LONGITUDE"],
+        y=df_floor_2_drilled["LATITUDE"],
+        gridsize=30,  # Adjust for resolution
+        cmap="coolwarm",
+        bins='log',  # Use log scale if data is highly skewed
+        alpha=0.7
+    )
+    
+    # Add colorbar
+    plt.colorbar(hexbin, ax=ax, label='Density')
+    
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
-    ax.set_title("Heatmap of crowd density across building 1 and 2 throughout 2013-06-20")
+    ax.set_title("Spatial Heatmap of Crowd Density (2013-06-20)")
 
     return fig, ax
