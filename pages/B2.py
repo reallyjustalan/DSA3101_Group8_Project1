@@ -66,13 +66,20 @@ elif page == "Optimised Park layouts":
     "Let's explore some of the generated Optimised layouts that the team has worked on. For these models, we had focused our attention on 4 main variables: distancing between popular rides, increasing guest satisfaction, increasing the number of rides taken by a guest and decreasing crowds an area gets."
 
     # Create buttons for model selection
-    model = st.radio("Select the type of Model for your park", ("model1", "model2", "model3"))
+    model = st.radio("Select the type of Model for your park", ("Ring Shaped", "Plain", "Large with Lake"))
 
     # Create slider for number of rides
     num_rides = st.slider("Select the total Number of Rides you would like in the park!", 3, 13, 8)
 
     # Generate button
     if st.button("Generate Optimised Layout"):
+        if model == "Ring Shaped":
+            model = "model1"
+        elif model == "Plain":
+            model = "model2"
+        else:
+            model = "model3"
+
         image_files = get_image_files(model, num_rides)
 
         if not image_files:
@@ -102,11 +109,17 @@ elif page == "Simulated Heatmaps":
     "## Explore"
     "Explore how the density of people at a theme park and their relative positions fluctuates depending on layout type and the number of rides."
 
-    model_density = st.radio("Select a model for density exploration", ("model1", "model2", "model3"))
+    model_density = st.radio("Select a model for density exploration", ("Ring Shaped", "Plain", "Large with Lake"))
     num_rides_density = st.slider("Select the total number of rides for density analysis!", 3, 13, 8)
 
     # Generate button
     if st.button("Generate Density layout"):
+        if model_density == "Ring Shaped":
+            model_density = "model1"
+        elif model_density == "Plain":
+            model_density = "model2"
+        else:
+            model_density = "model3"
         image_files = get_image_files(model_density, num_rides_density, "heatmaps")
 
         if not image_files:
