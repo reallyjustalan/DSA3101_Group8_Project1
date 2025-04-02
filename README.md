@@ -1,7 +1,5 @@
 # Our Science to Smiles
 
-We are developing a Streamlit app to showcase all our high-end models. Stay tuned!
-
 ## Running the App with Docker
 
 ### Step 1: Clone or Download the Project
