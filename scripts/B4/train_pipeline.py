@@ -18,7 +18,7 @@ def main():
     augmented_path = data_dir / "Labelled_DisneylandReviews_Augmented_test.csv"
 
     # Load raw data
-    df = load_disney_data().head(10) 
+    df = load_disney_data()
 
     # Generate sentiment labels and save
     labelled_df = label_unlabelled_reviews(df, save_path=labelled_path)

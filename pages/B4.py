@@ -5,7 +5,7 @@ import requests
 from io import BytesIO
 
 # Base URL for raw images in your GitHub repository
-BASE_URL = "https://raw.githubusercontent.com/NotInvalidUsername/DSA3101_Group8_Project1/jiayi/data/B4/streamlit/"
+BASE_URL = "https://raw.githubusercontent.com/NotInvalidUsername/DSA3101_Group8_Project1/main/images/B4/"
 
 # Title of the app
 st.title("B4: Disneyland Review Analysis")

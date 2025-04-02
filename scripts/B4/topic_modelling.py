@@ -37,10 +37,10 @@ def create_custom_stopwords():
         set: Set of extended stopwords.
     """
     stopwords = set(ENGLISH_STOP_WORDS)
-    stopwords.update([
+    stopwords.update([ # List of stopwords can be edited to suit your dataset
         "disneyland", "disney", "park", "hong", "kong", "hk",
         "visit", "visiting", "went", "ride", "rides", "day", "just",
-        "got", "go", "line", "time", "like", "also", "one", "even"
+        "got", "go", "line", "time", "like", "also", "one", "even" 
     ])
     return stopwords
 

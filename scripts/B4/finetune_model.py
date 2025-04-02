@@ -41,19 +41,19 @@ def prepare_data(df_original=None, df_augmented=None, original_path=None, augmen
         lambda x: 1 if x in ["1 star", "2 stars"] else 0
     )
 
-    # ✅ First stratification safety check
+    # First stratification safety check
     label_counts = df_original["risk_label"].value_counts()
     if any(label_counts < 2):
-        raise ValueError("🚫 Not enough examples per class to stratify. Add more high-risk or low-risk data.")
+        raise ValueError("Not enough examples per class to stratify. Add more high-risk or low-risk data.")
 
     train_df, temp_df = train_test_split(
         df_original, test_size=0.3, stratify=df_original["risk_label"], random_state=42
     )
 
-    # ✅ Second stratification safety check
+    # Second stratification safety check
     temp_label_counts = temp_df["risk_label"].value_counts()
     if any(temp_label_counts < 2):
-        raise ValueError("🚫 Not enough examples per class in temp_df to stratify for validation/testing.")
+        raise ValueError("Not enough examples per class in temp_df to stratify for validation/testing.")
 
     val_df, test_df = train_test_split(
         temp_df, test_size=0.5, stratify=temp_df["risk_label"], random_state=42
