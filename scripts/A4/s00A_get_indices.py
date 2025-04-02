@@ -9,7 +9,8 @@
 #          for easy handling of lack of API data. Basic understanding of HTML
 #          structure for a deployed website and how to access it via 'inspect'.
 #
-# additional notes: takes 4.5 min (approx) to run this script
+# additional notes: takes 4.5 min (approx) to run this script; the result of 
+#                   this script is used in s00_useful_functions.py
 #           
 ######################################
 
