@@ -9,7 +9,8 @@ EXPOSE 8501
 # Copy requirements and install dependencies
 COPY requirements.txt ./
 RUN pip install -U pip && \
-    pip install -r requirements.txt
+    pip install -r requirements.txt \
+    pip install streamlit
 
 # Copy the app files
 COPY . .
