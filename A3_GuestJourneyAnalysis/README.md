@@ -5,6 +5,9 @@ Guest Journey Patterns:
 1. Use process mining or sequence analysis to identify common guest journey paths.  
 2. Compare these patterns across segments to uncover opportunities for personalization and operational improvements
 
+**new**
+- Analysis focused on Disney California Adventure (larger dataset and used by other subquestions too)
+
 \*\*new\*\*: extra points for **lateral thinking** of the solution
 
 - Create a ‘Guest Opportunity Network” analysis that inverts the traditional focus. Instead of tracking where guests go, map where they don’t go and what they don’t do:  
