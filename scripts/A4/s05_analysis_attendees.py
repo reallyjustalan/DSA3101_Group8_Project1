@@ -12,7 +12,7 @@ dict_of_marketing_campaigns = {
 }
 
 desired_theme_park = 'PortAventura World'
-daily_attendance_df = pd.read_csv('../data/raw/daily_attendance_2018_2022.csv', index_col='USAGE_DATE')
+daily_attendance_df = pd.read_csv('data/A4/raw/daily_attendance_2018_2022.csv', index_col='USAGE_DATE')
 daily_attendance_df = daily_attendance_df.loc["2017":"2020"]
 print(daily_attendance_df)
 daily_attendance_df = daily_attendance_df[daily_attendance_df['FACILITY_NAME']==desired_theme_park].reset_index()

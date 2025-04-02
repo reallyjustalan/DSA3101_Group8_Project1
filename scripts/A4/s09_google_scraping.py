@@ -6,9 +6,9 @@
 import numpy as np
 import pandas as pd
 
-from s07_campaign_nlp import clean_text, get_topics_nmf_method
+from scripts.A4.s07_campaign_nlp import clean_text, get_topics_nmf_method
 
-df = pd.read_csv('../../data/DisneylandReviews.csv', encoding='latin1',
+df = pd.read_csv('data/A4/raw/updated_disneylandreviews.csv', encoding='latin1',
                  na_values='missing')
 print(df.shape)
 df_cleaned = df.dropna()

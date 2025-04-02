@@ -16,4 +16,4 @@ daily_attendance_2012_2018 = kagglehub.dataset_load(
 )
 
 # save attendance data
-pd.DataFrame(daily_attendance_2012_2018).to_csv("../data/raw/daily_attendance_2018_2022.csv", index=False)
+pd.DataFrame(daily_attendance_2012_2018).to_csv("data/A4/raw/daily_attendance_2018_2022.csv", index=False)
