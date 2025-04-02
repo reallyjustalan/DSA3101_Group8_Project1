@@ -9,7 +9,7 @@ import pandas as pd
 # from tabulate import tabulate
 from calendar import month_abbr
 
-df_crowd = pd.read_csv("../data/raw/avg_crowd.csv", na_values='NA')
+df_crowd = pd.read_csv("data/A4/raw/avg_crowd.csv", na_values='NA')
 df_crowd['date'] = pd.to_datetime(df_crowd['year'].astype(str) + '-' + df_crowd['month'], format='%Y-%b')
 df_crowd = df_crowd[df_crowd['date'] > pd.to_datetime('2016')]
 
