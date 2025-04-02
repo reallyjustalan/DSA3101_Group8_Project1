@@ -58,7 +58,7 @@ Automatically classifies new review data and performs topic modelling on high-ri
 --- 
 
 ### Disneyland Reviews
-The dataset contains 42,657 reviews from Disneyland California, Paris and Hong Kong. For this subquestion, only the Review_Text column is used. 
+The [dataset](https://www.kaggle.com/datasets/arushchillar/disneyland-reviews) contains 42,657 reviews from Disneyland California, Paris and Hong Kong. For this subquestion, only the Review_Text column is used. 
 
 ---
 
