@@ -130,7 +130,7 @@ def full_simulation_run(Model, dataframe,num_rides):
         )
 
     # Run the simulation
-    for step in range(240):
+    for step in range(180):
         Model.step()
         if step % 10 == 0:
             print(f'Step: {step}')
