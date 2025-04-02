@@ -52,25 +52,10 @@ All datasets use semicolon (`;`) as delimiter. Key columns include:
 
 ## Usage
 
-1. Install required packages:
-   ```
-   pip install pandas matplotlib seaborn networkx plotly scipy
-   ```
-
-2. Run analysis scripts:
-   ```python
-   # For visitor journey analysis
-   from journey_analysis import load_data, plot_poi_map, analyze_journey_patterns
-   poi, seq, df = load_data('POI-DisneyCaliforniaAdventure.csv', 'userVisits-DisneyCaliforniaAdventure.csv')
-   
-   # For cost-profit analysis
-   from cost_profit_analysis import load_cost_profit_data, plot_cost_profit_scatter
-   df = load_cost_profit_data('costProfCat-DisneyCaliforniaAdventurePOI-all.csv')
-   ```
-
+We will be running each subfolder as a page in our Streamlit app. Do refer to the README.md at the root on how to run our app using Docker :)
 ## Business Insights
 
-The analysis reveals several key patterns:
+The analysis for A3 reveals several key patterns:
 - Popular attraction pairings (e.g., Radiator Springs Racers with Disney Junior)
 - Family-oriented visitor flow trends
 - Cost-effective routes dominated by Family/Show combinations
