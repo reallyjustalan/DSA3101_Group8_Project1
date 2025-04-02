@@ -62,8 +62,10 @@ if page == "Home":
 
 elif page == "Optimised Park layouts":
     st.title("Optimised Park Layouts")
-    st.write("Explore different park layouts.")
-    "Let's explore some of the generated Optimised layouts that the team has worked on. For these models, we had focused our attention on 4 main variables: distancing between popular rides, increasing guest satisfaction, increasing the number of rides taken by a guest and decreasing crowds an area gets."
+
+    st.subheader(":national_park: Let's Explore Different Park Layouts!")
+
+    st.write("Let's explore some of the generated Optimised layouts that the team has worked on. For these models, we had focused our attention on 4 main variables: distancing between popular rides, increasing guest satisfaction, increasing the number of rides taken by a guest and decreasing crowds an area gets.")
 
     # Create buttons for model selection
     model = st.radio("Select the type of Model for your park", ("Ring Shaped", "Plain", "Large with Lake"))
@@ -97,8 +99,8 @@ elif page == "Optimised Park layouts":
             else:
                 st.error(f"Failed to load image from GitHub: {selected_image_url}")
 
-    "## What patterns do we notice?"
-    "No two layouts seem to have the same optimised positions for the rides. This could indicate factors that are missing within the algorithm. Moreover, it also highlights that there is no one true solution to any optimisation problem."
+    "## :mag: What patterns do we notice?"
+    "No **two** layouts seem to have the same optimised positions for the rides. This could indicate factors that are missing within the algorithm. Moreover, it also highlights that there is no one true solution to any optimisation problem."
     "So how do we determine which is the best?"
     "That comes down to what the business would want to achieve. Business goals of individual theme parks would differ from one and other. Be it through picking a layout that maximises revenue or a theme park that maximises guest retention through constantly upgrading and sustainably growing the park to include more rides. The opportunities are endless. Yet one pattern remains constant. As the number of rides increase, there are clusters of less popular rides around some of the more popular rides."
     "This provides opportunities for businesses to make meaning from the layout through theming."
@@ -106,7 +108,7 @@ elif page == "Optimised Park layouts":
 
 elif page == "Simulated Heatmaps":
     st.title("Heatmaps")
-    "## Explore"
+    "## Let's Explore!:fire::world_map:"
     "Explore how the density of people at a theme park and their relative positions fluctuates depending on layout type and the number of rides."
 
     model_density = st.radio("Select a model for density exploration", ("Ring Shaped", "Plain", "Large with Lake"))
@@ -139,7 +141,7 @@ elif page == "Simulated Heatmaps":
                 st.error(f"Failed to load image: {img_url}")
 
 
-    st.header("What Patterns Do We Notice?")
+    st.header("What Patterns Do We Notice?:mag_right:")
 
     st.write(
         "Without additional information, incentives, or support to guide a guest’s decision-making process, "
@@ -148,28 +150,28 @@ elif page == "Simulated Heatmaps":
     )
 
     ## How Can We Influence Guest Movement?
-    st.subheader("How Can We Influence Guest Movement?")
+    st.subheader("How Can We Influence Guest Movement?:runner:")
 
     st.write("To create a more balanced distribution of guests, parks can implement a combination of **information, incentives, and support systems**:")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown("### Information")
+        st.markdown("### Information :information_source:")
         st.write(
             "A **live queue tracker** allows guests to make informed decisions by identifying less crowded rides, "
             "naturally directing them toward underutilized areas."
         )
 
     with col2:
-        st.markdown("### Incentives")
+        st.markdown("### Incentives :restroom:")
         st.write(
             "Strategic placement of **rest zones, water coolers, merchandise, and food stands** can draw guests to "
             "less-visited parts of the park, helping to evenly distribute foot traffic."
         )
 
     with col3:
-        st.markdown("### Support")
+        st.markdown("### Support :anchor:")
         st.write(
             "**Information kiosks and interactive guides** can assist guests in navigating the park, recommending "
             "alternative attractions, and ensuring a smoother guest flow."
@@ -188,51 +190,51 @@ elif page == "Business Insights":
     From a business standpoint, this visualisation provides insight to both possible challenges and opportunities. Here’s how it translates into important decisions for a theme park:
     """)
 
-    with st.expander("### 1. Guest Flow and Spreading Out"):
+    with st.expander("### 1. Guest Flow and Spreading Out :walking: "):
         st.markdown("""
         Overutilized areas can lead to overcrowding, resulting in longer wait times, restricted movement, and dissatisfaction. Underutilized areas may indicate neglected parts of the park. Optimizing guest flow ensures all areas are well-utilized, minimizing bottlenecks and enhancing the experience.
 
         **Solution:** Implementing crowd control strategies like dynamic queue management and timed ticketing, the park can reduce congestion and make less crowded areas more appealing. Businesses can also place mascot meets and photospots in areas of underutilisation, pulling potential guests to other parts of the park.
         """)
 
-    with st.expander("### 2. Optimal Placement of Guest Services"):
+    with st.expander("### 2. Optimal Placement of Guest Services :information_source:"):
         st.markdown("""
         Guest satisfaction depends on strategically placed services like restrooms, information desks, and emergency stations. If these services are too concentrated in specific areas, guests might experience longer wait times and poorer service.
 
         **Solution:** **Guest services** should be strategically distributed across the park, with larger rest areas and restrooms placed in quieter sections to encourage exploration and improve accessibility. If these services are placed in a high-density area, a greater staff allocation will be needed to meet the demands and ensure guest standards are met.
         """)
 
-    with st.expander("### 3. Merchandise and Photo Spots"):
+    with st.expander("### 3. Merchandise and Photo Spots :handbag::camera_with_flash:"):
         st.markdown("""
         Merchandise stands are key revenue generators but must be placed strategically. If they are too close to high-traffic areas, they may cause congestion; if in low-traffic zones, they may be overlooked.
 
         **Solution:** Merchandise locations should be near high-traffic areas but not too close to major attractions. This ensures maximum visibility and maximum foot traffic with guests while minimizing crowding.
         """)
 
-    with st.expander("### 4. Food and Dining Locations"):
+    with st.expander("### 4. Food and Dining Locations :fork_and_knife:"):
         st.markdown("""
         Long food lines can negatively impact the guest experience. Placing food stalls too close to high-traffic areas may create congestion, while placing them in quiet zones may lead to lower sales.
 
         **Solution:** Restaurants and snack stands should be placed near major rides while also being used strategically to encourage guests to explore less busy areas. Portable food carts or food trucks can serve as a way to activate underutilized zones. Possible placement of restaurants should be near clusters of rides, ensuring high traffic and increasing guest interaction while meeting their needs.
         """)
 
-    with st.expander("### 5. Theming and Atmosphere"):
+    with st.expander("### 5. Theming and Atmosphere :flags:"):
         st.markdown("""
         Theming attracts guests to different areas of the park, helping to distribute crowds effectively. A well-designed park uses theming to guide visitors naturally from one section to another.
 
         **Solution:** **Highly themed zones** should be strategically placed across the park, following the optimized clustering of rides. Between clusters, themed walkways and immersive experiences can help distribute visitors evenly. This would improve the guest's experience, creating a more immersive environment.
         """)
 
-    with st.expander("### 6. Maximizing Revenue"):
+    with st.expander("### 6. Maximizing Revenue :moneybag:"):
         st.markdown("""
         Overcrowded areas may lead to lower guest spending, as visitors might avoid shopping or dining due to long lines. Overcrowded areas may also lead to lower guest satisfaction as they feel uncomfortable.
 
         **Solution:** A well-balanced layout, supported by real-time data, optimized placement of rides, shops, and photo zones, ensures higher guest satisfaction and increased revenue potential.
         """)
-import streamlit as st
+
 
 if page == "Limitations & Improvements":
-    st.title("Limitations & Improvements")
+    st.title(":white_check_mark: Limitations & Improvements")
     st.write("This project has several limitations, categorized into guest behavior assumptions, technical constraints, missing agents, data limitations, and hardware constraints. These factors impact the realism and effectiveness of the model.")
 
     # Creating Tabs for Better Organization
@@ -311,7 +313,7 @@ if page == "Limitations & Improvements":
 
 
 elif page == "Conclusion":
-    st.title("Conclusion")
+    st.title(":chart_with_upwards_trend: Conclusion")
     st.write("Discover key patterns and business insights.")
     st.markdown("""Balancing guest distribution and strategically placing services, attractions, and revenue-generating assets is key to a theme park’s success. "
     "An optimised layout of rides should ultimately align itself with the business goals and intention at hand allowing parks to create enjoyable guest experiences while maintaining its goals of meeting its business intentions.""")

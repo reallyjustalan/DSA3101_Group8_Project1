@@ -10,7 +10,7 @@ A comprehensive agent-based modeling system for simulating and optimizing theme 
    - [optimisation.py](#optimisationpy)
    - [simulations.py](#simulationspy)
    - [heatmap.py](#heatmappy)
-4. [Installation & Usage](#installation--usage)
+4. [Data Source](#data-source)
 5. [Dependencies](#dependencies)
 
 ## System Overview
@@ -160,14 +160,11 @@ Generates visual representations of simulation results:
 ### Inclusion of addition python scripts
 used to create batch job simulations in preparation for the streamlit page.
 
-## Installation & Usage
+## Data Source
 
-```bash
-
-# Install dependencies
-pip install -r requirements.txt
-
-```
+Data was sourced from Kaggle: "Disneyland Visitors Data (100+ Rides)" authored by AyushTankha.
+link: https://www.kaggle.com/datasets/ayushtankha/hackathon
+Within this workspace, we will api call the kaggle dataset, ensuring that the data used within our model is up to date. 
 
 ## Dependencies
 
