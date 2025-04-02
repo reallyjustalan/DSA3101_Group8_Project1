@@ -15,7 +15,7 @@ Please follow the order below when running the scripts:
    Predictor 1: Total Fatalities in Disney theme parks (by year).
 
 3. **`main_dataset.py`**  
-   Core structure of the main dataset, to be merged with other datasets later.
+   Core structure of the finalized dataset, to be merged with other datasets later.
 
 4. **`P2.py`**  
    Predictor 2: Weather data (Rainy vs. Non-Rainy days).
