@@ -16,7 +16,7 @@ from yellowbrick.cluster import KElbowVisualizer
 import plotly.express as px
 
 # read in transformed data
-df = pd.read_csv('../data/clean/rmf.csv')
+df = pd.read_csv('data/A4/clean/rmf.csv')
 
 ################################################
 #                                              #

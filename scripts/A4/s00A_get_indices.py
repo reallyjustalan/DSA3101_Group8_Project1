@@ -4,7 +4,7 @@
 # preamble: webscrape queue-times.com for valid park index. By this mode of 
 #           preprocessing, we don't have to check for every indices in [1,333].
 #           Resultant indices saved as txt file in path 
-#           ../data/raw/accepted_indices.txt 
+#           data/A4/raw/accepted_indices.txt 
 # pre-req: knowledge of BeautifulSoup webscraping library and requests library 
 #          for easy handling of lack of API data. Basic understanding of HTML
 #          structure for a deployed website and how to access it via 'inspect'.
@@ -42,7 +42,7 @@ print(f'Number of theme parks: {len(lst_of_accepted_indices)}')
 print(lst_of_accepted_indices)
 
 
-file = open('../data/raw/accepted_indices.txt', 'w')
+file = open('data/A4/raw/accepted_indices.txt', 'w')
 
 for i in lst_of_accepted_indices:
     file.write(f'{i}\n')    
