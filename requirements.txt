@@ -31,3 +31,4 @@ tqdm==4.67.1
 transformers==4.48.2
 umap_learn==0.5.7
 xgboost==3.0.0
+streamlit==1.44.1
