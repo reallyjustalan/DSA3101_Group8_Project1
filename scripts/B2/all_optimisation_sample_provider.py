@@ -41,6 +41,18 @@ MODEL_CONFIGS = {
 # Load your data
 
 def plot_and_save_solution(best_individual, model, possible_rides, sample_num, save_path):
+    """Generate and save a visualization of the optimized ride placement solution.
+    
+    Creates a heatmap showing guest activity and marks ride positions with their popularity rank.
+    Restricted areas are highlighted in blue.
+
+    Args:
+        best_individual: Optimized ride positions from genetic algorithm
+        model: Theme park model instance
+        possible_rides: List of available ride configurations
+        sample_num: Iteration number for this simulation run
+        save_path: File path to save the visualization
+    """
     plt.figure(figsize=(10, 8))
     
     # Create and normalize heatmap
@@ -86,6 +98,16 @@ def plot_and_save_solution(best_individual, model, possible_rides, sample_num, s
 
 # Run simulations for all models and ride counts
 def run_all_simulations(MODEL_CONFIGS, ranking, simulations_dir):
+    """Execute multiple simulation scenarios across different park configurations.
+    
+    Runs optimization and simulation for each model configuration and ride count combination.
+    Saves visualizations of the best solutions.
+
+    Args:
+        MODEL_CONFIGS: Dictionary defining different park layouts and restrictions
+        ranking: DataFrame containing ride popularity and capacity data
+        simulations_dir: Base directory to save all simulation results
+    """
     for model_name, config in MODEL_CONFIGS.items():
         model_dir = os.path.join(simulations_dir, model_name)
         os.makedirs(model_dir, exist_ok=True)

@@ -10,7 +10,19 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 # Define the fitness function
 def fitness_function(individual, model, possible_rides):
-    """Calculate the fitness of a ride placement configuration."""
+    """Calculate the fitness score for a ride placement configuration.
+    
+    Evaluates the quality of a ride layout based on guest satisfaction, ride utilization,
+    and spatial distribution. Applies penalties for poor configurations.
+    
+    Args:
+        individual (list): List of tuples representing (ride_index, position) pairs.
+        model (ThemeParkGridModel): The simulation model containing park layout and agents.
+        possible_rides (list): List of available ride configurations.
+        
+    Returns:
+        tuple: Single-element tuple containing the computed fitness score.
+    """
     # Reset the model for this individual
     reset_model(model, possible_rides, individual)
 
@@ -96,6 +108,15 @@ def fitness_function(individual, model, possible_rides):
 
 # Function to generate a valid position (not in restricted area and not occupied by another ride)
 def generate_valid_position(model):
+    """Generate a random valid position within the park grid.
+    
+    Args:
+        model (ThemeParkGridModel): The simulation model containing grid dimensions.
+        
+    Returns:
+        tuple: Valid (x,y) position not in restricted areas.
+    """
+
     while True:
         pos = (random.randint(0, model.grid.width - 1), random.randint(0, model.grid.height - 1))
         if not model.is_restricted(*pos):  # Ensure position is not restricted
@@ -103,7 +124,15 @@ def generate_valid_position(model):
 
 # Function to ensure uniqueness of ride indices in an individual
 def ensure_unique_rides(individual, possible_rides):
-    """Ensure that an individual has no duplicate ride indices."""
+    """Ensure no duplicate ride indices exist in an individual's configuration.
+    
+    Args:
+        individual (list): Current ride configuration to validate.
+        possible_rides (list): Available ride configurations for replacement.
+        
+    Returns:
+        list: Individual with duplicate rides replaced by unique alternatives.
+    """
     ride_indices = [ride_idx for ride_idx, _ in individual]
     unique_ride_indices = list(set(ride_indices))  # Remove duplicates
     if len(unique_ride_indices) < len(ride_indices):
@@ -121,7 +150,15 @@ def ensure_unique_rides(individual, possible_rides):
 
 # Function to ensure uniqueness of positions in an individual
 def ensure_unique_positions(individual, model):
-    """Ensure that an individual has no duplicate positions. returns the ride"""
+    """Ensure all ride positions in an individual are unique and valid.
+    
+    Args:
+        individual (list): Current ride configuration to validate.
+        model (ThemeParkGridModel): Simulation model for position validation.
+        
+    Returns:
+        list: Individual with duplicate positions replaced by unique alternatives.
+    """
     positions = [pos for _, pos in individual]
     unique_positions = list(set(positions))  # Remove duplicates
     if len(unique_positions) < len(positions):
@@ -138,14 +175,33 @@ def ensure_unique_positions(individual, model):
 
 # Function to repair the best individual
 def repair_individual(individual, possible_rides, model):
-    """Repair an individual by replacing duplicate ride indices and positions with unique ones. return ride"""
+    """Apply all necessary repairs to ensure a valid ride configuration.
+    
+    Combines uniqueness checks for both rides and positions.
+    
+    Args:
+        individual (list): Current ride configuration to repair.
+        possible_rides (list): Available ride configurations.
+        model (ThemeParkGridModel): Simulation model for validation.
+        
+    Returns:
+        list: Fully repaired individual configuration.
+    """
     individual = ensure_unique_rides(individual, possible_rides)
     individual = ensure_unique_positions(individual, model)
     return individual
 
 # Function to reset the model for each individual
 def reset_model(model, possible_rides, individual):
-    """Reset the model and add rides based on the current individual. clears old model"""
+    """Reset the simulation model with a new ride configuration.
+    
+    Clears existing rides and initializes with the specified individual's layout.
+    
+    Args:
+        model (ThemeParkGridModel): Simulation model to reset.
+        possible_rides (list): Available ride configurations.
+        individual (list): New ride configuration to apply.
+    """
     # Clear existing rides
     for agent in list(model.schedule.agents):
         if isinstance(agent, RideAgent):
@@ -165,7 +221,19 @@ def reset_model(model, possible_rides, individual):
 
 # Function to plot the current best solution
 def plot_best_solution(best_individual, model, possible_rides, generation):
-    """Plot the current best ride placements. Output is the distribution of rides in its optimal location"""
+    """Visualize the current best ride configuration and guest distribution.
+    
+    Generates a heatmap showing guest activity and ride placements.
+    
+    Args:
+        best_individual (list): Optimal ride configuration to visualize.
+        model (ThemeParkGridModel): Simulation model containing layout data.
+        possible_rides (list): Ride configurations for labeling.
+        generation (int): Current generation number for title.
+        
+    Returns:
+        matplotlib.figure.Figure: The generated visualization figure.
+    """
     plt.close('all')  # Properly close any existing figures
     fig, ax = plt.subplots(figsize=(10, 8))
     
@@ -210,6 +278,23 @@ def plot_best_solution(best_individual, model, possible_rides, generation):
 
 # Function to set up and run the Genetic Algorithm
 def optimize_ride_placement(model, possible_rides, num_rides):
+    """Execute genetic algorithm optimization for ride placement.
+    
+    Implements a complete evolutionary optimization process including:
+    - Population initialization
+    - Fitness evaluation
+    - Selection and reproduction
+    - Iterative improvement
+    
+    Args:
+        model (ThemeParkGridModel): Simulation model to optimize within.
+        possible_rides (list): Available ride configurations.
+        num_rides (int): Number of rides to place in the park.
+        
+    Returns:
+        list: Optimized ride configuration as (ride_index, position) tuples.
+    """
+
     '''Optimisation of ride placement through the use of Genetic Algorithm, a reinforcing algorithm. Here the output is ((a,(x,y)),(b,(x,y)), ...) with a and b being the rank and x,y being the position'''
     # Set up DEAP for Genetic Algorithm
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))

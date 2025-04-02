@@ -38,7 +38,22 @@ MODEL_CONFIGS = {
 }
 
 def start_simulation_run(model, dataframe, num_rides, model_name, output_dir):
-    """Run a single simulation and save heatmaps at intervals"""
+    """Run a single simulation with optimized ride placement and save periodic heatmap visualizations.
+    
+    Args:
+        model (ThemeParkGridModel): The base theme park model to use
+        dataframe (pd.DataFrame): DataFrame containing ride information (Ranking, CAPACITY)
+        num_rides (int): Number of rides to include in simulation (minimum 3)
+        model_name (str): Name/identifier for this model configuration
+        output_dir (str): Directory path to save heatmap images
+        
+    The function:
+    1. Creates a clean model copy
+    2. Selects top N rides by ranking
+    3. Optimizes ride placement using genetic algorithm
+    4. Runs simulation for 70 steps
+    5. Saves heatmap images every 10 steps
+    """
     
     if num_rides < 3:
         print("Need a minimum of 3 rides to run the simulation")
@@ -111,7 +126,19 @@ def start_simulation_run(model, dataframe, num_rides, model_name, output_dir):
 
 
 def run_all_simulations_heatmap(MODEL_CONFIGS,dataframe, simulations_dir):
-    """Run simulations for all model configurations and ride counts"""
+    """Execute multiple simulation scenarios across different park configurations and ride counts.
+    
+    Args:
+        MODEL_CONFIGS (dict): Dictionary defining different park layouts and restrictions
+        dataframe (pd.DataFrame): DataFrame containing ride information (Ranking, CAPACITY)
+        simulations_dir (str): Base directory to save all simulation results
+        
+    The function:
+    1. Iterates through all model configurations
+    2. For each model, tests 3-13 ride configurations
+    3. Runs each configuration through start_simulation_run()
+    4. Organizes output in directory structure by model/num_rides
+    """
     for model_name, config in MODEL_CONFIGS.items():
         print(f"\nRunning simulations for {model_name}...")
         
