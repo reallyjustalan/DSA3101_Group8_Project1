@@ -113,7 +113,7 @@ elif page == "Simulated Heatmaps":
             st.warning("No images found or failed to fetch data from GitHub.")
         else:
            heatmap_images = [
-            img for img in image_files if any(f"heatmap_step_{i}" in img for i in range(0, 7))
+            img for img in image_files if any(f"heatmap_step_{i*10}" in img for i in range(0, 8))
         ]
 
             # Display all 7 heatmap images in order
@@ -121,7 +121,7 @@ elif page == "Simulated Heatmaps":
             response = requests.get(img_url)
             if response.status_code == 200:
                 image = Image.open(BytesIO(response.content))
-                st.image(image, caption=f"Heatmap Step {step}")
+                st.image(image, caption=f"Heatmap Step {step*10}")
             else:
                 st.error(f"Failed to load image: {img_url}")
 
@@ -223,9 +223,9 @@ if page == "Limitations & Improvements":
     st.write("This project has several limitations, categorized into guest behavior assumptions, technical constraints, missing agents, data limitations, and hardware constraints. These factors impact the realism and effectiveness of the model.")
 
     # Creating Tabs for Better Organization
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
         "Guest Behavior", "Technical", "Additional Agents", 
-        "Data Limitations", "Grid & Layout", "Hardware"
+        "Data Limitations", "Grid & Layout", "Hardware","Improvements"
     ])
 
     with tab1:
@@ -282,9 +282,9 @@ if page == "Limitations & Improvements":
         - **Limited processing power** – More complex simulations require significant computational resources.  
         - **Exponential complexity growth** – Scaling the model for larger parks with dynamic visitor behavior would drastically increase processing requirements.  
         """)
-
-    st.write("### 🔄 Future Improvements")
-    st.markdown("""
+    with tab7:
+        st.subheader("🔄 Future Improvements")
+        st.markdown("""
     To improve the simulation, future iterations could include:  
     - **More dynamic guest decision-making** – Guests should adjust their plans based on queue times, weather, time of day, and external incentives.  
     - **Group behavior modeling** – Visitors should move in groups, influencing ride choices and movement patterns.  
