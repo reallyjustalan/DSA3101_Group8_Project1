@@ -1,14 +1,11 @@
 from Imports import plt
 from LoadData import df
-# Plot the points
 
 def scatter():
     fig, ax = plt.subplots()
 
-    # Scatter plot
     ax.scatter(df["LONGITUDE"], df["LATITUDE"], color='red', marker='o')
 
-    # Labels and title
     ax.set_xlabel("Longitude")
     ax.set_ylabel("Latitude")
     ax.set_title("Map of Locations")

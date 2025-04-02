@@ -6,13 +6,12 @@ df_floor_2 = df[df['FLOOR'] == 2]
 df_floor_2_drilled = df_floor_2[df_floor_2['DATE'] == '2013-06-20'].reset_index(drop=True)
 columns_to_drop = [col for col in df_floor_2_drilled.columns if df_floor_2_drilled[col].nunique() == 1]
 df_floor_2_drilled = df_floor_2_drilled.drop(columns=columns_to_drop).drop(columns = ['RELATIVEPOSITION'])
-# print(df_floor_2_drilled)
 
 def create_heatmap():
 
     fig, ax = plt.subplots(figsize=(12, 6))
     
-    # Scatter plot (optional, can be removed if too cluttered)
+    # Scatterplot (optional, can be removed if too cluttered)
     sns.scatterplot(data=df_floor_2_drilled, y="LATITUDE", x="LONGITUDE", ax=ax, alpha=0.5, color='black', s=10)
     
     # Hexbin heatmap (adjust gridsize for resolution)
@@ -25,7 +24,6 @@ def create_heatmap():
         alpha=0.7
     )
     
-    # Add colorbar
     plt.colorbar(hexbin, ax=ax, label='Density')
     
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45)

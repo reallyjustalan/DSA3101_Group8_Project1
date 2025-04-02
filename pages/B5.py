@@ -1,7 +1,6 @@
 import streamlit as st
 import sys
 from pathlib import Path
-# Add the directory containing vis_1.py to the Python path
 sys.path.append(str(Path(__file__).resolve().parent.parent / 'scripts' / 'B5'))
 from vis_1_2 import *
 from vis_3 import wap_distrubution
@@ -80,7 +79,7 @@ if navigation == "Overview": # Overview Section
 
 
     
-if navigation == "1) Geography": # Geographical plots (Interactive)
+if navigation == "1) Geography": # Geographical plots (Interactive 3D)
     st.markdown("""
         ## **Geography**
         In the **Geography** section, we visualised the indoor layout using WiFi signal data. 
@@ -154,7 +153,7 @@ if navigation == "2) Exploratory Data Analysis": # EDA section
     if "button_pressed" not in st.session_state:
         st.session_state.button_pressed = None
 
-    # WAP barplot button
+    # Left barplot button
     if left.button("Exploratory Analysis", use_container_width = True):
         st.session_state.button_pressed = "Exploratory Analysis"
 
@@ -162,11 +161,10 @@ if navigation == "2) Exploratory Data Analysis": # EDA section
     if right.button("Crowd Density", use_container_width = True):
          st.session_state.button_pressed = "Crowd Density"
 
-    # if WAP button pressed
+    # if Left button pressed
     if st.session_state.button_pressed == "Exploratory Analysis":
         
         st.write("Here we aim to visualise the data to help decide how to train the model.\n")
-        # st.header("Visitor Flow Network")
         st.header("Distribution of Data")
         
         # Barplot of the number of data entries on each floor in each building
@@ -179,7 +177,7 @@ if navigation == "2) Exploratory Data Analysis": # EDA section
         "starting point for visualing and modelling.")
 
         st.header("Number of unique users per day")
-
+        # Barplot of number of unique users
         fig4, ax4 = user_plot()
         st.pyplot(fig4, clear_figure=True)
 
@@ -198,7 +196,7 @@ if navigation == "2) Exploratory Data Analysis": # EDA section
         # Initialise tabs
         tab1, tab2 = st.tabs(["No Trend", "Trend"])
         
-        with tab1:
+        with tab1: # Heatmap with no trendline
 
             st.write("Spatial Heatmap of crowd density, highlighting the most crowded areas.\n")
             fig5, ax5 = create_heatmap()
@@ -207,7 +205,8 @@ if navigation == "2) Exploratory Data Analysis": # EDA section
             "This crucial information can assist theme parks in identifying crowded areas and "
             "deploy resources accordingly.")
 
-        with tab2:
+        with tab2:# Heatmap with trendline
+
             st.write("Spatial Heatmap of crowd density with trendline.\n")
             fig6, ax6 = create_heatmap_trend()
             st.pyplot(fig6, clear_figure = True)
@@ -234,9 +233,11 @@ if navigation == "3) Modelling": # Modelling Section
     tab1, tab2 = st.tabs(["Metrics Comparison", "Visual Diagnostics"])
     if 'results_df' not in st.session_state:
         st.session_state.results_df = None
+
     if 'all_figures' not in st.session_state:
         st.session_state.all_figures = {}
-    with tab1:
+
+    with tab1: # Model Metrics Comparison
         st.subheader("Model Performance Metrics")
             
         if st.session_state.results_df is not None:
@@ -244,12 +245,12 @@ if navigation == "3) Modelling": # Modelling Section
                 'MSE': '{:.4f}',
                 'R²': '{:.4f}',
                 'Adjusted R²': '{:.4f}'
-            }))
+            })) # Output as a df
 
         else:
             st.warning("No model results available. Please run evaluation first.")
            
-        if st.button("Run Model Evaluation", key="eval_button"):
+        if st.button("Run Model Evaluation", key="eval_button"): # Press to show data
             with st.spinner("Evaluating models..."):
                 results_df, all_figures = evaluate_all_models(
                     loaded_models, X_test_new, y_test_reg_new, coord_scaler
@@ -259,14 +260,14 @@ if navigation == "3) Modelling": # Modelling Section
             st.success("Evaluation complete!")
             st.rerun()
         
-    with tab2:
+    with tab2: # Tab with plots
         st.subheader("Model Diagnostic Plots")
             
         # Check if we have figures and they're in the correct format
         if not st.session_state.all_figures or not isinstance(st.session_state.all_figures, dict):
             st.warning("Please run model evaluation first")
         else:
-            model_choice = st.selectbox(
+            model_choice = st.selectbox( # Dropdown menu to choose plot for corresponding model
                 "Select Model to Inspect",
                 options=list(st.session_state.all_figures.keys())
             )

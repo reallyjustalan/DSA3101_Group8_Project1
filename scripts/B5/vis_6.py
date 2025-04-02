@@ -44,10 +44,9 @@ def create_heatmap_trend():
     return fig, ax
 
 """
-def create_heatmap_trend():
+def create_heatmap_trend(): # contour heatmap. Not as good
     fig, ax = plt.subplots(figsize=(12, 6))
     
-    # Contour-based heatmap
     sns.kdeplot(
         data=df_floor_2_drilled,
         x="LONGITUDE",
@@ -60,10 +59,8 @@ def create_heatmap_trend():
         ax=ax
     )
     
-    # Scatter plot (optional)
     sns.scatterplot(data=df_floor_2_drilled, y="LATITUDE", x="LONGITUDE", ax=ax, alpha=0.3, color='black', s=10)
     
-    # Line plot
     sns.lineplot(data=df_ave, x="LONGITUDE", y="LATITUDE", ax=ax, color='green', linewidth=2)
     
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45)

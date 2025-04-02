@@ -1,6 +1,6 @@
-from Imports import (pd, np, MinMaxScaler, VarianceThreshold, r2_score, mean_squared_error, plt,
-                     Dense, Input, Model)
+from Imports import (pd, np, MinMaxScaler, VarianceThreshold, r2_score, mean_squared_error, plt)
 
+# Loads and preprocess the model for easier handling
 def load_and_preprocess(df):
     """Load and preprocess raw dataframe"""
     df = df.sort_values(by=['TIMESTAMP'])
@@ -10,7 +10,7 @@ def load_and_preprocess(df):
     # df = df.drop(columns=[col for col in df.columns if df[col].nunique() == 1] + ['RELATIVEPOSITION'])
     return df
 
-def mean_exclude_100(arr):
+def mean_exclude_100(arr): # Calculates the mean position of crowds using long and lat
     return arr[arr != 100].mean()
 
 def preprocess_data(df, is_train=False, scaler=None, selector=None):
@@ -21,12 +21,8 @@ def preprocess_data(df, is_train=False, scaler=None, selector=None):
     df = df.replace(100, -120).fillna(-120)
     
     # Feature engineering
-    #df['Strongest_Signal'] = df[wap_cols].max(axis=1)
-    # df['Num_Strong_Signals'] = (df[wap_cols] > -30).sum(axis=1)
     df['Minute'] = pd.to_datetime(df['TIMESTAMP']).dt.minute
-    #df['Signal_Variance'] = df[wap_cols].std(axis=1)  # Signal consistency
-    #df['Signal_NonZero_Count'] = (df[wap_cols] > -90).sum(axis=1)  # Strong signal count
-    #df['Signal_Range'] = df[wap_cols].max(axis=1) - df[wap_cols].min(axis=1)
+
     
     # Apply transformations
     df[wap_cols] = np.log10(df[wap_cols] + 121)
@@ -85,58 +81,33 @@ def evaluate_model(model, X_test, y_test, coord_scaler, model_name):
     # Calculate residuals
     residuals = y_test - y_pred
     
-    # Plot residuals
-    plt.figure(figsize=(12, 5))
+    # Create plot figures
+    figures = []
     
-    plt.subplot(1, 2, 1)
-    plt.scatter(y_pred[:, 0], residuals[:, 0], alpha=0.5)
-    plt.axhline(y=0, color='r', linestyle='--')
-    plt.title(f'{model_name} - Longitude Residuals')
-    plt.xlabel('Predicted Longitude')
-    plt.ylabel('Residuals')
+    # Figure 1: Residual plots
+    fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+    ax1.scatter(y_pred[:, 0], residuals[:, 0], alpha=0.5)
+    ax1.axhline(y=0, color='r', linestyle='--')
+    ax1.set_title(f'{model_name} - Longitude Residuals')
+    ax1.set_xlabel('Predicted Longitude')
+    ax1.set_ylabel('Residuals')
     
-    plt.subplot(1, 2, 2)
-    plt.scatter(y_pred[:, 1], residuals[:, 1], alpha=0.5)
-    plt.axhline(y=0, color='r', linestyle='--')
-    plt.title(f'{model_name} - Latitude Residuals') 
-    plt.xlabel('Predicted Latitude')
-    plt.ylabel('Residuals')
+    ax2.scatter(y_pred[:, 1], residuals[:, 1], alpha=0.5)
+    ax2.axhline(y=0, color='r', linestyle='--')
+    ax2.set_title(f'{model_name} - Latitude Residuals') 
+    ax2.set_xlabel('Predicted Latitude')
+    ax2.set_ylabel('Residuals')
+    fig1.tight_layout()
+    figures.append(fig1)
     
-    plt.tight_layout()
-    plt.show()
-
-    # Scatterplot
-    plt.figure(figsize=(8, 6))
+    # Figure 2: Actual vs Predicted
+    fig2 = plt.figure(figsize=(8, 6))
     plt.scatter(y_test[:, 0], y_test[:, 1], alpha=0.5, label='Actual')
     plt.scatter(y_pred[:, 0], y_pred[:, 1], alpha=0.5, label='Predicted')
     plt.title(f'{model_name} - Actual vs Predicted Coordinates')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
     plt.legend()
-    plt.show()  
+    figures.append(fig2)
     
-    return mse, r2, adj_r2
-
-
-def create_neural_network(input_shape, n_floors):
-    inputs = Input(shape=(input_shape,))
-    x = Dense(256, activation='relu')(inputs)
-    x = Dense(128, activation='relu')(x)
-    
-    # Outputs
-    coord_output = Dense(2, name='coord_output')(x)
-    floor_output = Dense(n_floors, activation='softmax', name='floor_output')(x)
-    
-    model = Model(inputs=inputs, outputs=[coord_output, floor_output])
-    model.compile(
-        optimizer='adam',
-        loss={
-            'coord_output': 'mse',
-            'floor_output': 'sparse_categorical_crossentropy'
-        },
-        metrics={
-            'coord_output': ['mse'],
-            'floor_output': ['accuracy']
-        }
-    )
-    return model
+    return mse, r2, adj_r2, figures
