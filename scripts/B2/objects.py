@@ -15,9 +15,27 @@ np.random.seed(50)
 ##start
 # Guest Agent (Moves on Grid Toward a Ride)
 class GuestAgent(Agent):
-    '''Initialising class Guest Agent'''
+    """An agent representing a theme park guest who moves around and rides attractions.
+    
+    Attributes:
+        unique_id (int): Unique identifier for the agent.
+        destination (tuple): Current target position (x,y) the agent is moving toward.
+        attraction (RideAgent): Current ride the agent is heading to or riding.
+        arrival_time (int): Time when agent arrived at current position.
+        ride_completion_time (int): Remaining time steps until ride completion.
+        last_ride (RideAgent): Last ride the agent attempted or experienced.
+        time_to_leave (int): Total time steps before agent decides to leave park.
+        leaving (bool): Flag indicating if agent is exiting the park.
+        failed_attempts (int): Count of unsuccessful ride attempts due to long queues.
+        rides_completed (int): Count of successfully completed rides.
+    """
     def __init__(self, unique_id, model):
-        '''Initialising attributes of Guest Agent'''
+        """Initialize a GuestAgent with default attributes.
+        
+        Args:
+            unique_id (int): Unique identifier for the agent.
+            model (ThemeParkGridModel): The model instance this agent belongs to.
+        """
         super().__init__(model)
         self.unique_id = unique_id
         self.destination = None
@@ -31,7 +49,7 @@ class GuestAgent(Agent):
         self.rides_completed = 0  # Track rides completed
 
     def step(self):
-        '''What does a guest do when the model moves forward by 1, where does it initialise, where does it move, what does it do'''
+        """Execute one step of agent behavior including movement and ride decisions."""
         if self.leaving:
             if self.pos == self.model.start_pos:
                 self.model.grid.remove_agent(self)
@@ -66,7 +84,7 @@ class GuestAgent(Agent):
             #print(f"Guest {self.unique_id} decided to leave the park")
 
     def arrive_at_ride(self):
-        '''Decision process of a Guest Agent if the queue is ok or if its too long'''
+        """Handle guest arrival at a ride, deciding whether to join queue or leave."""
         if len(self.attraction.queue.queue) < self.attraction.capacity * 3:
             self.attraction.env.process(self.attraction.ride_experience(self))
             #print(f"Guest {self.unique_id} joined the queue at {self.attraction.name}")
@@ -77,7 +95,11 @@ class GuestAgent(Agent):
             self.destination = None
 
     def choose_ride(self):
-        '''Choose a ride based on popularity and queue length, excluding the last ride.'''
+        """Select a ride to visit based on popularity and queue length.
+        
+        Excludes the last ride visited to encourage variety. Uses weighted random
+        selection where weights are inversely proportional to popularity rank.
+        """
         if not self.model.rides:
             return
 
@@ -94,7 +116,11 @@ class GuestAgent(Agent):
         #print(f"Guest {self.unique_id} chose {self.attraction.name} at {self.destination}")
 
     def move_toward_destination(self, destination):
-        '''Move one step toward the destination, avoiding restricted areas.'''
+        """Move agent one step closer to destination while avoiding restricted areas.
+        
+        Args:
+            destination (tuple): Target (x,y) position to move toward.
+        """
         x, y = self.pos
         dx, dy = destination
 
@@ -113,9 +139,32 @@ class GuestAgent(Agent):
 
 # Ride Agent (Fixed in Place)
 class RideAgent(Agent):
-    '''Initialising Rides'''
+    """An agent representing a theme park attraction with queue management.
+    
+    Attributes:
+        unique_id (int): Unique identifier for the ride.
+        name (str): Name of the ride.
+        pos (tuple): Fixed (x,y) position on the grid.
+        capacity (int): Maximum number of simultaneous riders.
+        service_time (int): Time steps required for one ride cycle.
+        popularity_rank (int): Relative popularity (lower = more popular).
+        env (simpy.Environment): Discrete event simulation environment.
+        queue (simpy.Resource): Queue management resource.
+        queue_lengths (list): Historical record of queue lengths.
+        wait_times (list): Historical record of guest wait times.
+    """
     def __init__(self, unique_id, model, name, pos, capacity, service_time, popularity_rank):
-        '''Attributes of rides'''
+        """Initialize a RideAgent with specified parameters.
+        
+        Args:
+            unique_id (int): Unique identifier for the ride.
+            model (ThemeParkGridModel): The containing model instance.
+            name (str): Name of the ride.
+            pos (tuple): Fixed (x,y) position on grid.
+            capacity (int): Maximum simultaneous riders.
+            service_time (int): Duration of one ride cycle in steps.
+            popularity_rank (int): Popularity ranking (lower = more popular).
+        """
         super().__init__(model)
         self.unique_id = unique_id
         self.name = name
@@ -129,7 +178,14 @@ class RideAgent(Agent):
         self.wait_times = []  # Track guest wait times
 
     def ride_experience(self, guest):
-        """Simulate the ride experience using Simpy. queue modeling"""
+        """Simulate the complete ride experience including queuing and riding.
+        
+        Args:
+            guest (GuestAgent): The guest experiencing the ride.
+            
+        Yields:
+            simpy.events: Queue request and timeout events.
+        """
         with self.queue.request() as request:
             queue_length = len(self.queue.queue)
             self.queue_lengths.append(queue_length)  # Track queue length
@@ -144,9 +200,29 @@ class RideAgent(Agent):
 
 # Theme Park Model (Grid-Based)
 class ThemeParkGridModel(Model):
-    '''Initialising class theme park'''
+    """The main model representing a theme park with guests and rides.
+    
+    Attributes:
+        grid (MultiGrid): The 2D grid representing park layout.
+        schedule (RandomActivation): Agent activation scheduler.
+        randomizer (random.Random): Random number generator.
+        restricted_area (list): List of restricted (x,y) positions.
+        start_pos (tuple): Park entrance/exit position.
+        guests_entered (int): Total guests who entered the park.
+        guests_left (int): Total guests who left the park.
+        rides (list): List of RideAgent instances in the park.
+        guest_inflow_type (pd.DataFrame): Optional guest arrival schedule.
+    """
     def __init__(self, width, height, restricted_bottom_left=None, restricted_top_right=None, guest_inflow_type = None):
-        '''Attributes of theme park'''
+        """Initialize the theme park model with specified dimensions and parameters.
+        
+        Args:
+            width (int): Grid width in cells.
+            height (int): Grid height in cells.
+            restricted_bottom_left (tuple): Bottom-left corner of restricted area.
+            restricted_top_right (tuple): Top-right corner of restricted area.
+            guest_inflow_type (pd.DataFrame): Optional guest arrival schedule.
+        """
         super().__init__()  # Correctly initialize the Model
         self.grid = MultiGrid(width, height, True)  # Initialize grid first
         self.schedule = RandomActivation(self)
@@ -174,7 +250,15 @@ class ThemeParkGridModel(Model):
             self.grid.place_agent(ride, ride.pos)
         
     def add_ride(self, name, pos, capacity, service_time, popularity_rank):
-        """Add a new ride to the theme park."""
+        """Add a new ride to the theme park.
+        
+        Args:
+            name (str): Name of the ride.
+            pos (tuple): (x,y) position on grid.
+            capacity (int): Maximum simultaneous riders.
+            service_time (int): Ride duration in steps.
+            popularity_rank (int): Popularity ranking (lower = more popular).
+        """
         ride_id = len(self.rides) + 1  # Assign a unique ID
         new_ride = RideAgent(ride_id, self, name, pos, capacity, service_time, popularity_rank)
         self.rides.append(new_ride)
@@ -184,17 +268,28 @@ class ThemeParkGridModel(Model):
 
 
     def is_restricted(self, x, y):
-        """Check if a position is in the restricted area."""
+        """Check if a position is within the restricted area.
+        
+        Args:
+            x (int): X-coordinate to check.
+            y (int): Y-coordinate to check.
+            
+        Returns:
+            bool: True if position is restricted, False otherwise.
+        """
         if self.restricted_area is None:
             return False
         return (x, y) in self.restricted_area
     
 
     def step(self, guest_inflow_type=None):
-        """Advance the model by one step. Simulating the model
+        """Advance the model by one time step.
         
-        Args:
-            steps: Optional step counter (not needed for Mesa's built-in stepping)
+        Handles:
+        - New guest arrivals (either scheduled or random)
+        - Agent activations
+        - Ride simulations
+        - Statistics tracking
         """
         # Handle guest inflow
         if self.guest_inflow_type is not None:
@@ -234,6 +329,10 @@ class ThemeParkGridModel(Model):
         self.guests_left = 0
     
     def get_total_guests(self):
-        '''Getter of total guests entering'''
+        """Get the total number of guests that have entered the park.
+        
+        Returns:
+            int: Total count of guests entered.
+        """
         return self.guests_entered
     

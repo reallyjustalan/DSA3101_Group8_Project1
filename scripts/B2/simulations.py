@@ -3,11 +3,23 @@ from optimisation import *
 from heatmap import *
 
 def start_simulation_run(Model, dataframe, num_rides):
-    '''trunkated simulation'''
-    if num_rides > 13:
-        return "The model only supports less than 13 rides please input less than 13"
-    if num_rides < 2:
-        return "Need a minimum of 2 rides to run the simulation"
+    """Run an optimized short-duration simulation (71 steps) of theme park operations.
+    
+    Initializes a clean model instance, optimizes ride placement using genetic algorithms,
+    and runs a simulation with periodic status updates and visualizations.
+
+    Args:
+        Model (ThemeParkGridModel): The base model instance to use as template.
+        dataframe (pd.DataFrame): DataFrame containing ride attributes (Ranking, CAPACITY).
+        num_rides (int): Number of rides to include in simulation (>2).
+
+    Returns:
+        str: Error message if input validation fails.
+        None: Simulation completes successfully.
+    """
+
+    if num_rides < 3:
+        return "Need a minimum of 3 rides to run the simulation"
     
     # Create a fresh copy of the model to avoid modifying the original
     if Model.restricted_bottom_left:
@@ -71,12 +83,27 @@ def start_simulation_run(Model, dataframe, num_rides):
     return
     # return model  # Return the model with the optimized configuration
 def full_simulation_run(Model, dataframe,num_rides):
-    '''Full day simulated'''
+    """Run an optimized full-day simulation (180 steps) of theme park operations.
+    
+    Initializes a clean model instance, optimizes ride placement using genetic algorithms,
+    and runs an extended simulation with periodic status updates and visualizations.
 
-    if num_rides > 13:
-        return "The model only supports less than 13 rides please input less than 13"
-    if num_rides < 2:
-        return "Need a minimum of 2 rides to run the simulation"
+    Args:
+        Model (ThemeParkGridModel): The base model instance to use as template.
+        dataframe (pd.DataFrame): DataFrame containing ride attributes (Ranking, CAPACITY).
+        num_rides (int): Number of rides to include in simulation (>2).
+
+    Returns:
+        str: Error message if input validation fails.
+        None: Simulation completes successfully..
+
+    Note:
+        This is identical to start_simulation_run() except for the longer duration (180 steps).
+        Both functions maintain identical parameter signatures and behavior patterns.
+    """
+
+    if num_rides < 3:
+        return "Need a minimum of 3 rides to run the simulation"
     
     # Create a fresh copy of the model to avoid modifying the original
     if Model.restricted_bottom_left:
