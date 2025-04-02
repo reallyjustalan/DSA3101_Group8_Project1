@@ -1,5 +1,4 @@
-from Imports import pd
-import os
+from Imports import pd, os
 from custom_functions import load_and_preprocess
 
 # Get the current script's directory
