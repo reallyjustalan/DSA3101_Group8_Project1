@@ -17,7 +17,7 @@ df_crowd = df_crowd[df_crowd['date'] > pd.to_datetime('2016')]
 df_attendee = pd.read_csv('../data/raw/attendee.csv', na_values='0')
 df_attendee['date'] = pd.to_datetime(df_attendee['year'], format='%Y')
 
-
+print(df_crowd[df_crowd['name'] =='Disneyland Hong Kong']['date'].min())
 def get_hollywood_2018_yoy_growth_table_new(hollywood_df):
     hollywood_df = hollywood_df[hollywood_df['name'] == 'Disney Hollywood Studios']
     hollywood_df = hollywood_df.set_index('date')
@@ -107,11 +107,13 @@ def get_exp_smoothed_plot(time_series):
     display(HTML('<a id=EPCOT></a>'))
     plt.show()
     
-def get_attraction_campaign_df(df_crowd, theme_park, campaign_date):
+def get_attraction_campaign_df(df_crowd, theme_park, campaign_date, covid):
         
-        campaign_date = pd.to_datetime(campaign_date)
-        
-        dates = [2022, 2023, 2024,2025]
+        campaign_date = pd.to_datetime(campaign_date)        
+        if covid:
+            dates = [2015, 2016, 2017, 2018]
+        else:
+            dates = [2022, 2023, 2024,2025]
         
         desired_year_diff = [(campaign_date.year - date) for date in dates]
         desired_year_diff = list(filter(lambda diff: diff >= 0 ,desired_year_diff))
@@ -120,7 +122,7 @@ def get_attraction_campaign_df(df_crowd, theme_park, campaign_date):
         seasonality_after_dates = [date + pd.DateOffset(months=1) for date in seasonality_campaign_dates]
         
         desired_dates = seasonality_campaign_dates + seasonality_after_dates
-
+        
         # one_month_after = campaign_date + pd.DateOffset(months=1)
         # seasonality_campaign_month = campaign_date - pd.DateOffset(years=5)
         # seasonality_campaign_after = seasonality_campaign_month + pd.DateOffset(months=1)
@@ -133,10 +135,12 @@ def get_attraction_campaign_df(df_crowd, theme_park, campaign_date):
         
         return df_crowd
 
-def get_lift_of_campaign(df_crowd, theme_park, campaign_date, campaign_name):
+def get_lift_of_campaign(df_crowd, theme_park, campaign_date, campaign_name, precovid=False):   
         campaign_date = pd.to_datetime(campaign_date)
         dates_for_comparison = [campaign_date, campaign_date + pd.DateOffset(months=1)]
-        mk_df = get_attraction_campaign_df(df_crowd, theme_park, campaign_date)
+        
+        mk_df = get_attraction_campaign_df(df_crowd, theme_park, campaign_date, precovid)
+        
         mk_df.loc[:,'month'] = [list(month_abbr).index(month) for month in mk_df['month'].tolist()]
         mk_df_non_campaign_years = mk_df[~mk_df['date'].isin(dates_for_comparison)]
 

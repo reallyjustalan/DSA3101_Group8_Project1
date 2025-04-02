@@ -14,14 +14,15 @@ lift4= get_lift_of_campaign(df_crowd, 'Universal Studios At Universal Orlando', 
 lift5 =get_lift_of_campaign(df_crowd, 'Six Flags Great America', '2024-08-01', 'Freight Fest')        
 lift6= get_lift_of_campaign(df_crowd, 'Seaworld Orlando', '2023-05-01', 'Pipeline: The Surf Coaster')       
 lift7= get_lift_of_campaign(df_crowd, 'Legoland California', '2024-03-01', 'Dino Valley')
+lift8= get_lift_of_campaign(df_crowd, 'Disney California Adventure', '2017-04-01', 'Guardians Of The Galaxy',True)
 
 theme_parks = ['Magic Kingdom', 'Epcot', 'Tokyo DisneySea', \
     'Universal Studios At Universal Orlando', 'Six Flags Great America',\
-    'Seaworld Orlando', 'Legoland California']
+    'Seaworld Orlando', 'Legoland California', 'Disney California Adventure']
 campaign = ['Tron Light Cycle Run', 'Jouney Of Water', 'Fantasy Spring', \
     'DreamWorks Land', 'Freight Fest', 'Pipeline: The Surf Coaster', \
-    'Dino Valley']
-all_lifts = [lift1, lift2,lift3, lift4, lift5, lift6, lift7]
+    'Dino Valley', 'Guardians Of The Galaxy']
+all_lifts = [lift1, lift2,lift3, lift4, lift5, lift6, lift7, lift8]
 absolute_lifts = [lift[0] for lift in all_lifts]
 relative_lifts = [lift[1] for lift in all_lifts]
 avg_crowd_campaign_month = [lift[2] for lift in all_lifts]
