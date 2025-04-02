@@ -8,10 +8,27 @@ from scipy.stats import ttest_ind
 #Attendance on holidays are higher than on non-holidays. Holidays such as Christmas and New Years are more popular times 
 #where people go to the parks.
 
-#Port Aventura 
-def port_aventura_holidays_stat_test(attendance_data):
+def load_attendance_data(filepath="data/A5/cleaned_attendance.csv"):
+    return pd.read_csv(filepath)
 
+####PORT AVENTURA
+
+#Port Aventura boxplot and stat test results holidays vs non-holidays
+def port_aventura_holidays_stat_test(attendance_data):
+    """
+    Perform a statistical analysis with t-test and p-value to compare park attendance on holidays vs. non-holidays for Port Aventura.
+    Returns a boxplot of attendance distribution.
+    """
+
+    plt.figure(figsize=(10, 6))
+
+    #Filter for only Port Aventura
     portaventura_df = attendance_data[attendance_data["FACILITY_NAME"] == "PortAventura World"]
+
+    #Convert to datetime
+    portaventura_df["USAGE_DATE"] = pd.to_datetime(portaventura_df["USAGE_DATE"])
+
+    #Get spain Holidays
     spain_holidays = holidays.Spain(years=[2018, 2019, 2020, 2021, 2022])
     portaventura_df["is_holiday"] = portaventura_df["USAGE_DATE"].apply(lambda x: x in spain_holidays)
 
@@ -35,12 +52,20 @@ def port_aventura_holidays_stat_test(attendance_data):
     plt.xlabel("Public Holiday")
     plt.ylabel("Attendance")
     plt.title("Park Attendance on Public Holidays vs. Non-Holidays")
-    
+
     return plt
 
 def port_aventura_holidays_plot(attendance_data):
-
+    """
+    Generate a bar plot showing average attendance on specific holidays.
+    """
+    #Filter for only Port Aventura
     portaventura_df = attendance_data[attendance_data["FACILITY_NAME"] == "PortAventura World"]
+
+    #Convert to datetime
+    portaventura_df["USAGE_DATE"] = pd.to_datetime(portaventura_df["USAGE_DATE"])
+
+    #Get Spain Holidays
     spain_holidays = holidays.Spain(years=[2018, 2019, 2020, 2021, 2022])
     portaventura_df["is_holiday"] = portaventura_df["USAGE_DATE"].apply(lambda x: x in spain_holidays)
     spain_holidays = holidays.Spain(years=portaventura_df["Year"].unique())
@@ -57,6 +82,7 @@ def port_aventura_holidays_plot(attendance_data):
     # Convert variable holidays like Easter Sunday
     key_holidays["Easter Sunday"] = [date for date in spain_holidays if "Easter Sunday" in spain_holidays.get(date)]
 
+    # Function to match holidays
     def get_holiday(date):
         date_str = date.strftime("%m-%d")
         for holiday, value in key_holidays.items():
@@ -82,10 +108,22 @@ def port_aventura_holidays_plot(attendance_data):
 
     return plt
 
-#Tivoli Gardens	
+####TIVOLI GARDENS
 
 def tivoli_holidays_stat_test(attendance_data):
+    """
+    Perform a statistical analysis with t-test and p-value to compare park attendance on holidays vs. non-holidays for Tivoli Gardens.
+    Returns a boxplot of attendance distribution.
+    """
+    plt.figure(figsize=(10, 6))
+
+    #Filter for only Tivoli
     tivoli_df = attendance_data[attendance_data["FACILITY_NAME"] == "Tivoli Gardens"]
+
+    #Convert to date time
+    tivoli_df["USAGE_DATE"] = pd.to_datetime(tivoli_df["USAGE_DATE"])
+
+    #Get Denmark Holidays
     denmark_holidays = holidays.Denmark(years=[2018, 2019, 2020, 2021, 2022])
     tivoli_df["is_holiday"] = tivoli_df["USAGE_DATE"].apply(lambda x: x in denmark_holidays)
 
@@ -112,7 +150,17 @@ def tivoli_holidays_stat_test(attendance_data):
     return plt
 
 def tivoli_holidays_plot(attendance_data):
+    """
+    Generate a bar plot showing average attendance on specific holidays.
+    """
+
+    #Filter for only tivoli
     tivoli_df = attendance_data[attendance_data["FACILITY_NAME"] == "Tivoli Gardens"]
+
+    #Convert to datetime
+    tivoli_df["USAGE_DATE"] = pd.to_datetime(tivoli_df["USAGE_DATE"])
+
+    #Find Denmark Holidays
     denmark_holidays = holidays.Denmark(years=[2018, 2019, 2020, 2021, 2022])
     tivoli_df["is_holiday"] = tivoli_df["USAGE_DATE"].apply(lambda x: x in denmark_holidays)
 
@@ -141,6 +189,7 @@ def tivoli_holidays_plot(attendance_data):
     # Add variable holidays to key_holidays
     key_holidays.update(variable_holidays)
 
+    #Match holidays
     def get_holiday(date):
         date_str = date.strftime("%m-%d")
         for holiday, value in key_holidays.items():
@@ -165,3 +214,4 @@ def tivoli_holidays_plot(attendance_data):
     plt.xticks(rotation=45)
 
     return plt
+
