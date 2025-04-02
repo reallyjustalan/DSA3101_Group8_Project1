@@ -35,7 +35,7 @@ simulations_dir = os.path.join(downloads_path, 'heatmap')
 simulations_dir_2 = os.path.join(downloads_path, 'simulation')
 os.makedirs(simulations_dir, exist_ok=True)
 
-
+#Creation of models
 MODEL_CONFIGS = {
     'model1': {  # Small park with central restricted area
         'width': 9,
@@ -56,7 +56,7 @@ MODEL_CONFIGS = {
         'restricted_top_right': (3, 6)
     }
 }
-#Creates 10 iterations of different optimisation paths for 11 parameters (indicated within tivoli_attr_ranking
+#Creates 10 iterations of different optimisation paths for 11 parameters (indicated within tivoli_attr_ranking)
 run_all_simulations(MODEL_CONFIGS, tivoli_attr_ranking, simulations_dir_2)
 
 # Run all simulations of heatmaps for the 3 different parks. runs the first 70 steps for the 11 different parameters
