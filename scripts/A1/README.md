@@ -14,7 +14,7 @@ The system analyzes Disneyland reviews to identify key drivers of guest satisfac
 ```
 ┌─────────────────┐     ┌───────────────┐     ┌──────────────────┐
 │  Disney Review  │────▶│ Data Cleaning │────▶│ LLM Analysis     │
-│  Dataset (CSV)  │     │ & Sampling    │     │ (Gemini-2.0-Flash)│
+│  Dataset (CSV)  │     │ & Sampling    │     │(Gemini-2.0-Flash)│
 └─────────────────┘     └───────────────┘     └──────────────────┘
                                                       │
                                                       ▼
@@ -126,17 +126,12 @@ The system uses Pydantic models to validate and structure the data:
 
 ## Setup Instructions
 
-1. Clone this repository
-2. Install required packages:
-   ```
-   pip install pandas seaborn google-generativeai pydantic tqdm numpy
-   ```
-3. Create a `configurations.py` file with your Gemini API key:
+1. Create a `configurations.py` file with your Gemini API key:
    ```python
    GEMINI = 'your_api_key_here'
    ```
-4. Ensure the Disneyland review dataset is in the correct path
-5. Run the main scripts in sequence:
+2. Ensure the Disneyland review dataset is in the correct path
+3. Run the main scripts in sequence:
    ```
    python llm_generator.py
    python rag_generator.py
