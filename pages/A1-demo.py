@@ -1,21 +1,33 @@
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import umap
+import plotly.express as px
+from sklearn.preprocessing import StandardScaler
 import numpy as np
-import re
-import html
+from ast import literal_eval
+import pandas as  pd
+import streamlit as st
 
-st.set_page_config(layout="wide")
-st.title("Disneyland Reviews Analysis")
+# Add this to your imports at the top of your file
+# Add a new tab for the UMAP visualization
+tab1, tab2, tab3, tab4 = st.tabs(["Correlation Analysis", "Examples of Reviews", "UMAP Visualization", "Raw Data"])
 
-# Load data
+# Update your load_data function to include the embeddings
 @st.cache_data
 def load_data():
     df_coded = pd.read_csv("data/A1/DisneylandReviews_Coded.csv")
     df_sample = pd.read_csv("data/A1/DisneylandReviews_Sample.csv")
+    df_embeddings = pd.read_csv("data/A1/DisneylandReviews_Embedded.csv")
     df_sample = df_sample.rename(columns={'Review_ID': "review_id"})
+
+    # Try to load embeddings from the new progress file
+    try:
+        # Keep only review_id and embedding columns
+        df_embeddings = df_embeddings[['review_id', 'embedding']]
+        # Merge with other data
+        df_coded = pd.merge(df_coded, df_embeddings, on="review_id", how="left")
+    except:
+        st.warning("Embeddings file not found. UMAP visualization will not be available.")
     
+    # Rest of your existing load_data function...
     # Merge datasets
     merged_df = pd.merge(df_sample, df_coded, on="review_id")
     merged_df["touchpoint_sentiment"] = merged_df["touchpoint"] + "_" + merged_df["sentiment"]
@@ -34,399 +46,198 @@ def load_data():
     
     return df_analysis, merged_df
 
+# Get the dataframes from the load_data function
 df_analysis, merged_df = load_data()
 
-# Calculate correlations
-def calculate_correlations(df):
-    numeric_df = df.select_dtypes(include="number")
-    corr_matrix = numeric_df.corr(method="pearson")
-    corr_with_rating = corr_matrix["Rating"].sort_values(ascending=False)
-    return corr_with_rating
-
-corr_with_rating = calculate_correlations(df_analysis)
-
-# Add custom CSS for highlighted text tooltips
-st.markdown("""
-<style>
-.tooltip-text {
-    position: relative;
-    display: inline-block;
-    border-bottom: 2px dotted #999;
-    cursor: pointer;
-}
-
-.tooltip-text.positive, .tooltip-text.very_positive {
-    background-color: rgba(0, 255, 0, 0.2);
-    border-bottom: 2px dotted green;
-}
-
-.tooltip-text.negative, .tooltip-text.very_negative {
-    background-color: rgba(255, 0, 0, 0.2);
-    border-bottom: 2px dotted red;
-}
-
-.tooltip-text.neutral {
-    background-color: rgba(255, 255, 0, 0.2);
-    border-bottom: 2px dotted orange;
-}
-
-.tooltip-text .tooltiptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.tooltip-text:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# Add JavaScript for better tooltip experience
-st.markdown("""
-<script>
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Add event listeners to tooltips
-    const tooltips = document.querySelectorAll('.tooltip-text');
-    tooltips.forEach(tooltip => {
-        tooltip.addEventListener('mouseenter', function() {
-            const tooltiptext = this.querySelector('.tooltiptext');
-            tooltiptext.style.visibility = 'visible';
-            tooltiptext.style.opacity = '1';
-        });
-        
-        tooltip.addEventListener('mouseleave', function() {
-            const tooltiptext = this.querySelector('.tooltiptext');
-            tooltiptext.style.visibility = 'hidden';
-            tooltiptext.style.opacity = '0';
-        });
-    });
-});
-</script>
-""", unsafe_allow_html=True)
-
-# Function to highlight text excerpts in the full review text
-def highlight_text_excerpts(review_text, excerpts_data):
-    """
-    Highlights text excerpts in the full review text with tooltips showing 
-    touchpoint and sentiment information.
-    
-    Args:
-        review_text (str): The full review text
-        excerpts_data (list): A list of dictionaries containing excerpt data
-            with keys: 'text_excerpt', 'touchpoint', 'sentiment'
-    
-    Returns:
-        str: HTML for the review text with highlighted excerpts
-    """
-    # Sort excerpts by length in descending order to avoid nested matches
-    excerpts_data = sorted(excerpts_data, key=lambda x: len(x['text_excerpt']), reverse=True)
-    
-    # Escape HTML entities in the review text
-    safe_text = html.escape(review_text)
-    
-    # Track already highlighted positions to avoid overlaps
-    highlighted_positions = []
-    
-    for excerpt_data in excerpts_data:
-        excerpt = excerpt_data['text_excerpt']
-        touchpoint = excerpt_data['touchpoint']
-        sentiment = excerpt_data['sentiment']
-        
-        # Skip if excerpt is empty
-        if not excerpt or not isinstance(excerpt, str):
-            continue
-            
-        # Get sentiment class for styling
-        sentiment_class = 'positive' if 'positive' in sentiment else 'negative' if 'negative' in sentiment else 'neutral'
-        
-        # Define tooltip content
-        tooltip_content = f"{touchpoint} ({sentiment})"
-        
-        # Find all occurrences of the excerpt in the text
-        safe_excerpt = re.escape(html.escape(excerpt))
-        
-        # Find all matches and their positions
-        for match in re.finditer(safe_excerpt, safe_text, re.IGNORECASE):
-            start, end = match.span()
-            
-            # Check if this position overlaps with any already highlighted text
-            overlap = False
-            for pos_start, pos_end in highlighted_positions:
-                if start < pos_end and end > pos_start:
-                    overlap = True
-                    break
-                    
-            if not overlap:
-                # Add tooltip HTML
-                tooltip_html = f'<span class="tooltip-text {sentiment_class}">{safe_text[start:end]}<span class="tooltiptext">{tooltip_content}</span></span>'
-                
-                # Replace the excerpt with the highlighted version
-                safe_text = safe_text[:start] + tooltip_html + safe_text[end:]
-                
-                # Adjust positions for all subsequent replacements
-                highlighted_positions.append((start, end))
-                for i in range(len(highlighted_positions)):
-                    if highlighted_positions[i][0] > end:
-                        # Update positions after the current replacement
-                        pos_start, pos_end = highlighted_positions[i]
-                        highlighted_positions[i] = (
-                            pos_start + len(tooltip_html) - (end - start),
-                            pos_end + len(tooltip_html) - (end - start)
-                        )
-                        
-                # We need to recompute matches after modifying the text
-                break
-    
-    # Replace newlines with <br> tags for proper HTML rendering
-    safe_text = safe_text.replace('\n', '<br>')
-    
-    return safe_text
-
-# Display in tabs
-tab1, tab2, tab3 = st.tabs(["Correlation Analysis", "Examples of Reviews", "Raw Data"])
-
-with tab1:
-    st.header("Correlation Between Touchpoints and Ratings")
-
-    # Filter out the Rating correlation with itself
-    filtered_corr = corr_with_rating[corr_with_rating.index != 'Rating']
-    
-    # Set number of top/bottom correlations to display
-    num_correlations = st.slider("Number of top/bottom correlations to display:", 3, 10, 5)
-    
-    # Get top positive and negative correlations
-    top_positive = filtered_corr.nlargest(num_correlations)
-    top_negative = filtered_corr.nsmallest(num_correlations)
-    
-    # Create a dataframe for visualization
-    top_corrs = pd.concat([top_positive, top_negative])
-    top_corrs = top_corrs.reset_index()
-    top_corrs.columns = ['Touchpoint_Sentiment', 'Correlation']
-    
-    # Clean up touchpoint names for display
-    top_corrs['Touchpoint'] = top_corrs['Touchpoint_Sentiment'].apply(lambda x: x.split('_')[0])
-    top_corrs['Sentiment'] = top_corrs['Touchpoint_Sentiment'].apply(lambda x: x.split('_')[1])
-    
-    # Create a color map
-    colors = ['#1e88e5' if x > 0 else '#ff5252' for x in top_corrs['Correlation']]
-    
-    # Plot horizontal bar chart
-    fig, ax = plt.subplots(figsize=(10, 8))
-    bars = ax.barh(top_corrs['Touchpoint_Sentiment'], top_corrs['Correlation'], color=colors)
-    ax.axvline(x=0, color='black', linestyle='-', alpha=0.3)
-    ax.set_xlabel('Correlation with Rating')
-    ax.set_title('Top Correlations with Guest Ratings')
-    
-    # Add labels with correlation values
-    for i, bar in enumerate(bars):
-        width = bar.get_width()
-        label_x_pos = width + 0.01 if width > 0 else width - 0.08
-        ax.text(label_x_pos, bar.get_y() + bar.get_height()/2, 
-                f'{top_corrs["Correlation"].iloc[i]:.2f}', 
-                va='center', fontsize=10)
-    
-    st.pyplot(fig)
-    
-    st.subheader("Key Insights")
-    
-    # Add touchpoint category descriptions
-    touchpoint_descriptions = {
-        "staff": "Employee interactions (ride operators, food service staff, retail employees, etc.)",
-        "attractions": "Rides, interactive exhibits, wait times, ride operations",
-        "pre-visit": "Planning, booking, website experience, app usage before arrival",
-        "entry/admission": "Parking, tickets, entry gates, security screening, arrival experience, cost of admission",
-        "entertainment": "Parades, shows, fireworks, street performers",
-        "characters": "Character meet-and-greets, character interactions, photo opportunities",
-        "food/beverage": "Restaurants, snack stands, food quality, dining experience, its associated costs",
-        "retail": "Shopping experiences, merchandise, souvenirs, cost of merchandise",
-        "facilities": "Restrooms, baby care, first aid, accessibility features",
-        "cleanliness": "Park maintenance, trash management, overall park cleanliness",
-        "navigation": "Park layout, wayfinding, walking experience, crowding, in park transportation",
-        "atmosphere": "Theming, ambiance, music, decorations, overall feel",
-        "timing": "Time of visit directly impacts satisfaction (\"weekday visits are better\")",
-        "comparison": "Comparing to other Disney parks or similar attractions",
-        "recommendation": "Specific statements about recommending or not recommending the park to others"
-    }
-    
-    # Get top positive correlations (excluding Rating itself)
-    top_pos = filtered_corr.nlargest(3)
-    st.write("**Most positive impact on ratings:**")
-    for idx, val in top_pos.items():
-        touchpoint = idx.split('_')[0]
-        sentiment = idx.split('_')[1]
-        st.write(f"• **{touchpoint}** ({sentiment}): {val:.3f} correlation")
-        if touchpoint in touchpoint_descriptions:
-            st.write(f"  <span style='color:gray; font-size:0.9em'>{touchpoint_descriptions[touchpoint]}</span>", unsafe_allow_html=True)
-    
-    # Get top negative correlations
-    top_neg = filtered_corr.nsmallest(3)
-    st.write("**Most negative impact on ratings:**")
-    for idx, val in top_neg.items():
-        touchpoint = idx.split('_')[0]
-        sentiment = idx.split('_')[1]
-        st.write(f"• **{touchpoint}** ({sentiment}): {val:.3f} correlation")
-        if touchpoint in touchpoint_descriptions:
-            st.write(f"  <span style='color:gray; font-size:0.9em'>{touchpoint_descriptions[touchpoint]}</span>", unsafe_allow_html=True)
-    
-    # Show correlation heatmap
-    st.subheader("Correlation Heatmap")
-    # Take top 10 correlated touchpoints
-    top_touchpoints = pd.concat([filtered_corr.nlargest(5), filtered_corr.nsmallest(5)])
-    selected_cols = list(top_touchpoints.index) + ['Rating']
-    
-    # Subset the correlation matrix
-    numeric_df = df_analysis.select_dtypes(include="number")
-    corr_subset = numeric_df[selected_cols].corr()
-    
-    # Create heatmap
-    fig, ax = plt.subplots(figsize=(10, 8))
-    sns.heatmap(corr_subset, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax, 
-                fmt='.2f', linewidths=0.5)
-    plt.tight_layout()
-    st.pyplot(fig)
-
-with tab2:
-    st.header("Example Reviews with Highlighted Touchpoints")
-    
-    # Use predefined touchpoints from the original prompt with descriptions
-    touchpoint_descriptions = {
-        "staff": "Employee interactions (ride operators, food service staff, retail employees, etc.)",
-        "attractions": "Rides, interactive exhibits, wait times, ride operations",
-        "pre-visit": "Planning, booking, website experience, app usage before arrival",
-        "entry/admission": "Parking, tickets, entry gates, security screening, arrival experience, cost of admission",
-        "entertainment": "Parades, shows, fireworks, street performers",
-        "characters": "Character meet-and-greets, character interactions, photo opportunities",
-        "food/beverage": "Restaurants, snack stands, food quality, dining experience, its associated costs",
-        "retail": "Shopping experiences, merchandise, souvenirs, cost of merchandise",
-        "facilities": "Restrooms, baby care, first aid, accessibility features",
-        "cleanliness": "Park maintenance, trash management, overall park cleanliness",
-        "navigation": "Park layout, wayfinding, walking experience, crowding, in park transportation",
-        "atmosphere": "Theming, ambiance, music, decorations, overall feel",
-        "timing": "Time of visit directly impacts satisfaction (\"weekday visits are better\")",
-        "comparison": "Comparing to other Disney parks or similar attractions",
-        "recommendation": "Specific statements about recommending or not recommending the park to others"
-    }
-    
-    all_touchpoints = list(touchpoint_descriptions.keys())
-    selected_touchpoint = st.selectbox("Select a touchpoint to see example reviews:", all_touchpoints)
-    
-    # Show description of selected touchpoint
-    if selected_touchpoint in touchpoint_descriptions:
-        st.info(f"**{selected_touchpoint}**: {touchpoint_descriptions[selected_touchpoint]}")
-    
-    if selected_touchpoint:
-        # Get sentiments for the selected touchpoint
-        sentiments = sorted(list(set([col.split('_')[1] for col in df_analysis.columns 
-                              if '_' in col and col.split('_')[0] == selected_touchpoint])))
-        
-        sentiment_options = ["All sentiments"] + sentiments
-        selected_sentiment = st.selectbox("Filter by sentiment:", sentiment_options)
-        
-        # Find reviews with this touchpoint
-        if selected_sentiment == "All sentiments":
-            relevant_reviews = merged_df[merged_df['touchpoint'] == selected_touchpoint]
-        else:
-            relevant_reviews = merged_df[
-                (merged_df['touchpoint'] == selected_touchpoint) & 
-                (merged_df['sentiment'] == selected_sentiment)
-            ]
-        
-        # Get unique review IDs
-        unique_review_ids = relevant_reviews['review_id'].unique()
-        
-        if len(unique_review_ids) > 0:
-            st.write(f"Found {len(unique_review_ids)} reviews mentioning '{selected_touchpoint}'")
-            
-            # Get sample reviews
-            num_examples = min(5, len(unique_review_ids))
-            max_examples = min(20, len(unique_review_ids))
-            num_to_show = st.slider("Number of example reviews to show:", 1, max_examples, num_examples)
-            
-            # Sample reviews
-            sampled_review_ids = unique_review_ids[:num_to_show]
-            
-            # Display each sample review with highlighted excerpts
-            for i, review_id in enumerate(sampled_review_ids):
-                # Get full review text
-                review_data = df_analysis[df_analysis['review_id'] == review_id].iloc[0]
-                review_text = review_data['Review_Text']
-                rating = review_data['Rating']
-                branch = review_data['Branch']
-                
-                # Get all excerpts for this review
-                review_excerpts = merged_df[merged_df['review_id'] == review_id]
-                
-                # Prepare excerpt data for highlighting
-                excerpts_data = review_excerpts[['text_excerpt', 'touchpoint', 'sentiment']].to_dict('records')
-                
-                # Create highlighted review text with tooltips
-                highlighted_text = highlight_text_excerpts(review_text, excerpts_data)
-                
-                # Display in an expander
-                with st.expander(f"Review #{i+1} - Rating: {rating} stars (Branch: {branch})", expanded=(i==0)):
-                    # Instructions
-                    st.info("Hover over the highlighted text to see touchpoint and sentiment information")
-                    
-                    # Display the highlighted text
-                    st.markdown(highlighted_text, unsafe_allow_html=True)
-                    
-                    # Show coded touchpoints as a table for reference
-                    st.write("**Coded touchpoints in this review:**")
-                    
-                    # Create a DataFrame with touchpoint information
-                    touchpoints_df = review_excerpts[['touchpoint', 'sentiment', 'text_excerpt']].copy()
-                    
-                    # Add color to sentiment
-                    def color_sentiment(val):
-                        if val == 'positive' or val == 'very_positive':
-                            return 'background-color: rgba(0, 255, 0, 0.2)'
-                        elif val == 'negative' or val == 'very_negative':
-                            return 'background-color: rgba(255, 0, 0, 0.2)'
-                        else:
-                            return 'background-color: rgba(255, 255, 0, 0.2)'
-                    
-                    # Display styled table
-                    st.dataframe(touchpoints_df.style.applymap(color_sentiment, subset=['sentiment']))
-        else:
-            st.write(f"No reviews found mentioning '{selected_touchpoint}'.")
-
+# Add this new code for the UMAP visualization tab
 with tab3:
-    st.header("Raw Data")
-    st.dataframe(df_analysis)
+    st.header("UMAP Visualization of Review Embeddings")
     
-    # Show coded data
-    st.subheader("Coded Excerpts Data")
-    st.dataframe(merged_df[['review_id', 'touchpoint', 'sentiment', 'text_excerpt']])
+    # Function to convert embedding string to numpy array
+    def parse_embedding(embedding):
+        if pd.isna(embedding):
+            return None
+        try:
+            # Handle string format from embedding_str column
+            return np.array(literal_eval(embedding))
+        except:
+            return None
     
-    # Download option
-    csv = df_analysis.to_csv(index=False)
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name="disneyland_reviews_analysis.csv",
-        mime="text/csv"
-    )
-
-# Add instructions at the bottom
-st.markdown("""
-### How to Use This Dashboard
-
-1. **Correlation Analysis**: See which touchpoints have the most positive or negative impact on ratings
-2. **Review Examples**: Browse real reviews with highlighted touchpoints - hover over highlighted text to see touchpoint and sentiment details
-3. **Raw Data**: Explore and download the full dataset
-
-This dashboard helps identify key factors affecting guest satisfaction at Disneyland based on review analysis.
-""")
+    # Function to prepare data for UMAP
+    def prepare_umap_data(merged_df):
+        # Get unique reviews with their embeddings
+        unique_reviews = merged_df[["review_id", "Rating", "embedding_str"]].drop_duplicates()
+        
+        # Parse the embeddings
+        unique_reviews["embedding_array"] = unique_reviews["embedding_str"].apply(parse_embedding)
+        
+        # Drop rows with missing embeddings
+        valid_reviews = unique_reviews.dropna(subset=["embedding_array"])
+        
+        if len(valid_reviews) < 10:
+            st.error("Not enough valid embeddings found for UMAP visualization.")
+            return None
+            
+        # Extract embeddings into a numpy array
+        embeddings = np.stack(valid_reviews["embedding_array"].values)
+        
+        return valid_reviews, embeddings
+    
+    # Check if embeddings are available
+    if "embedding_str" in merged_df.columns:
+        with st.spinner("Preparing UMAP visualization..."):
+            # Prepare data
+            umap_data = prepare_umap_data(merged_df)
+            
+            if umap_data is not None:
+                valid_reviews, embeddings = umap_data
+                
+                # UMAP parameters
+                n_neighbors = st.slider("Number of neighbors for UMAP", 5, 50, 15)
+                min_dist = st.slider("Minimum distance for UMAP", 0.0, 1.0, 0.1, 0.05)
+                
+                # Reduce dimensionality with UMAP
+                reducer = umap.UMAP(
+                    n_neighbors=n_neighbors,
+                    min_dist=min_dist,
+                    n_components=2,
+                    random_state=42
+                )
+                
+                embedding_2d = reducer.fit_transform(embeddings)
+                
+                # Add UMAP coordinates to dataframe
+                valid_reviews["umap_x"] = embedding_2d[:, 0]
+                valid_reviews["umap_y"] = embedding_2d[:, 1]
+                
+                # Get touchpoint data for each review
+                touchpoint_data = {}
+                for review_id in valid_reviews["review_id"]:
+                    # Get touchpoints for this review
+                    review_touchpoints = merged_df[merged_df["review_id"] == review_id]["touchpoint"].tolist()
+                    touchpoint_data[review_id] = ", ".join(set(review_touchpoints))
+                
+                valid_reviews["touchpoints"] = valid_reviews["review_id"].map(touchpoint_data)
+                
+                # Create a hover data dictionary with review info
+                hover_data = {}
+                for review_id in valid_reviews["review_id"]:
+                    review_info = merged_df[merged_df["review_id"] == review_id]
+                    review_text = review_info["Review_Text"].iloc[0] if not review_info.empty else ""
+                    hover_data[review_id] = review_text[:200] + "..." if len(review_text) > 200 else review_text
+                
+                valid_reviews["hover_text"] = valid_reviews["review_id"].map(hover_data)
+                
+                # Get sentiment data
+                sentiment_data = {}
+                for review_id in valid_reviews["review_id"]:
+                    # Get sentiments for this review
+                    review_sentiments = merged_df[merged_df["review_id"] == review_id]["sentiment"].tolist()
+                    # Count sentiments
+                    sentiment_counts = {
+                        "positive": review_sentiments.count("positive"),
+                        "negative": review_sentiments.count("negative"),
+                        "neutral": review_sentiments.count("neutral")
+                    }
+                    # Determine dominant sentiment
+                    dominant_sentiment = max(sentiment_counts, key=sentiment_counts.get)
+                    sentiment_data[review_id] = dominant_sentiment
+                
+                valid_reviews["dominant_sentiment"] = valid_reviews["review_id"].map(sentiment_data)
+                
+                # Create interactive plot with Plotly
+                st.subheader("2D Projection of Review Embeddings")
+                
+                # Filter options
+                filter_options = st.multiselect(
+                    "Filter by touchpoint (select multiple):",
+                    options=touchpoint_descriptions.keys(),
+                    default=[]
+                )
+                
+                # Filter the data if touchpoints are selected
+                if filter_options:
+                    filtered_reviews = valid_reviews[valid_reviews["touchpoints"].apply(
+                        lambda x: any(tp in x for tp in filter_options)
+                    )]
+                else:
+                    filtered_reviews = valid_reviews
+                
+                if len(filtered_reviews) > 0:
+                    # Create the plot
+                    fig = px.scatter(
+                        filtered_reviews,
+                        x="umap_x",
+                        y="umap_y",
+                        color="Rating",
+                        color_continuous_scale="RdYlGn",
+                        range_color=[1, 5],
+                        hover_name="review_id",
+                        hover_data=["Rating", "touchpoints", "hover_text"],
+                        labels={"umap_x": "UMAP Dimension 1", "umap_y": "UMAP Dimension 2"},
+                        title="Reviews Clustered by Semantic Similarity"
+                    )
+                    
+                    # Customize the plot
+                    fig.update_traces(marker=dict(size=8, opacity=0.7))
+                    fig.update_layout(
+                        plot_bgcolor="white",
+                        height=700,
+                        width=1000
+                    )
+                    
+                    # Show plot
+                    st.plotly_chart(fig, use_container_width=True)
+                    
+                    # Add explanation
+                    st.markdown("""
+                    ### Understanding the Visualization
+                    
+                    - Each point represents a review
+                    - Colors indicate the rating (green = high, red = low)
+                    - Points that are close to each other have similar language or discuss similar topics
+                    - Hover over points to see review details
+                    
+                    This visualization helps identify clusters of similar reviews and understand what guests are talking about when giving different ratings.
+                    """)
+                    
+                    # Add an analysis of reviews by rating
+                    st.subheader("Top Touchpoints by Rating")
+                    
+                    # Group data by rating and collect touchpoints
+                    rating_touchpoints = {}
+                    for rating in range(1, 6):
+                        # Get reviews with this rating
+                        rating_reviews = merged_df[merged_df["Rating"] == rating]
+                        # Count touchpoints
+                        touchpoint_counts = rating_reviews["touchpoint"].value_counts()
+                        # Store top 5 touchpoints
+                        rating_touchpoints[rating] = touchpoint_counts.head(5).to_dict() if len(touchpoint_counts) > 0 else {}
+                    
+                    # Create columns for each rating
+                    rating_cols = st.columns(5)
+                    
+                    for i, rating in enumerate(range(1, 6)):
+                        with rating_cols[i]:
+                            st.write(f"### {rating}★")
+                            if rating_touchpoints[rating]:
+                                for tp, count in rating_touchpoints[rating].items():
+                                    st.write(f"- {tp}: {count}")
+                            else:
+                                st.write("No data")
+                else:
+                    st.warning("No reviews match the selected touchpoints.")
+    else:
+        st.error("Embedding data not found. Please make sure embeddings are generated and saved.")
+        
+        st.markdown("""
+        ### How to Generate Embeddings
+        
+        To use this visualization, you need to:
+        
+        1. Generate embeddings for your review texts
+        2. Save them in a file named 'DisneylandReviews_Embedded_progress_1750.csv' in the data/A1 folder
+        3. The file should include 'review_id' and 'embedding_str' columns
+        
+        Embeddings allow us to represent text as numbers that can be visualized in 2D space.
+        """)
