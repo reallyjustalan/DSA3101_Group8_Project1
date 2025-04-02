@@ -18,10 +18,13 @@ st.write("""
 
 # Function to load image from GitHub
 def load_image_from_github(image_name):
-    url = BASE_URL + image_name
+    import time
+    # Append a "cache buster" query param
+    url = BASE_URL + image_name + f"?nocache={int(time.time())}"
     response = requests.get(url)
     img = Image.open(BytesIO(response.content))
     return img
+
 
 # Display the Hierarchical Model Image
 st.write("""
@@ -32,10 +35,10 @@ st.write("""
 
 # Hierarchical Model image
 try:
-    model_image = load_image_from_github("hierarchical_cluster.png")
+    model_image = load_image_from_github("hierarchical_clustering.png")
     st.image(model_image, caption="Hierarchical Model", use_container_width=True)
 except Exception as e:
-    st.error(f"Error loading hierarchical_cluster.png: {e}")
+    st.error(f"Error loading hierarchical_clustering.png: {e}")
 
 # Topic Modeling & Word Clouds Section
 st.write("""
