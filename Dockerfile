@@ -1,10 +1,10 @@
-FROM python:3.7
+FROM python:3.12
 
 # Set working directory
 WORKDIR /app
 
 # Expose port for Streamlit
-EXPOSE 8080
+EXPOSE 8501
 
 # Copy requirements and install dependencies
 COPY requirements.txt ./
@@ -16,4 +16,4 @@ COPY . .
 
 # Run the Streamlit app
 # Change app file accordingly 
-ENTRYPOINT ["streamlit", "run", "Hello.py", "--server.port=8080", "--server.address=0.0.0.0"] 
+ENTRYPOINT ["streamlit", "run", "Hello.py"] 
