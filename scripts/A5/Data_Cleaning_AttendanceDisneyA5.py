@@ -1,15 +1,26 @@
 import pandas as pd
 
 def attendance_disney_data_cleaning(file_location):
+    """
+    Cleans and process Disney yearly attendance data 
+    
+    Steps performed:
+    1. Strips spaces and converts the 'Attendance' column to numeric.
+    2. Group the smaller parks into the main parks
+    3. Groups data by 'Year' and 'Park' summing attendance values.
+
+    """
     attendance_disney = pd.read_excel(file_location)
-    #Data type
+
+    #Clean Attendance Column
     attendance_disney["Attendance"] = attendance_disney["Attendance"].astype(str).str.strip()  # Remove spaces
     attendance_disney["Attendance"] = pd.to_numeric(attendance_disney["Attendance"], errors="coerce")  # Convert to numbers
 
-    #Group them into the various DisneyLands
+    #Checking the various DisneyLands park
     unique_parks = attendance_disney["Park"].unique() 
     #DisneyLand_HongKong' 'DisneyLand Park Paris' 'Walt Disney Studios Paris' 'Disney California Adventure' 'DisneyLand Park California'
 
+    #Group the smaller parks into the main parks
     attendance_disney["Park"] = attendance_disney["Park"].replace({"DisneyLand_Park Paris": "Disneyland_Paris", "Walt Disney Studios Paris": "Disneyland_Paris"})
     attendance_disney["Park"] = attendance_disney["Park"].replace({"Disney California Adventure": "Disneyland_California", "DisneyLand Park California": "Disneyland_California"})
     attendance_disney["Park"] = attendance_disney["Park"].replace({"DisneyLand_HongKong": "Disneyland_HongKong"})
