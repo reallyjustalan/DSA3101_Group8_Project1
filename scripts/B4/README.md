@@ -238,4 +238,3 @@ cd scripts
 python B4/main.py
 ```
 Make sure your data is saved in the `data/B4/` folder before running either script.
-
