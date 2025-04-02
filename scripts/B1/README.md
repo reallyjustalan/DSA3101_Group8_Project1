@@ -54,7 +54,7 @@ Please follow the order below when running the scripts:
 
 ## Note
 
-Before running `main_dataset.py`, please extract the `waiting_times.csv` file into the `data/` folder.  
+Before running `main_dataset.py`, please extract the `waiting_times.csv` file into the `data/B1/` folder.  
 > GitHub prohibits uploading files >100 MB, so this file has been provided in compressed `.zip` format.
 
 ---
