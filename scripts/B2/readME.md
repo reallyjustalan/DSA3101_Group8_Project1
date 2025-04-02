@@ -28,6 +28,7 @@ This system simulates visitor behavior in theme parks using agent-based modeling
 ## Architecture
 
 The system follows a modular architecture with clear separation of concerns:
+```{markdown}
 +--------------+
 | objects.py   |
 | - Base Models|
@@ -58,7 +59,7 @@ v
 | example.py                               |
 | - System Integration & Examples          |
 +------------------------------------------+
-
+```
 
 ## Core Components
 
