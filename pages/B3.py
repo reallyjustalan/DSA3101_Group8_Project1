@@ -49,7 +49,6 @@ adjusters = {
 }
 
 # Add scripts folder to path and import StaffingOptimizer
-sys.path.append(str(Path(__file__).resolve().parent.parent / 'scripts' / 'B3'))
 from scripts.B3.optimization_model import StaffingOptimizer
 from scripts.B3.visualization import plot_staffing
 
