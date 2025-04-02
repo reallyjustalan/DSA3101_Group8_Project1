@@ -5,7 +5,7 @@ import pandas as pd
 import calendar
 
 # Streamlit app to start data preparation
-st.title("Resource Allocation Optimization")
+st.title("Optimizing Staff Allocation")
 
 # Use simpler relative paths for data files
 data_dir = Path("data") / "B3"
@@ -55,14 +55,15 @@ from scripts.B3.optimization_model import StaffingOptimizer
 from scripts.B3.visualization import plot_staffing
 
 # User inputs
+base_demand = st.number_input("Enter Overall Yearly Mean Attendance", min_value=1, max_value=1000000, value=10000)
 month = st.selectbox("Select Month", list(calendar.month_name[1:]))
 day = st.selectbox("Select Day of the Week", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], index=0)
-rain = st.radio("Is it raining?", ["No", "Yes"]) == "Yes"
+rain = st.radio("Is it forecasted to rain?", ["No", "Yes"]) == "Yes"
 public_holiday = st.radio("Is it a public holiday?", ["No", "Yes"]) == "Yes"
 
 # Run optimization when user clicks the button
 if st.button("Optimize Staffing"):
-    optimizer = StaffingOptimizer(adjusters)
+    optimizer = StaffingOptimizer(adjusters, base_demand)
     staff_schedule_rides, staff_schedule_eatery, staff_schedule_merch, staff_schedule_general = optimizer.optimize_staffing(month, day, rain, public_holiday)
     
     st.write("### Optimized Staffing Schedules")

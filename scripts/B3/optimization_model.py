@@ -3,7 +3,7 @@ import pandas as pd
 import calendar
 
 class StaffingOptimizer:
-    def __init__(self, adjusters, base_demand=10000):
+    def __init__(self, adjusters, base_demand):
         self.adjusters = adjusters
         self.base_demand = base_demand
         
@@ -49,10 +49,10 @@ class StaffingOptimizer:
             )
             
             # Set constraints
-            constraints.append(staff_rides[(month_day_key, hour)] >= adjusted_demand_rides / 50)
-            constraints.append(staff_eatery[(month_day_key, hour)] >= adjusted_demand_eatery / 50)
-            constraints.append(staff_merch[(month_day_key, hour)] >= adjusted_demand_merch / 50)
-            constraints.append(staff_general[(month_day_key, hour)] >= adjusted_demand_general / 75)
+            constraints.append(staff_rides[(month_day_key, hour)] >= adjusted_demand_rides / 30)
+            constraints.append(staff_eatery[(month_day_key, hour)] >= adjusted_demand_eatery / 30)
+            constraints.append(staff_merch[(month_day_key, hour)] >= adjusted_demand_merch / 30)
+            constraints.append(staff_general[(month_day_key, hour)] >= adjusted_demand_general / 50)
         
         # Objective function
         total_staff = (
