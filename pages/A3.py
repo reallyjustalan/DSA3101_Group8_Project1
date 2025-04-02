@@ -100,7 +100,7 @@ if data_loaded:
     # Page 2: Journey Patterns
     elif page == "Journey Patterns":
         st.header("Guest Journey Patterns")
-        st.write("Analysis of common paths taken by visitors through the park (journeys must contain non-repititive transitions)")
+        st.write("Analysis of common paths taken by visitors through the park (journeys must contain non-repetitive transitions)")
         
         journey_patterns, top_patterns = analyze_journey_patterns(df, poi)
         
@@ -287,7 +287,7 @@ if data_loaded:
             "Initiative": ["Mobile Food Cart Near Disney Junior", "Family Fun Pack Bundle"],
             "Cost": ["$5,000", "$0 (existing infrastructure)"],
             "Monthly Revenue": ["$75,000", "$75,000"],
-            "ROI": ["$70,000 (1400%)", "$75,000"]
+            "Monthly ROI": ["$70,000 (1400%)", "$75,000"]
         }
         
         roi_df = pd.DataFrame(roi_data)
