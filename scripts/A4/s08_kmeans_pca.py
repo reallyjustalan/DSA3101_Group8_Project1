@@ -1,4 +1,4 @@
-from s06_analysis_avg_crowd import get_lift_of_campaign, df_crowd
+from scripts.A4.s06_analysis_avg_crowd import get_lift_of_campaign, df_crowd
 from scipy.cluster.hierarchy import dendrogram, linkage
 import numpy as np
 import pandas as pd

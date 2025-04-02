@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from statsmodels.tsa.seasonal import STL
 from scripts.A4.s08_kmeans_pca import plot_clusters, get_dendrogram
-from scripts.A4.s06_analysis_avg_crowd import get_lift_of_campaign, df_crowd
 from scripts.A4.s05_analysis_attendees import get_STL_decomposition
+from scripts.A4.s06_analysis_avg_crowd import get_lift_of_campaign, df_crowd
 from scripts.A4.s12_retail_modelling import determine_optimal_k, plot_3d_clusters, get_kmeans_labels
 
 # Configure page
