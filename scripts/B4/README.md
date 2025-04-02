@@ -76,8 +76,42 @@ This script runs the inference stage of the pipeline — applying a trained clas
 `model_path = data_dir / "saved_distilbert_highrisk_model_final"`
 - Fine-tuning the DistilBERT classifier can take a long time and hence, the model weights for the fine-tuned classifier on the Disneyland Reviews dataset is available in the data/B4 folder for use. However, if you want to use your own model configurations, simply change "saved_distilbert_highrisk_model_final" to your configuration folder. 
 
-#### Note
-The `saved_distilbert_highrisk_model_final` file is saved and uploaded to Github in a zipped file as the original folder exceeds the maximum size that Github allows. Note that the folder must be unzipped and placed in data/B4/ before main.py can be ran.
+#### Note: Pretrained Model Weights
+The `saved_distilbert_highrisk_model_final` folder (containing the fine-tuned binary classifier for high-risk review detection) is too large to store directly in this repository.  
+
+**You can download the full model directory from Google Drive:**  
+[Download `saved_distilbert_highrisk_model_final`](https://drive.google.com/drive/folders/1gNbQ2bJ4kQG3VoXAez6jgVmUPG0oAMaA?usp=sharing)
+
+##### How to Use:
+1. Open the Google Drive link above.
+2. Download all **7 files** inside the folder:
+   - `config.json`
+   - `model.safetensors`
+   - `special_tokens_map.json`
+   - `tokenizer.json`
+   - `tokenizer_config.json`
+   - `training_args.bin`
+   - `vocab.txt`
+3. Create a folder named `saved_distilbert_highrisk_model_final` inside your `data/B4/` directory.
+4. Move all the downloaded files into that folder.
+
+Your directory structure should look like:
+
+```
+data/
+└── B4/
+    └── saved_distilbert_highrisk_model_final/
+        ├── config.json
+        ├── model.safetensors
+        ├── special_tokens_map.json
+        ├── tokenizer.json
+        ├── tokenizer_config.json
+        ├── training_args.bin
+        └── vocab.txt
+```
+
+This folder will be automatically used by `main.py`.
+
 
 ## `train_pipeline.py`
 This script runs the complete training pipeline for the binary risk classifier. It sequentially performs sentiment labelling, data augmentation, dataset preparation, and model fine-tuning using DistilBERT.
