@@ -78,7 +78,7 @@ for park_index in accepted_indices:
     print(f'number of parks added: {num_of_parks}') 
 
 # save data as csv file
-final_data.to_csv('../data/raw/attendee.csv', index=False)
+final_data.to_csv('data/A4/raw/attendee.csv', index=False)
 
 
 

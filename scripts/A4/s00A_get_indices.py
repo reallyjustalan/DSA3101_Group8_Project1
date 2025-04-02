@@ -41,7 +41,7 @@ print(f'Number of theme parks: {len(lst_of_accepted_indices)}')
 print(lst_of_accepted_indices)
 
 
-file = open('../data/raw/accepted_indices.txt', 'w')
+file = open('data/A4/raw/accepted_indices.txt', 'w')
 
 for i in lst_of_accepted_indices:
     file.write(f'{i}\n')    

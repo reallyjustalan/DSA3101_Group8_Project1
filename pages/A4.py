@@ -19,7 +19,7 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     attendee_df = pd.read_csv('data/A4/raw/attendee.csv')
-    crowd_df = pd.read_csv('.data/A4/raw/avg_crowd.csv')
+    crowd_df = pd.read_csv('data/A4/raw/avg_crowd.csv')
     crowd_df['date'] = pd.to_datetime(crowd_df['year'].astype(str) + '-' + crowd_df['month'], format='%Y-%b')
     return attendee_df, crowd_df
 
