@@ -1,49 +1,46 @@
-# sys.path.append(str(Path(file).resolve().parent.parent / 'scripts' / 'B3'))
-# from data_preparation import prepare_attendance_data
- 
-
+import os
+import sys
 import streamlit as st
-import pandas as pd
-import calendar
-from data_preparation import DataPreparer
-from adjusters import DemandAdjusters
-from optimization_model import StaffingOptimizer
-from visualization import plot_staffing
+from pathlib import Path
 
-# 1. Load pre-processed data
-st.title("Staffing Optimization and Visualization")
+# Button to trigger data preparation
+if st.button("Prepare Data"):
+    from data_preparation import DataPreparer  # Assuming data_preparation.py is in the correct path
 
-# Here we simulate that the data has already been processed in the backend
-attendance_data, weather_data, reservation_data = prepare_data()
+    # Initialize the DataPreparer with predefined paths and parameters
+    data_preparer = DataPreparer(
+        attendance_filepath=attendance_filepath, 
+        waiting_times_filepaths=waiting_times_filepaths, 
+        hpg_paths=hpg_paths, 
+        air_path=air_path, 
+        retail_filepath=retail_filepath, 
+        park_filepath=park_filepath, 
+        latitude=latitude, 
+        longitude=longitude, 
+        start_date=start_date, 
+        end_date=end_date
+    )
+    
+    # Prepare the data
+    attendance_data = data_preparer.prepare_attendance_data()
+    waiting_times_combined = data_preparer.prepare_waiting_times()
+    hpg_hourly_all_sum, air_hourly_all_sum = data_preparer.prepare_reserve_data()
+    retail_raw = data_preparer.prepare_retail_data()
+    park_daily_hourly = data_preparer.prepare_park_data()
+    weather_data = data_preparer.prepare_weather_data()
 
-# Create Adjusters
-adjusters = {
-    'month_day': create_month_day_adjuster(attendance_data),
-    'hour_rides': create_hourly_rides_adjuster(weather_data),
-    'hour_eatery': create_hourly_eatery_adjuster(reservation_data['hpg'], reservation_data['air']),
-    'hour_merch': create_hourly_merch_adjuster(reservation_data['retail']),
-    'hour_general': create_hourly_general_adjuster(weather_data),
-    'public_holiday': create_public_holiday_adjuster(attendance_data),
-    'rain': create_rain_adjuster(weather_data)
-}
-
-# 2. Sidebar inputs for selecting month, day, rain, and public holiday
-base_demand = st.number_input("Enter base demand", min_value = 1, max_value=1000000, value=10000)
-month = st.sidebar.selectbox("Select Month", list(calendar.month_name[1:]))
-day = st.sidebar.selectbox("Select Day of the Week", list(calendar.day_name))
-rain = st.sidebar.radio("Is it raining?", ["Yes", "No"])
-public_holiday = st.sidebar.radio("Is it a public holiday?", ["Yes", "No"])
-
-rain = 1 if rain == "Yes" else 0
-public_holiday = 1 if public_holiday == "Yes" else 0
-
-# 3. Call optimization model
-optimizer = StaffingOptimizer(adjusters)
-staff_schedules = optimizer.optimize_staffing(month, day, rain, public_holiday)
-
-# 4. Plot the results
-st.subheader(f"Optimized Staffing for {day}, {month}")
-
-fig = plot_staffing(staff_schedules, month, day, rain, public_holiday)
-st.pyplot(fig)
-
+    # Display first few rows of the prepared data for verification
+    st.write("Attendance Data Sample:")
+    st.write(attendance_data.head())
+    st.write("Waiting Times Data Sample:")
+    st.write(waiting_times_combined.head())
+    st.write("HPG Hourly Reserve Data Sample:")
+    st.write(hpg_hourly_all_sum.head())
+    st.write("Air Hourly Reserve Data Sample:")
+    st.write(air_hourly_all_sum.head())
+    st.write("Retail Data Sample:")
+    st.write(retail_raw.head())
+    st.write("Park Data Sample:")
+    st.write(park_daily_hourly.head())
+    st.write("Weather Data Sample:")
+    st.write(weather_data.head())
