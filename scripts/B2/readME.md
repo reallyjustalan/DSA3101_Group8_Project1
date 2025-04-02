@@ -19,11 +19,12 @@ This system simulates visitor behavior in theme parks using agent-based modeling
 
 ### Key Features
 
-- 🎢 **Configurable park layouts** with customizable dimensions and restricted zones
-- 🧑‍🤝‍🧑 **Intelligent guest agents** with realistic decision-making and movement patterns
-- 🧬 **Genetic algorithm optimization** for strategic ride placement
-- 📊 **Heatmap visualization** to analyze visitor traffic patterns
-- 📈 **Multi-scenario analysis** for comparative studies of different park designs
+-  **Configurable park layouts** with customizable dimensions and restricted zones
+-  **Queue Theory** utilisation of queue theory in support of optimisation of park layouts
+-  **Intelligent guest agents** with realistic decision-making and movement patterns
+-  **Genetic algorithm optimization** Reinforment learning for strategic ride placement
+-  **Heatmap visualization** to analyze visitor traffic patterns
+-  **Multi-scenario analysis** for comparative studies of different park designs
 
 ## Architecture
 
@@ -46,8 +47,8 @@ v                                v
 | - Visualization Engine   |-->| - start_simulation_run()                 |
 +---------------------------+   | - run_all_simulations_heatmap()         |
 |                               +------------------------------------------+
-|                                          |     |
-v                                          |     |
+|                                                |
+v                                                |
 +------------------------------------------+     |
 | all_optimisation_sample_provider.py     |      |
 | - run_all_simulations()                 |<-----+
@@ -156,6 +157,8 @@ Generates visual representations of simulation results:
 - Restricted area overlays
 - Timestep annotations
 
+### Inclusion of addition python scripts
+used to create batch job simulations in preparation for the streamlit page.
 
 ## Installation & Usage
 
@@ -180,4 +183,3 @@ pip install -r requirements.txt
   
 - **Visualization**:
   - Matplotlib
-  - Seaborn
