@@ -10,7 +10,6 @@ pivot_df.plot(kind="bar", figsize=(10, 6))
 # Add labels and title
 plt.xlabel("Floor")
 plt.ylabel("Number of Access Points")
-plt.title("Access Points per Floor for Each Building")
 plt.legend(title="Building ID")
 
 plt.show()"""
@@ -24,8 +23,7 @@ def wap_distrubution():
 
     # Add labels and title
     ax.set_xlabel("Floor")
-    ax.set_ylabel("Number of Access Points")
-    ax.set_title("Access Points per Floor for Each Building")
+    ax.set_ylabel("Number of entries")
     ax.legend(title="Building ID")
 
     return fig, ax
