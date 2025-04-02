@@ -342,7 +342,7 @@ def render_executive_summary(data, analytics):
             st.metric("Total Reviews Analyzed", total_reviews)
         with metrics_cols[1]:
             total_touchpoints = len(data['coded_reviews']['touchpoint'].unique())
-            st.metric("Touchpoints Identified", total_touchpoints)
+            st.metric("Touchpoints Identified", total_touchpoints-4)  # Exclude 'general' 'overall' and demographic data
         with metrics_cols[2]:
             st.metric("Coded Elements", len(data['coded_reviews']))
         
@@ -352,7 +352,7 @@ def render_executive_summary(data, analytics):
         # Get touchpoint impact metrics
         # Filter out 'general' and 'overall' touchpoints if they exist
         impact_metrics = analytics['touchpoint_metrics'][['impact_score', 'total']]
-        impact_metrics = impact_metrics[~impact_metrics.index.isin(['general', 'overall'])]
+        impact_metrics = impact_metrics[~impact_metrics.index.isin(['general', 'overall', 'demographic_info', 'travel_party'])]
         impact_metrics = impact_metrics.sort_values('impact_score')
         
         # Create horizontal bar chart
