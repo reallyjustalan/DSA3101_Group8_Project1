@@ -50,7 +50,7 @@ adjusters = {
     'rain': rain_adjuster
 }
 
-# Import from scripts using package-style imports
+# Add scripts folder to path and import StaffingOptimizer
 from scripts.B3.optimization_model import StaffingOptimizer
 from scripts.B3.visualization import plot_staffing
 
