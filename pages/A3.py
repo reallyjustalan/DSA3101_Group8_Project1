@@ -31,7 +31,7 @@ st.write("Analysis of guest movement patterns and opportunities for improving gu
 @st.cache_data
 def load_cached_data():
     poi_path = "data/A3/POI-caliAdv.csv"
-    visits_path = "data/userVisits-caliAdv-allPOI.csv"
+    visits_path = "data/A3/userVisits-caliAdv-allPOI.csv"
     return load_data(poi_path, visits_path)
 
 # Try to load data with error handling
