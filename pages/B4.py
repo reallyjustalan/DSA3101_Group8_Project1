@@ -5,7 +5,7 @@ import requests
 from io import BytesIO
 
 # Base URL for raw images in your GitHub repository
-BASE_URL = "https://raw.githubusercontent.com/heehawww/DSA3101_Group8_Project1/jiayi/data/B4/streamlit/"
+BASE_URL = "https://raw.githubusercontent.com/NotInvalidUsername/DSA3101_Group8_Project1/jiayi/data/B4/streamlit/"
 
 # Title of the app
 st.title("B4: Disneyland Review Analysis with Sentiment & Topic Modeling")
@@ -33,7 +33,7 @@ st.write("""
 # Hierarchical Model image
 try:
     model_image = load_image_from_github("hierarchical_cluster.png")
-    st.image(model_image, caption="Hierarchical Model", use_column_width=True)
+    st.image(model_image, caption="Hierarchical Model", use_container_width=True)
 except Exception as e:
     st.error(f"Error loading hierarchical_cluster.png: {e}")
 
@@ -45,69 +45,57 @@ st.write("""
     key issues raised by reviewers. 
 """)
 
-# Word Cloud for Cluster 0
-st.write("### Cluster 0: Customer Experience")
+# Word Cloud for Cluster 1
+st.write("### Cluster 1: Customer Experience")
 try:
-    image_cluster_0 = load_image_from_github("cluster_0.png")
-    st.image(image_cluster_0, caption="Word Cloud Cluster 0", use_column_width=True)
+    image_cluster_1 = load_image_from_github("cluster_1.png")
+    st.image(image_cluster_1, caption="Word Cloud Cluster 1", use_container_width=True)
     st.markdown("##### Key Issues:")
     st.markdown("""
     - Overcrowding, high food prices, and long wait times.
     - Negative interactions with different cultures at Hong Kong Disneyland.
     - Disability-related accessibility issues.
+    - Lack of prior notice for ride closures.
     """)
 except Exception as e:
-    st.error(f"Error loading cluster_0.png: {e}")
+    st.error(f"Error loading cluster_1.png: {e}")
 
-# Word Cloud for Cluster 1 
-st.write("### Cluster 1: Ticket and Refund Issues")
+# Word Cloud for Cluster 2
+st.write("### Cluster 2: Ticket and Refund Issues")
 try:
-    image_cluster_1 = load_image_from_github("cluster_1.png")
-    st.image(image_cluster_1, caption="Word Cloud Cluster 1", use_column_width=True)
+    image_cluster_2 = load_image_from_github("cluster_2.png")
+    st.image(image_cluster_2, caption="Word Cloud Cluster 2", use_container_width=True)
     st.markdown("##### Key Insights:")
     st.markdown("""
     - FastPass importance for improving guest experience.
     - Complaints about slow refunds and confusing ticketing policies.
     """)
 except Exception as e:
-    st.error(f"Error loading cluster_1.png: {e}")
-
-# Word Cloud for Cluster 2
-st.write("### Cluster 2: Park Environment and Smoking")
-try:
-    image_cluster_2 = load_image_from_github("cluster_2.png")
-    st.image(image_cluster_2, caption="Word Cloud Cluster 2", use_column_width=True)
-    st.markdown("##### Key Issues:")
-    st.markdown("""
-    - Smoking issues, especially at Disneyland Paris.
-    - Lack of designated smoking areas.
-    - Lack of enforcement of smoking policies.
-    """)
-except Exception as e:
     st.error(f"Error loading cluster_2.png: {e}")
 
 # Word Cloud for Cluster 3
-st.write("### Cluster 3: Closed Rides")
+st.write("### Cluster 3: Staff Response")
 try:
     image_cluster_3 = load_image_from_github("cluster_3.png")
-    st.image(image_cluster_3, caption="Word Cloud Cluster 3", use_column_width=True)
+    st.image(image_cluster_3, caption="Word Cloud Cluster 3", use_container_width=True)
     st.markdown("##### Key Issues:")
     st.markdown("""
-    - Unexpected ride closures during peak times.
-    - Lack of prior notice for closures.
+    - Overly strict security staff.
+    - Inconsistent staff behavior and service quality.
     """)
 except Exception as e:
     st.error(f"Error loading cluster_3.png: {e}")
 
 # Word Cloud for Cluster 4
-st.write("### Cluster 4: Staff Response")
+st.write("### Cluster 4: Park Environment and Smoking")
 try:
     image_cluster_4 = load_image_from_github("cluster_4.png")
-    st.image(image_cluster_4, caption="Word Cloud Cluster 4", use_column_width=True)
+    st.image(image_cluster_4, caption="Word Cloud Cluster 4", use_container_width=True)
     st.markdown("##### Key Issues:")
     st.markdown("""
-    - Overly strict security staff.
-    - Inconsistent staff behavior and service quality.
+    - Smoking issues, especially at Disneyland Paris.
+    - Lack of designated smoking areas.
+    - Lack of enforcement of smoking policies.
     """)
 except Exception as e:
     st.error(f"Error loading cluster_4.png: {e}")
