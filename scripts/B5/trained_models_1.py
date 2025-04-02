@@ -1,5 +1,4 @@
 from Imports import os, load, pd
-#from ml_2 import models
 from custom_functions import evaluate_model
 from ml_1 import *
 
@@ -22,6 +21,7 @@ for name in models:
         # loaded_models[name] = models[name]
         # loaded_models[name].fit(X_train, y_train_reg_scaled)
 
+# commented out code is to test to see if models are able to load in correctly.
 """
 # 2. Evaluate all loaded models
 for name, model in loaded_models.items():
