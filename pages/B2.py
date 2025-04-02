@@ -14,8 +14,8 @@ BRANCH_NAME = "alan_bean"  # Change if using a different branch
 
 # Base URL for GitHub content
 BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/{BRANCH_NAME}"
-SIMULATIONS_PATH = "app/simulations"
-HEATMAPS_PATH = "app/heatmaps"
+SIMULATIONS_PATH = "images/B2/simulations"
+HEATMAPS_PATH = "images/B2/heatmaps"
 
 def get_image_files(model, num_rides, image_type="simulations"):
     """Get image files from GitHub repository"""
