@@ -12,7 +12,7 @@ def get_indices():
     Returns:
         List(int): a list of park indices 
     """
-    file = open('data/A4/raw/accepted_indices.txt', 'r')
+    file = open('../data/raw/accepted_indices.txt', 'r')
     indices = [int(index) for index in file.readlines()] 
     
     return indices

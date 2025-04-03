@@ -32,3 +32,4 @@ xgboost==3.0.0
 streamlit==1.44.1
 protobuf
 statsmodels
+yellowbrick==1.5
