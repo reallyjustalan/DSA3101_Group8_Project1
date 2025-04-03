@@ -48,7 +48,7 @@ with tab1:
     business success—a disciplined strategy that transforms products into brands, customers into advocates, and markets 
     into revenue streams. Marketing doesn't need to be complicated to be effective. At its core, it's about connecting the 
     right product with the right customer—clearly, efficiently, and profitably. While many enthusiasts and experts offer their perspectives, we will be
-    offering a two-prong approach for your company to increase revenue through sales.</p>
+    offering a <u>two-prong approach</u>  for your company to increase revenue through sales.</p>
     """,
     unsafe_allow_html=True)
     
@@ -103,7 +103,7 @@ with tab1:
     with left:
         st.markdown(f"<h5 class='subheading'>Marketing Guest Segmentation</h5>",
                 unsafe_allow_html=True)
-        st.write(f"Go to 'Market Guest Segmentation' tab to find out more")
+        st.html(f"<u>Go to <a href='#tab2'>'Market Guest Segmentation'</a> tab to find out more</u>")
         
         fig= s06.plot_3d_clusters(s06.df_labelled) 
         st.plotly_chart(fig, key='Overview')
@@ -111,11 +111,13 @@ with tab1:
     with right:
         st.markdown(f"<h5 class='subheading'>Campaign Clustering</h5>",
                     unsafe_allow_html=True) 
-        st.write(f"Go to 'Campaign Clustering' tab to find out more")
+        st.html(f"<u>Go to <a href='#tab3'>'Campaign Clustering'</a> tab to find out more</u>")
         fig, ax, components,vars = s03.get_clusters(s03.campaign_df)
         st.pyplot(fig)
 
 with tab2:
+    st.markdown('<a name="tab2"></a>', unsafe_allow_html=True)  # Anchor
+
     st.markdown(f"<h3 class='subheading'>Marketing Guest Segmentation: Key Findings</h1>",
                 unsafe_allow_html=True)
     st.markdown(
@@ -144,12 +146,6 @@ with tab2:
     """, unsafe_allow_html=True)
 
     mini_para_break()
-    st.markdown(
-    """<p style='font-size:20px; color:white;'> 
-    </p>
-    """, unsafe_allow_html=True)
-
-    mini_para_break()
 
     st.markdown(
     """<p style='font-size:20px; color:white;'> 
@@ -170,7 +166,6 @@ with tab2:
     all customers. 
     </p>
     """, unsafe_allow_html=True)
-    mini_para_break()
     st.markdown("""
     <div style='font-size:20px; color:white;'>
     <div><b><em>Recency</b></em>: Number of days since last purchase</div>
@@ -296,6 +291,8 @@ with tab2:
     """, unsafe_allow_html=True)
     
 with tab3:
+    st.markdown('<a name="tab3"></a>', unsafe_allow_html=True)  # Anchor
+
     st.markdown(
     f"""<h3 class='subheading'>
     Campaign Clustering: Key Findings
@@ -416,8 +413,8 @@ with tab3:
     From <a href="#mathref1">PC_1's equation</a>, can deduce that higer marketing 
     lifts (absolute/relative lifts) and lower monthly average crowd levels the month
     before campaigns are an indication of better marketing, vice versa. Companies
-    can therefore use this algorithm to benchmark against their upcoming marketing
-    efforts to conduct a review on how well their marketing strategies are.  
+    can therefore use this algorithm to <u>benchmark against their upcoming marketing
+    efforts</u> to conduct a review on how well their marketing strategies are.  
     </p>
     """, unsafe_allow_html=True)
 
