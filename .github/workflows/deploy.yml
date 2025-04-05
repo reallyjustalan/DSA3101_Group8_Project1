@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: root
-          key: ${{ secrets.SSH_PK }}
+          password: ${{ secrets.SSH_PK }}
           script: |
             cd /root/dsa3101
             git pull origin main
