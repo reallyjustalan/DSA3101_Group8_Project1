@@ -1,5 +1,3 @@
-# docker-compose.yml
-
 services:
   streamlit:
     container_name: "streamlit_app"
