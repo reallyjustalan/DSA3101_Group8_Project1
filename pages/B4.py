@@ -16,7 +16,7 @@ def load_image_from_github(image_name):
     return img
 
 # Sidebar navigation
-page = st.sidebar.radio("Navigate", ["Overview", "Topic Clusters"])
+page = st.sidebar.radio("Navigate", ["Overview", "Topic Clusters", "Business Recommendations"])
 
 # ---------------------------
 # PAGE 1: OVERVIEW
@@ -32,10 +32,10 @@ if page == "Overview":
         This allows us to identify the most pressing issues and develop actionable insights to improve park satisfaction.
     """)
 
-    st.subheader("Hierarchical Model of Topics")
+    st.subheader("🌿 Hierarchical Model of Topics")
     st.markdown("""
         The branches in the hierarchical model are colored based on topic similarity. We identified **4 clusters** 
-        representing key issue categories extracted from the reviews.
+        representing key categories extracted from the reviews. 
     """)
 
     try:
@@ -49,7 +49,11 @@ if page == "Overview":
 # ---------------------------
 elif page == "Topic Clusters":
     st.title("💬 Topic Clusters: Key Themes from High-Risk Reviews")
-    st.markdown("Each cluster represents a group of related concerns raised by Disneyland guests.")
+    st.markdown("""
+                To generate the clusters, we combined similar topic representations based on the hierarchical model.
+                Each cluster represents a group of related concerns raised by Disneyland guests. 
+                BERTopic also provides the mapping between reviews and topics.
+                Hence, we analysed some of these reviews to identify key issues for each cluster.""" )
 
     # Cluster 1
     with st.expander("🟣 Cluster 1: Customer Experience"):
@@ -90,7 +94,7 @@ elif page == "Topic Clusters":
         st.markdown("**Key Issues:**")
         st.markdown("""
         - Overly strict security staff  
-        - Inconsistency in staff behavior and quality  
+        - Inconsistency in staff behavior and quality of interactions
         """)
 
     # Cluster 4
@@ -106,3 +110,46 @@ elif page == "Topic Clusters":
         - Lack of designated areas or enforcement  
         """)
 
+# ---------------------------
+# PAGE 3: BUSINESS IMPACT & RECOMMENDATIONS
+# ---------------------------
+elif page == "Business Recommendations":
+    st.subheader("🔧 Business Recommendations")
+    
+    st.subheader("🚨 Why These Issues Matter")
+    st.markdown("""
+    Negative guest experiences, especially those rated 1 or 2 stars, can significantly affect Disneyland’s reputation, brand loyalty, and revenue. 
+    Ignoring these reviews allows recurring issues to fester, impacting return visits and word-of-mouth recommendations.
+    """)
+
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "🟣 Cluster 1: Customer Experience", 
+        "🟢 Cluster 2: Ticket and Refund Issues", 
+        "🔴 Cluster 3: Staff Response", 
+        "🔵 Cluster 4: Park Environment and Smoking"
+    ])
+
+    with tab1:
+        st.markdown("""
+        - Cultural sensitivity training: Equip staff with training for multicultural interactions.  
+        - Accessibility audits: Conduct regular audits to ensure facilities meet accessibility standards.  
+        - Ride notifications: Use mobile apps/messages/emails to alert guests in advance of ride closures.  
+        """)
+
+    with tab2:
+        st.markdown("""
+        - Clear ticket policies: Redesign ticketing pages with simpler language and visual flowcharts.  
+        - Refund transparency: Provide real-time refund tracking through guests’ accounts.  
+        - FastPass awareness: Educate guests pre-arrival about the value and function of FastPass systems.  
+        """)
+
+    with tab3:
+        st.markdown("""
+        - Staff empowerment: Offer conflict de-escalation training and empower frontline staff to make small guest recovery gestures.  
+        - Feedback loops: Implement quick digital surveys tied to guest-staff interactions. Can be explored in B5  
+        """)
+
+    with tab4:
+        st.markdown("""
+        - Policy enforcement: Deploy trained personnel or use signage with QR-code-based reporting for non-compliance.  
+        """)
