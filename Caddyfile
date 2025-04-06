@@ -1,0 +1,3 @@
+sciencetosmiles.org {
+    reverse_proxy streamlit:8501
+}
