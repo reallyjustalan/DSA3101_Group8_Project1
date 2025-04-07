@@ -118,7 +118,7 @@ elif page == "📈 Business Insights":
         st.markdown("""
         - **Top attractions** like Log Flume, Merry-Go-Round, and Dizzy Dropper were the strongest predictors.
         - These outweighed weather, suggesting **ride appeal trumps weather risk**.
-        - Visitors are likely to visit these high-appeal rides even in less favourable conditions.
+        - Visitors are likely to visit these high-appeal rides even in less favourable weather conditions.
         
         **Recommendations:**
         - Invest in enhancing popular rides
