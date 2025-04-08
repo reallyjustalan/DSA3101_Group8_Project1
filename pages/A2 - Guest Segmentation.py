@@ -99,7 +99,31 @@ elif page == "DBSCAN Analysis":
             st.image(model_image2, use_container_width=True)
         except Exception as e:
             st.error(f"Error loading images.png: {e}")
+    
+    if __name__ == "__main__":
+        model1()    
         
+    st.markdown(
+        """
+        Cluster -1 (Outliers):
+        Atypical reviews that don't conform to dense clusters—likely due to uncommon visit timings or unique feature combinations, indicating irregular guest behavior.
+
+        Cluster 0 (Moderate Satisfaction):
+        Families or regulars rating around 4.7 with solid sentiment (~0.73). They value consistent quality and are open to moderate upselling and loyalty incentives.
+
+        Cluster 1 (High Satisfaction):
+        Experienced, loyal travelers with very high sentiment (~0.84). They appreciate personalized service and brand recognition, ideal for referral and ambassador programs.
+
+        Cluster 2 (Extremely Satisfied):
+        A small VIP segment (n=92) boasting nearly perfect ratings (~4.99) and distinctive January visits, demanding exclusive, high-touch experiences.
+
+        Overall:
+        Retain Cluster 0 with consistent quality, empower Cluster 1 through personalization and advocacy, and celebrate Cluster 2 with exclusive, season-driven offers. These insights help refine A4’s marketing strategies, boosting guest loyalty and revenue.
+        """
+    )
+        
+    with st.expander("##### Detailed Cluster Analysis"):
+            
         st.markdown(
         """
         Cluster -1 (Noise/Outliers)
@@ -180,8 +204,6 @@ elif page == "DBSCAN Analysis":
     """
     )
         
-    if __name__ == "__main__":
-        model1()
     
 elif page == "KMeans Analysis":
     
@@ -197,6 +219,36 @@ elif page == "KMeans Analysis":
             st.image(model_image, use_container_width=True)
         except Exception as e:
             st.error(f"Error loading images.png: {e}")
+    
+    
+    
+    if __name__ == "__main__":
+        model2()  
+     
+    st.markdown(
+        """
+        Cluster 0 (Spring–Summer Guests):
+        Average rating ~4.25 with moderate sentiment (~0.64) indicates general satisfaction; opportunities exist to enhance services during early summer through targeted promotions and improved communication.
+
+        Cluster 1 (Fall/Holiday Guests):
+        Similar high rating (~4.24) but elevated sentiment (~0.73) suggests guests are more enthusiastic; ideal for festive campaigns, referral programs, and personalized holiday experiences.
+
+        Cluster 2 (Winter–Early Spring, Largest Group):
+        With a rating of ~4.22 and sentiment ~0.69, this group represents volume-driven impact—small service improvements could significantly boost repeat visits and overall revenue.
+
+        Cluster 3 (Late Summer–Fall Guests):
+        Slightly higher rating (~4.29) despite moderate sentiment (~0.64) suggests a gap to be bridged via targeted surveys and event-driven engagement.
+
+        Cluster 4 (Spring–Summer, Lowest Rating):
+        Though sentiment is high (~0.72), the rating (~4.14) is lower, indicating specific service gaps needing urgent attention.
+
+        Overall:
+        Align marketing efforts with seasonal patterns to convert hidden dissatisfaction into loyalty and drive ROI.
+        """
+    ) 
+     
+        
+    with st.expander("##### Detailed Cluster Analysis"):   
         
         st.markdown(
         """
@@ -294,8 +346,6 @@ elif page == "KMeans Analysis":
     """
     )
 
-    if __name__ == "__main__":
-        model2()
         
 elif page == "Mismatch Analysis": 
     
@@ -324,56 +374,80 @@ elif page == "Mismatch Analysis":
             st.image(model_image, use_container_width=True)
         except Exception as e:
             st.error(f"Error loading images.png: {e}")
+    
+    if __name__ == "__main__":
+        model3()
+        
+    st.markdown(
+        """
+        Cluster 0 (Extreme Over-Raters):
+        Despite consistently 4–5 star ratings, their mean mismatch of ~6.23 reveals significant hidden dissatisfaction. They may rate highly out of politeness, yet express concerns in reviews.
+
+        Cluster 1 (Mostly Aligned):
+        The largest group (~22K guests) shows a minimal mismatch (~0.38). Their text feedback aligns with their ratings, signaling straightforward satisfaction that should be maintained.
+
+        Cluster 2 (Under-Raters):
+        These guests post positive text but give lower numeric ratings (mean mismatch ~–1.22). They may be influenced by one negative aspect; addressing pain points like price/value could help.
+
+        Cluster 3 (Moderate Over-Raters):
+        With a mean mismatch of ~2.60, their ratings exceed their textual tone, indicating minor issues they mention. Enhancing these aspects can boost overall sentiment.
+
+        Next Steps:
+        • For Cluster 0, initiate targeted follow-ups to uncover and address hidden concerns.
+        • For Cluster 2 and 3, investigate specific triggers for lower ratings and refine service accordingly.
+        • For Cluster 1, maintain quality and leverage their positive word-of-mouth for marketing, especially around seasonal events.
+        """
+    )    
+        
+    with st.expander("##### Detailed Cluster Analysis"):   
         
         st.markdown(
         """
         Cluster 0: Extreme Over-Raters
 
-    Mean mismatch ~6.23, which is quite high.
-    These guests often give 4–5 star ratings even though their sentiment is more moderate or low.
-    Possible Reasons: They might be polite or feel obligated to leave a high rating, or they may quickly click 5 stars but express concerns in the text.
-    Business Takeaway: Look at their negative or lukewarm comments despite the high rating to identify hidden issues or unmet expectations.
+        Mean mismatch ~6.23, which is quite high.
+        These guests often give 4–5 star ratings even though their sentiment is more moderate or low.
+        Possible Reasons: They might be polite or feel obligated to leave a high rating, or they may quickly click 5 stars but express concerns in the text.
+        Business Takeaway: Look at their negative or lukewarm comments despite the high rating to identify hidden issues or unmet expectations.
 
-    Cluster 1: Mostly Aligned
-    Largest group (~22k guests), with a mean mismatch ~0.38.
-    Their star ratings and sentiment are fairly consistent—slightly over the text sentiment, but not by much.
-    Possible Reasons: They likely rate and comment with similar feelings. Minor rounding-up of the star rating could happen (e.g., 4.5 in mind, but they click 5).
-    Business Takeaway: This group is straightforward; what they say in text largely matches how they rate. Focus on maintaining their positive experience.
+        Cluster 1: Mostly Aligned
+        Largest group (~22k guests), with a mean mismatch ~0.38.
+        Their star ratings and sentiment are fairly consistent—slightly over the text sentiment, but not by much.
+        Possible Reasons: They likely rate and comment with similar feelings. Minor rounding-up of the star rating could happen (e.g., 4.5 in mind, but they click 5).
+        Business Takeaway: This group is straightforward; what they say in text largely matches how they rate. Focus on maintaining their positive experience.
 
-    Cluster 2: Under-Raters
-    Mean mismatch ~–1.22 (negative).
-    These guests express fairly positive sentiment in text but give a lower star rating.
-    Possible Reasons: Perhaps a single negative aspect overshadowed an otherwise good experience, or they are harsher in numeric ratings.
-    Business Takeaway: They sound satisfied in reviews, but the numeric rating doesn’t reflect that. Investigate consistent pain points (e.g., price vs. value) that prompt them to rate lower than their words suggest.
+        Cluster 2: Under-Raters
+        Mean mismatch ~–1.22 (negative).
+        These guests express fairly positive sentiment in text but give a lower star rating.
+        Possible Reasons: Perhaps a single negative aspect overshadowed an otherwise good experience, or they are harsher in numeric ratings.
+        Business Takeaway: They sound satisfied in reviews, but the numeric rating doesn’t reflect that. Investigate consistent pain points (e.g., price vs. value) that prompt them to rate lower than their words suggest.
 
-    Cluster 3: Moderate Over-Raters
-    Mean mismatch ~2.60, which is over-rating but not as extreme as Cluster 0.
-    They’re giving star ratings that exceed the tone of their text feedback, but less dramatically than Cluster 0.
-    Possible Reasons: They may be mostly happy but mention smaller issues in text. They still give a 4 or 5 star rating overall.
-    Business Takeaway: Compare their textual feedback to their final ratings to see what improvements could turn them into fully satisfied, consistently positive reviewers.
+        Cluster 3: Moderate Over-Raters
+        Mean mismatch ~2.60, which is over-rating but not as extreme as Cluster 0.
+        They’re giving star ratings that exceed the tone of their text feedback, but less dramatically than Cluster 0.
+        Possible Reasons: They may be mostly happy but mention smaller issues in text. They still give a 4 or 5 star rating overall.
+        Business Takeaway: Compare their textual feedback to their final ratings to see what improvements could turn them into fully satisfied, consistently positive reviewers.
 
-    Possible Next Steps
+        Possible Next Steps
 
-    Targeted Follow-Up for Extreme Over-Raters (Cluster 0)
-    Don’t be misled by the high star rating. Their text indicates they’re not as happy as the rating suggests.
-    Consider sending surveys or personal follow-ups to pinpoint their concerns.
+        Targeted Follow-Up for Extreme Over-Raters (Cluster 0)
+        Don’t be misled by the high star rating. Their text indicates they’re not as happy as the rating suggests.
+        Consider sending surveys or personal follow-ups to pinpoint their concerns.
 
-    Maintain Satisfaction for Mostly Aligned Guests (Cluster 1)
-    These are the “straight shooters.” Their feedback is a reliable indicator of their overall satisfaction.
-    Keep doing what’s working, and address any small suggestions for improvement.
+        Maintain Satisfaction for Mostly Aligned Guests (Cluster 1)
+        These are the “straight shooters.” Their feedback is a reliable indicator of their overall satisfaction.
+        Keep doing what’s working, and address any small suggestions for improvement.
 
-    Win Over the Under-Raters (Cluster 2)
-    These guests are the opposite of Cluster 0: they like your service (positive text), but the final rating is still under 5.
-    Quick wins might involve addressing minor annoyances, better price-value alignment, or clarifying amenities.
+        Win Over the Under-Raters (Cluster 2)
+        These guests are the opposite of Cluster 0: they like your service (positive text), but the final rating is still under 5.
+        Quick wins might involve addressing minor annoyances, better price-value alignment, or clarifying amenities.
 
-    Nudge Moderate Over-Raters (Cluster 3)
-    They generally give good ratings but mention specific issues.
-    Fixing those recurring issues can turn them into truly happy advocates whose text sentiment matches (or exceeds) their numeric rating.
+        Nudge Moderate Over-Raters (Cluster 3)
+        They generally give good ratings but mention specific issues.
+        Fixing those recurring issues can turn them into truly happy advocates whose text sentiment matches (or exceeds) their numeric rating.
     """
     )
 
-    if __name__ == "__main__":
-        model3()
 
 elif page == "KMeans Continent":
 
