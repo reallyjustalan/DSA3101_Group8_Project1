@@ -60,7 +60,7 @@ if data_loaded:
         st.subheader("About the Task: Guest Journey Patterns")
         
         st.markdown("""
-        ### **Suggested Solutions**
+        ### **Suggested Solutions** 
         
         1. Use process mining or sequence analysis to identify common guest journey paths.  
         2. Compare these patterns across segments to uncover opportunities for personalization and operational improvements.  
