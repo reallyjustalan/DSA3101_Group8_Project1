@@ -10,13 +10,11 @@ page = st.sidebar.radio("Navigate", ["Optimization Model", "Business Recommendat
 ### Page 1: Optimization Model ###
 if page == "Optimization Model":
     st.title("Staff Allocation Optimization")
+    st.write("## Optimization Model")
 
-    st.write("## Business Question")
-    st.markdown("""
-                **How can we optimize staff allocation in a theme park at any given time while minimizing overall staffing levels?**
-
-                To do this, optimization model will be informed by guest demand patterns.
-                """)
+    st.write("### Business Question")
+    st.write("#### How can we optimize staff allocation in a theme park at any given time while minimizing overall staffing levels?")
+    st.markdown("To do this, our optimization model will be informed by guest demand patterns.")
 
     with st.expander("How the optimization model works"):
         st.write("### Guest Demand Preparation")
@@ -146,17 +144,20 @@ if page == "Optimization Model":
 elif page == "Business Recommendations":
 
     st.title("Staff Allocation Optimization")
+    st.write("## Business Recommendations")
 
     with st.expander("Insights"):
         st.markdown("""
-            As seen from the optimized staffing plots, guest demand is indeed a major factor that should be taken into account when seeking to optimize staffing. Guest demand patterns vary substantially through the day across the 4 service categories, and overall park demand is greatly influenced by the month, day of the week, and public holidays. Rain has a minimal impact on total park attendance and hence overall park staffing, but would surely become a major factor when allocating staff to sheltered or unsheltered attractions.
-                    
-            This model enables maximized workforce utilization while minimizing overall labour costs. It can also inform operational decisions, such as adjusting attraction hours to reduce running services during periods of low demand. This leads to costs savings not only in labour, but also in utilities and maintenance, ensuring resources are deployed only when and where they are most needed.
+            The optimization model highlights guest demand as a key determinant to optimize staffing. Guest demand patterns vary substantially through the day across the 4 service categories, and overall park demand is greatly influenced by the month, day of the week, and public holidays. While rain has a minimal impact on total park attendance and thus overall park staffing, it is likely to be a more significant consideration when allocating staff between sheltered and unsheltered attractions.
+
+            This model enables more efficient workforce deployment by aligning staffing levels with projected guest demand, optimizing labour utilization and minimizing excess staffing. In addition, it can support operational decision-making, such as adjusting attraction operating hours to reduce running services during low-demand periods. This not only contributes to labour cost savings, but also to reduced utility and maintenance expenses, ensuring resources are deployed only when and where they are most needed.
         """)
 
     with st.expander("Limitations"):
         st.markdown("""
-        This model operates under the simplified assumption that optimal staffing aligns directly with guest demand.
-        
-        In practice, workforce planning is far more complex, and factors such as specialized roles within service categories, wages and labour availability need to be taken into account for staffing to be optimal for the business. These factors were not taken into account as they are highly context-specific, while this model aims to be easily generalizable. In its current form, the model should only be used as a guiding recommendation rather than a definitive staffing plan.
+        This model operates under the simplified assumption that optimal staffing directly aligns with guest demand.
+
+        In practice, workforce planning is considerably more complex. Factors such as specialized roles within service categories, wage structures, and labour availability need to be taken into account for truly optimal staffing levels that benefit the business. These factors were excluded from the model due to their context-specific nature, as the goal was to create an easily generalizable optimization model that could be later customized to the specific business' needs.
+                    
+        As such, in its current form, this model should be used as a guiding recommendation rather than a definitive staffing plan.
         """)
