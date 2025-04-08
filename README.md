@@ -1,5 +1,8 @@
 # Our Science to Smiles
 
+[!NOTE]  
+Access our website live - [oursciencetosmiles.org](oursciencetosmiles.org)!
+
 ## Running the App with Docker
 
 ### Step 1: Clone or Download the Project
