@@ -10,13 +10,10 @@ st.title("Optimizing Staff Allocation")
 with st.expander("How the optimization model works"):
     st.write("### Guest Demand Preparation")
     st.markdown(
-        "Using historical attendance and demand data, adjustment multipliers are calculated by dividing observed demand by baseline demand (mean across all months, days, and hours) for each factor: month-day, hour, rain, and public holidays." \
-        "The adjustment multiplier by the hour is computed separately for rides, eateries, merchandise, and general services, as the 4 categories of services have different demand patterns through the day." \
-        "Using this approach, minimal amount of data is stored."
+        "Using historical attendance and demand data, adjustment multipliers are calculated by dividing observed demand by baseline demand (mean across all months, days, and hours) for each factor: month-day, hour, rain, and public holidays. The adjustment multiplier by the hour is computed separately for rides, eateries, merchandise, and general services, as the 4 categories of services have different demand patterns through the day. Using this approach, minimal amount of data is stored."
     )
 
     st.write("### Optimization Model")
-    st.write("#### Decision Variables")
     st.latex(r"""
     \textbf{Decision Variables:} \\
     \text{For each hour } h \in \{9 \text{ AM}, \dots, 10 \text{ PM}\}, \text{ and each category } c \in \{\text{Rides, Eatery, Merchandise, General}\}: \\
@@ -26,7 +23,7 @@ with st.expander("How the optimization model works"):
     \textbf{Demand Calculation:} \\
     D_{h,c} = B \times M_m \times H_h^c \times P_p \times R_r \\
     \text{where:} \\
-    B = \text{base demand (10,000)} \\
+    B = \text{base demand (as set by user)} \\
     M_m = \text{month and day multiplier} \\
     H_h^c = \text{hourly multiplier for category } c \text{ at hour } h \\
     P_p = \text{public holiday multiplier} \\
@@ -129,6 +126,6 @@ if st.button("Optimize Staffing"):
     
     with st.expander("Merchandise"):
         st.dataframe(staff_schedule_merch)
-    
+
     with st.expander("General"):
         st.dataframe(staff_schedule_general)
