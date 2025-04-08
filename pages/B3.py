@@ -7,6 +7,55 @@ import calendar
 # Streamlit app to start data preparation
 st.title("Optimizing Staff Allocation")
 
+with st.expander("How the optimization model works"):
+    st.write("### Guest Demand Preparation")
+    st.markdown(
+        "Using historical attendance and demand data, adjustment multipliers are calculated by dividing observed demand by baseline demand (mean across all months, days, and hours) for each factor: month-day, hour, rain, and public holidays." \
+        "The adjustment multiplier by the hour is computed separately for rides, eateries, merchandise, and general services, as the 4 categories of services have different demand patterns through the day." \
+        "Using this approach, minimal amount of data is stored."
+    )
+
+    st.write("### Optimization Model")
+    st.write("#### Decision Variables")
+    st.latex(r"""
+    \textbf{Decision Variables:} \\
+    \text{For each hour } h \in \{9 \text{ AM}, \dots, 10 \text{ PM}\}, \text{ and each category } c \in \{\text{Rides, Eatery, Merchandise, General}\}: \\
+    S_{h,c} \geq 0 \quad \text{(Number of staff needed at hour } h \text{ for category } c)
+
+    \\[1em]
+    \textbf{Demand Calculation:} \\
+    D_{h,c} = B \times M_m \times H_h^c \times P_p \times R_r \\
+    \text{where:} \\
+    B = \text{base demand (10,000)} \\
+    M_m = \text{month and day multiplier} \\
+    H_h^c = \text{hourly multiplier for category } c \text{ at hour } h \\
+    P_p = \text{public holiday multiplier} \\
+    R_r = \text{rain multiplier}
+
+    \\[1em]
+    \textbf{Staffing Constraints:} \\
+    S_{h, \text{Rides}} \geq \frac{D_{h, \text{Rides}}}{30} \\
+    S_{h, \text{Eatery}} \geq \frac{D_{h, \text{Eatery}}}{30} \\
+    S_{h, \text{Merch}} \geq \frac{D_{h, \text{Merch}}}{30} \\
+    S_{h, \text{General}} \geq \frac{D_{h, \text{General}}}{50}
+
+    \\[1em]
+    \textbf{Objective Function:} \\
+    \min \sum_{h=9}^{22} \left( S_{h, \text{Rides}} + S_{h, \text{Eatery}} + S_{h, \text{Merch}} + S_{h, \text{General}} \right)
+
+    \\[1em]
+    \textbf{Optimization Problem:} \\
+    \min_{S_{h,c}} \quad \sum_{h=9}^{22} S_{h, \text{Total}} \\
+    \text{subject to:} \\
+    S_{h,c} \geq \frac{D_{h,c}}{K_c}, \quad \forall h, c \\
+    S_{h,c} \geq 0, \quad \forall h, c \\
+    \text{where } K_c = 
+    \begin{cases}
+    30, & \text{if } c \in \{\text{Rides, Eatery, Merchandise}\} \\
+    50, & \text{if } c = \text{General}
+    \end{cases}
+    """)
+
 # Use simpler relative paths for data files
 data_dir = Path("data") / "B3"
 
@@ -55,7 +104,7 @@ from scripts.B3.optimization_model import StaffingOptimizer
 from scripts.B3.visualization import plot_staffing
 
 # User inputs
-base_demand = st.number_input("Enter Overall Yearly Mean Attendance", min_value=1, max_value=1000000, value=10000)
+base_demand = st.number_input("Enter Estimated Park Attendance for the Day", min_value=1, max_value=1000000, value=10000)
 month = st.selectbox("Select Month", list(calendar.month_name[1:]))
 day = st.selectbox("Select Day of the Week", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], index=0)
 rain = st.radio("Is it forecasted to rain?", ["No", "Yes"]) == "Yes"
@@ -65,20 +114,21 @@ public_holiday = st.radio("Is it a public holiday?", ["No", "Yes"]) == "Yes"
 if st.button("Optimize Staffing"):
     optimizer = StaffingOptimizer(adjusters, base_demand)
     staff_schedule_rides, staff_schedule_eatery, staff_schedule_merch, staff_schedule_general = optimizer.optimize_staffing(month, day, rain, public_holiday)
-    
-    st.write("### Optimized Staffing Schedules")
-    st.write("#### Rides")
-    st.dataframe(staff_schedule_rides)
-    
-    st.write("#### Eatery")
-    st.dataframe(staff_schedule_eatery)
-    
-    st.write("#### Merchandise")
-    st.dataframe(staff_schedule_merch)
-    
-    st.write("#### General")
-    st.dataframe(staff_schedule_general)
-    
+
     # Generate and display visualization
     fig = plot_staffing([staff_schedule_rides, staff_schedule_eatery, staff_schedule_merch, staff_schedule_general], month, day, rain, public_holiday)
     st.pyplot(fig)
+
+    # Show optimized staffing schedules in tabular form
+    st.write("### Optimized Staffing Schedules")
+    with st.expander("Rides"):
+        st.dataframe(staff_schedule_rides)
+    
+    with st.expander("Eatery"):
+        st.dataframe(staff_schedule_eatery)
+    
+    with st.expander("Merchandise"):
+        st.dataframe(staff_schedule_merch)
+    
+    with st.expander("General"):
+        st.dataframe(staff_schedule_general)
