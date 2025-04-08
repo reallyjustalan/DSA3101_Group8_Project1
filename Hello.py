@@ -40,11 +40,12 @@ def main():
     st.subheader("How Our Solutions Work Together")
     
     mermaid_code = """
-%%{init: {'theme': 'base', 'themeVariables': { 'arrowheadColor': '#cccccc', 'arrowLabelBackground': '#f8f8f8', 'edgeLabelBackground':'#f8f8f8'}}}%%
-flowchart TD
+    %%{init: {'theme': 'base', 'themeVariables': { 'arrowheadColor': '#cccccc', 'arrowLabelBackground': '#f8f8f8', 'edgeLabelBackground':'#f8f8f8'}, 'flowchart': {'diagramPadding': 50, 'nodeSpacing': 100, 'rankSpacing': 120, 'curve': 'basis'}}}%%
+    flowchart LR
     linkStyle default stroke:#cccccc,stroke-width:2px,fill:none
+    
     A1[A1: Guest Satisfaction] --> |"Allocation of staff impacts guest satisfaction"| B3
-    A1 --> |"Attraction quality impacts guest satisfaction, and is dependant on access to attraction"| B2
+    A1 --> |"Attraction quality impacts guest satisfaction"| B2
     A3[A3: Guest Journey] --> |"Validates layout optimization"| B2
     B5[B5: IoT Data Integration] --> |"Real-time data for practical implementation"| A3
     B4[B4: Guest Complaint Prediction] --> |"Identifies critical satisfaction issues"| A1
@@ -57,16 +58,6 @@ flowchart TD
     A5 --> |"Use seasonality data to tailor marketing efforts"| A4
     B4 --> |"Allocate staff to address service gaps immediately"| B3
     
-    click A1 "https://sciencetosmiles.org/A1_-_Guest_Satisfaction" _blank
-    click A2 "https://sciencetosmiles.org/A2_-_Guest_Segmentation" _blank
-    click A3 "https://sciencetosmiles.org/A3_-_Guest_Journey" _blank
-    click A4 "https://sciencetosmiles.org/A4_-_Marketing_Impact" _blank
-    click A5 "https://sciencetosmiles.org/A5_-_External_Factors" _blank
-    click B1 "https://sciencetosmiles.org/B1_-_Demand_Prediction" _blank
-    click B2 "https://sciencetosmiles.org/B2_-_Attraction_Layout_Optimization" _blank
-    click B3 "https://sciencetosmiles.org/B3_-_Variable_Demand_Allocation" _blank
-    click B4 "https://sciencetosmiles.org/B4_-_Guest_Complaint_Prediction" _blank
-    click B5 "https://sciencetosmiles.org/B5_-_IoT_Data_Integration" _blank
     """
     
     st_mermaid.st_mermaid(mermaid_code, height=400)
