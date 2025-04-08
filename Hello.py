@@ -40,24 +40,22 @@ def main():
     st.subheader("How Our Solutions Work Together")
     
     mermaid_code = """
-    %%{init: {'theme': 'base', 'themeVariables': { 'arrowheadColor': '#cccccc', 'arrowLabelBackground': '#f8f8f8', 'edgeLabelBackground':'#f8f8f8'}, 'flowchart': {'diagramPadding': 50, 'nodeSpacing': 100, 'rankSpacing': 120, 'curve': 'basis'}}}%%
-    flowchart LR
-    linkStyle default stroke:#cccccc,stroke-width:2px,fill:none
-    
-    A1[A1: Guest Satisfaction] --> |"Allocation of staff impacts guest satisfaction"| B3
-    A1 --> |"Attraction quality impacts guest satisfaction"| B2
-    A3[A3: Guest Journey] --> |"Validates layout optimization"| B2
-    B5[B5: IoT Data Integration] --> |"Real-time data for practical implementation"| A3
-    B4[B4: Guest Complaint Prediction] --> |"Identifies critical satisfaction issues"| A1
-    B5 --> |"Crowd movement informs layout"| B2[B2: Attraction Layout Optimization]
-    B5 --> |"Crowd density informs staffing"| B3[B3: Variable Demand Allocation]
-    A5[A5: External Factors] --> |"Seasonal patterns for staffing"| B3
-    A4[A4: Marketing Impact] --> |"Marketing influences expectations"| A1
-    B1[B1: Demand Prediction]--> |"Demand drivers inform layout"| B2
-    A2[A2: Guest Segmentation] --> |"Guest segmentation model informs marketing efforts"| A4
-    A5 --> |"Use seasonality data to tailor marketing efforts"| A4
-    B4 --> |"Allocate staff to address service gaps immediately"| B3
-    
+    %%{init: {'theme': 'base', 'themeVariables': { 'arrowheadColor': '#cccccc', 'arrowLabelBackground': '#f8f8f8', 'edgeLabelBackground':'#f8f8f8'}}}%%
+    flowchart TD
+        linkStyle default stroke:#cccccc,stroke-width:2px,fill:none
+        A1[A1: Guest Satisfaction] --> B3
+        A1 --> B2
+        A3[A3: Guest Journey] --> B2
+        B5[B5: IoT Data Integration] --> A3
+        B4[B4: Guest Complaint Prediction] --> A1
+        B5 --> B2[B2: Attraction Layout Optimization]
+        B5 --> B3[B3: Variable Demand Allocation]
+        A5[A5: External Factors] --> B3
+        A4[A4:Marketing Impact] --> A1
+        B1[B1: Demand Prediction]--> B2
+        A2[A2: Guest Segmentation] --> A4
+        A5 --> A4
+        B4 --> B3
     """
     
     st_mermaid.st_mermaid(mermaid_code, height=400)
