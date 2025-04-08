@@ -1,7 +1,7 @@
 # Our Science to Smiles
 
 > [!NOTE]  
-> Access our website live - [oursciencetosmiles.org](oursciencetosmiles.org)!
+> Access our website live - [sciencetosmiles.org](https://sciencetosmiles.org)!
 
 ## Running the App with Docker
 
