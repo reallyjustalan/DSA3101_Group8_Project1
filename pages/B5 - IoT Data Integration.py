@@ -13,7 +13,7 @@ from ml_1 import *
 st.markdown(
     """
     # B5
-    ### How can IoT technology improve guest experience in theme parks?
+    # How can IoT technology improve guest experience in theme parks?
     """
 )
 
@@ -42,21 +42,28 @@ if navigation == "Overview": # Overview Section
                 how crowds are moving throughout the park. This data can help predict 
                 crowd behavior, improve decision-making, and enhance safety.
 
-    ## **Methodology**
-    ### 1. **Data Preprocessing**
-    - The dataset contains WiFi signal strengths recorded from 520 WAPs, along with longitude, and latitude.
+    ## **Methodology**""")
+    with st.expander("### 1. **Data Preprocessing**"):
+        st.markdown("""
+    - The dataset contains WiFi signal strengths recorded from 520 WAPs, along with longitude, 
+                    and latitude.
     - Signals range from -104 (weakest) to 0 (strongest), with 100 indicating no detection.  
     - The data is filtered based on `BUILDINGID` to analyze specific buildings separately.  
-    - The dataset is split into training and test sets based on date (`DATE < '2013-07-20'` for training and `DATE > '2013-07-20'` for testing).
+    - The dataset is split into training and test sets based on date (`DATE < '2013-07-20'` for 
+                    training and `DATE > '2013-07-20'` for testing).
     - These dates are chosen referencing the training and validation data sets.  
     - Features are preprocessed using scaling, selection, and encoding techniques.  
-    - Target coordinates are scaled using `StandardScaler` for regression models, while categorical labels (such as floor levels) are encoded using `LabelEncoder`.  
+    - Target coordinates are scaled using `StandardScaler` for regression models, 
+                    while categorical labels (such as floor levels) are encoded using `LabelEncoder`.""")  
 
-    ### 2. **Feature Engineering**
+    with st.expander("### 2. **Feature Engineering**"):
+           st.markdown("""
     - Selecting relevant WAPs with strong signals.  
-    - Transforming signal strength data into meaningful location features using feature selection methods.  
+    - Transforming signal strength data into meaningful location features using feature 
+                       selection methods.""")  
 
-    ### 3. **Model Selection & Training**
+    with st.expander("### 3. **Model Selection & Training**"):
+           st.markdown("""
     - Various regression models are trained to predict longitude and latitude, including:
     - **XGBoost** (boosted decision trees)
     - **Gradient Boosting**
@@ -64,13 +71,16 @@ if navigation == "Overview": # Overview Section
     - **Support Vector Regression (SVR)**
     - **Multi-layer Perceptron (MLP)**
     - Models are trained using preprocessed data, with training and validation splits (80/20).  
-    - Trained models are saved for future evaluation.  
+    - Trained models are saved for future evaluation.""")
 
-    ### 4. **Evaluation & Visualization**
-    - Models are evaluated based on **Mean Squared Error (MSE)**, **R² Score**, and **Adjusted R² Score**.
+    with st.expander("### 4. **Evaluation & Visualization**"):
+           st.markdown("""
+    - Models are evaluated based on **Mean Squared Error (MSE)**, **R² Score**, 
+                       and **Adjusted R² Score**.
     - Predictions are compared with actual coordinates using scatter plots.
-    - Trained models are loaded and tested on unseen data to assess generalization ability.  
+    - Trained models are loaded and tested on unseen data to assess generalization ability.""")
 
+    st.markdown("""              
     ## **Expected Outcomes**
     - A  model that predicts a person’s location based on WiFi signals.  
     - Insights into crowd density across a given layout.  
@@ -117,7 +127,7 @@ if navigation == "1) Geography": # Geographical plots (Interactive 3D)
 
     elif st.session_state.button_pressed == "3D-Plot":
         st.markdown(
-            "<h2 style='text-align: center; font-size: 24px;'>3D scatterplot of geographical layout.</h2>",
+            "<h2 style='text-align: center; font-size: 24px;'> Interactive 3D scatterplot of geographical layout.</h2>",
             unsafe_allow_html=True
         )
 
@@ -227,6 +237,7 @@ if navigation == "3) Modelling": # Modelling Section
                 estimating crowd densities.
 
         ### **Model Performance Evaluation**
+        * Please run the evaluation again if output is blank.
 """)
     
     # Initialize tabs for different views
@@ -294,7 +305,28 @@ if navigation == "3) Modelling": # Modelling Section
 
 if navigation == "Conclusion": # Conclusion
     st.markdown("""
-        ## **Conclusion**
+        ## **Conclusion**""")
+    with st.expander("### **Project Key Takeaways**"):
+        st.markdown("""
+- High validation accuracy (R² ≈ 0.98) shows strong initial model performance.
+- Low performance on unseen data (R² ≈ 0.25) suggests overfitting and generalization challenges.
+- Models predicts rough crowd distribution, despite reduced accuracy.
+- Visualizations provided valuable insights into:
+    - Crowd densities
+    - User movement patterns
+    - Visitor anomalies
+- Geographical and contour plots effectively illustrated spatial distributions.
+- Spike in visits on 2013-06-20 indicates potential for event detection.
+- Applications in theme parks include:
+    - Better crowd management
+    - Enhancing guest experience by guiding them to less crowded areas
+- Future improvements:
+    - Feature engineering & data augmentation
+    - Advanced models (e.g., deep learning, hybrid approaches)
+    - Incorporating temporal and weather data
+- Strong foundation for future research in WiFi-based localization and crowd analytics.""")
+    with st.expander("### **Full Conclusion**"):
+        st.markdown("""
         The project demonstrates the potential of WiFi signal strength for
                  crowd analysis to be used in theme parks. While the 
                 models performed exceptionally well on the validation set 
