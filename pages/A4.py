@@ -35,7 +35,7 @@ tab1, tab2, tab3 = st.tabs(["Overview", "Marketing Guest Segmentation","Campaign
 
 with tab1:
     st.markdown(
-    """<p style='font-size:20px; color:white;'>
+    """<p style='font-size:20px;>
     To an average Joe, marketing may seem like the simple task of posting a campaign alert on Facebook, or handing out 
     fliers promoting 20% discount at your nearby KBBQ restaurant. Unfortunately, this is not that simple. marketing is so 
     much more involved than advertising. In fact, we see big players in the drink industry such as Coca Cola pouring over
@@ -44,7 +44,7 @@ with tab1:
 
     st.markdown(
     """
-    <p style='font-size:20px; color:white;'> In today's hyper-competitive marketplace, marketing is the cornerstone of 
+    <p style='font-size:20px;'> In today's hyper-competitive marketplace, marketing is the cornerstone of 
     business success—a disciplined strategy that transforms products into brands, customers into advocates, and markets 
     into revenue streams. Marketing doesn't need to be complicated to be effective. At its core, it's about connecting the 
     right product with the right customer—clearly, efficiently, and profitably. While many enthusiasts and experts offer their perspectives, we will be
@@ -121,7 +121,7 @@ with tab2:
     st.markdown(f"<h3 class='subheading'>Marketing Guest Segmentation: Key Findings</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     Online shopping customers can be easily categorized into subgroups. For this 
     dataset worked with, the categories range from new customers to premium 
     customers. Similarly, theme park companies can perform guest segmentation
@@ -134,7 +134,7 @@ with tab2:
     st.markdown(f"<h3 class='subheading'>Marketing Guest Segmentation: Motivation</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     In order to get good marketing, it is paramount to understand the pool of guests 
     for any given company. If we are able to categorize guests into appropriate 
     groups, we can have targetted marketing for each segment.Getting any form of
@@ -148,7 +148,7 @@ with tab2:
     mini_para_break()
 
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     The online retail industry meets these characteristics since customers purchase
     their products (similar to purchasing a ticket), and some customers purchase 
     their products in different periods of time (similar to a customer purchasing 
@@ -161,13 +161,13 @@ with tab2:
     st.markdown(f"<h3 class='subheading'>Marketing Guest Segmentation: Measurement</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     We will be employing Recency Frequency Monetary framework (RFM) to characterize 
     all customers. 
     </p>
     """, unsafe_allow_html=True)
     st.markdown("""
-    <div style='font-size:20px; color:white;'>
+    <div style='font-size:20px;'>
     <div><b><em>Recency</b></em>: Number of days since last purchase</div>
     <div><b><em>Frequency</b></em>: Total number of unique transactions</div>
     <div><b><em>Monetary</b></em>: Total amount spent in purchases</div>
@@ -176,7 +176,7 @@ with tab2:
 
     mini_para_break()
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     Using this framework, we can determine the type of customers exists in the 
     company. For instance, if a customer made a recent high value purchase, and 
     frequently purchases items from a company, they are (more or less) considered 
@@ -194,7 +194,7 @@ with tab2:
     st.markdown(f"<h3 class='subheading'>Marketing Guest Segmentation: Findings</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     <a href='#figure2'>Figure 2</a> shows us how customers are segmented in their 
     clusters according to recency, frequency, and monetary features. 
     <a href='#table1'>Table 1</a> shows us the ranks for each customer segment 
@@ -230,7 +230,7 @@ with tab2:
     st.markdown(f"<h5 class='subsubheading'>Champions</h5>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     These customers have the highest rank in the whole RFM framework, this indicates
     that they are recently making high-value transactions frequently. Therefore, 
     the company can offer exclusive VIP reward programs with tiered benefits to 
@@ -243,7 +243,7 @@ with tab2:
     st.markdown(f"<h5 class='subsubheading'>At Risk</h5>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     These customers have the next highest rank in frequency and monetary, but comes
     in third rank in recency. These customers are similar to 'Champion' customers 
     except that they have not been recently been shopping on the company's online 
@@ -258,7 +258,7 @@ with tab2:
     st.markdown(f"<h5 class='subsubheading'>Potential Loyalists</h5>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     These customers have the third highest rank in frequency and monetary, but comes
     in second rank in recency. These customers have shown interest in the companies
     products but have not spent the most in them nor made many transactions with the
@@ -277,7 +277,7 @@ with tab2:
     st.markdown(f"<h5 class='subsubheading'>Hibernating</h5>",
                 unsafe_allow_html=True)
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     'Hibernating' customers come in last ranked across the RMF framework. They are
     inactive, making low-value purchase and not often. This could be a result of 
     discontent with company product. Therefore, the company could tap into 
@@ -300,7 +300,7 @@ with tab3:
     """,unsafe_allow_html=True)
 
     st.markdown(
-    """<p style='font-size:20px; color:white;'>
+    """<p style='font-size:20px;'>
     Lower monthly crowd levels in theme parks are coupled with good marketing 
     outcomes. Furthermore, campaigns from Disney performed best.  
     </p>       
@@ -314,7 +314,7 @@ with tab3:
     """,unsafe_allow_html=True)
 
     st.markdown(
-    """<p style='font-size:20px; color:white;'>
+    """<p style='font-size:20px;'>
     We will be using raw data webscraped from https://queue-times.com/. As of 01 
     April 2025, the website offers various monthly and yearly information about 
     theme parks for each year. We will be focusing on the label monthly crowd levels
@@ -333,7 +333,7 @@ with tab3:
                 unsafe_allow_html=True)
 
     st.markdown(
-    """<p style='font-size:20px; color:white;'>
+    """<p style='font-size:20px;'>
     The monthly crowd levels one month before and after each campaigns were identified.
     We wanted to find out if more guests were visiting theme parks after campaigns, 
     therefore we calculated the absolute and percentage increase in monthly crowd levels
@@ -348,12 +348,12 @@ with tab3:
     mini_para_break()
 
     st.markdown(
-    """<p style='font-size:20px; color:white;'>
+    """<p style='font-size:20px;'>
     Determinants of campaign effect now consists of... </p>
     """,
     unsafe_allow_html=True)
     st.markdown("""
-    <div style='font-size:20px; color:white;'>
+    <div style='font-size:20px;'>
     <div><b><em>Absolute Marketing Lift</b></em>: absolute increase one month post campaigns, accounting for seasonality</div>
     <div><b><em>Percentage Marketing Lift</b></em>: percentage increase one month post campaigns, accounting for seasonality</div>
     <div><b><em>Average Crowd Level</b></em>: crowd level the month before the campaign</div>
@@ -365,7 +365,7 @@ with tab3:
     st.markdown(f"<h3 class='subheading'>Campaign Clustering: Findings</h1>",
                 unsafe_allow_html=True)
 
-    st.markdown("""<p style='font-size:20px; color:white;'>            
+    st.markdown("""<p style='font-size:20px;'>            
     By performing similarity analysis using KMeans algorithm and PCA to visualize 
     the clusters, we have distinguished the good campaigns from the bad campaigns as
     seen from the red and green clusters in <a href="#figure1"> Figure 1</a>. 
@@ -398,7 +398,7 @@ with tab3:
     """)
     mini_para_break()
 
-    st.markdown("""<p style='font-size:20px; color:white;'>         
+    st.markdown("""<p style='font-size:20px;'>         
     Since the <a href="#mathref1">explained variance of the first principle component
     </a> is very close to 1, it tells us that the first principle component would
     give us the most insight to exploring the relationship between clusters and the
@@ -409,7 +409,7 @@ with tab3:
     """,unsafe_allow_html=True)
     mini_para_break()
     st.markdown(
-    """<p style='font-size:20px; color:white;'> 
+    """<p style='font-size:20px;'> 
     From <a href="#mathref1">PC_1's equation</a>, can deduce that higer marketing 
     lifts (absolute/relative lifts) and lower monthly average crowd levels the month
     before campaigns are an indication of better marketing, vice versa. Companies
