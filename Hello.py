@@ -25,19 +25,17 @@ def main():
     st.markdown("""
     <div style='background-color:#2a3f5f; padding:25px; border-radius:10px; margin-bottom:25px;'>
         <h3 style='color:white; margin-bottom:10px;'>The Global Amusement Park Industry is Growing at 10.55% CAGR</h3>
-        <p style='color:#f0f2f6; font-size:16px;'>Our data-driven solutions reveal how to simultaneously elevate guest satisfaction and operational efficiency in this complex ecosystem.</p>
+        <p style='color:#f0f2f6; font-size:16px;'>The main business question? How can we optimize guest experience and operations to drive revenue and customer satisfaction?</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Core value proposition
-    st.header("Our Interconnected Insights Framework")
-    st.write("""
-    We've developed 10 integrated solutions across two domains that create a virtuous cycle 
-    between guest experience and operations:
-    """)
-
     # Mermaid diagram using the streamlit-mermaid component
     st.subheader("How Our Solutions Work Together")
+
+    st.write("""
+    10 integrated solutions across two domains that create a virtuous cycle 
+    between guest experience and operations:
+    """)
     
     mermaid_code = """
     %%{init: {'theme': 'base', 'themeVariables': { 'arrowheadColor': '#cccccc', 'arrowLabelBackground': '#f8f8f8', 'edgeLabelBackground':'#f8f8f8'}}}%%
