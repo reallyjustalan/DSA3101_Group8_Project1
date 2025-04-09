@@ -1,0 +1,13 @@
+import streamlit as st 
+
+
+# Page config
+st.set_page_config(
+    page_title="Wrapping It Up!",
+    page_icon="🏰",
+    layout="wide"
+)
+
+# Header
+st.title("🚶🏽‍♂️ Guest Journey Analysis ")
+st.write("Analysis of guest movement patterns and opportunities for improving guest experience in Disney California Adventure 🏰")
