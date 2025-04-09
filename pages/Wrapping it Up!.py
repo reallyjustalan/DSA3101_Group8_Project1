@@ -14,11 +14,15 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 with tab1:
     st.header("4. Business Value and ROI")
 
-    with st.expander ("## Key Business Value Drivers"):
-        st.markdown("write here")
-
-    with st.expander ("##Return on Investment Analysis"):
-        st.markdown("write here")
+    with st.expander ("Understanding our Audience"):
+        st.write("""
+        - Curated market strategies
+        - Optimising prices for select demographics         
+        """)
+        
+                    
+    with st.expander ("Understanding Guest Patterns"):
+        st.markdown("Train models to visualise guest movement patterns and identify negative experiences")
     
 
 with tab2:
