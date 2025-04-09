@@ -108,22 +108,16 @@ with tab4:
 with tab5:
     st.header("Risk Assessment and Mitigation Strategies")
     st.markdown("""
-    Our project spanned ten distinct components, including customer segmentation, campaign effectiveness analysis, 
-    trend forecasting, and crowd flow modelling. Given the scale, we conducted a comprehensive risk assessment 
-    to ensure the robustness and business relevance of our findings.
+    Given the scale of our project, risk assessment is crucial to ensure the robustness and business relevance of our findings.
     """)
 
     with st.expander("**Data Quality and Cleaning Procedures**", expanded=False):
         st.markdown("""
         - **Risk**: Potential for inaccurate insights due to poor data quality  
         - **Mitigation**:  
-          • Implemented standardized data cleaning pipeline:  
-            - Contextual imputation of missing values  
-            - Removal of duplicate records  
-            - Correction of date/time inconsistencies  
-            - Standardization of customer identifiers  
-          • Established data validation checkpoints at each processing stage  
-        - **Outcome**: Cleaned datasets with <0.5% anomalous records remaining
+          - Standardized data cleaning pipeline:  
+          - Established data validation checkpoints at each processing stage  
+
         """)
 
     with st.expander("**Modelling and Algorithmic Risks**", expanded=False):
@@ -134,7 +128,6 @@ with tab5:
           • Conducted hyperparameter tuning via grid search  
           • Benchmarked against naive baselines (e.g., moving averages for forecasting)  
           • Implemented ensemble methods where appropriate  
-        - **Outcome**: Models achieved 82-94% out-of-sample accuracy across components
         """)
 
     with st.expander("**Campaign Analysis Confounders**", expanded=False):
@@ -145,30 +138,20 @@ with tab5:
             - Seasonal trends (school holidays, weather patterns)  
             - Concurrent park events  
             - Macroeconomic factors  
-          • Performed sensitivity analysis with alternative control groups  
-          • Implemented holdout testing for campaign incrementality  
-        - **Outcome**: Isolated true marketing lift within ±2.5% confidence interval
         """)
 
     with st.expander("**Operational Implementation Risks**", expanded=False):
         st.markdown("""
-        - **Risk**: Theoretical solutions failing in real-world deployment  
-        - **Mitigation**:  
-          • Conducted weekly alignment sessions with:  
-            - Park operations teams  
-            - Marketing leadership  
-            - IT implementation partners  
-          • Prototyped recommendations in test environments  
-          • Developed phased rollout plans with success metrics  
-        - **Outcome**: 89% of recommendations were implemented within Q3-Q4
+        - Test analysis and models on data from various parks 
+        - Focused on practicality and strong foundations which can be scaled in the future
         """)
 
     st.subheader("Overall Outcome", divider="rainbow")
     st.success("""
     These layered mitigation strategies enabled us to maintain analytical rigor while delivering insights that were:  
-    ✅ **Reliable** (validated through multiple robustness checks)  
-    ✅ **Actionable** (aligned with operational capabilities)  
-    ✅ **Impactful** (drove measurable business improvements)  
+    ✅ **Reliable**  
+    ✅ **Actionable**  
+    ✅ **Impactful**   
     """)
 
 st.sidebar.markdown("""
