@@ -37,16 +37,29 @@ with tab1:
     
 
 with tab2:
-    st.header("Cost and Benefit Analysis")
+    st.header("5. Cost and Benefit Analysis")
+    
+    with st.expander("🚀 **B2 – Ride Layout Optimization**", expanded=False):
+        st.markdown("""
+        **💰 Costs:**  
+        • Software: 5K –7K USD/year (AnyLogic/Simio) + AutoCAD  
+        • Team: 2 FTEs × 1 month  
 
-    with st.expander("Cost Components"):
-        st.write("""
-        write here
+        **📈 Benefits:**  
+        • **+2–3 USD /guest** from optimized F&B placement  
+        • **10–15% longer stays** via comfort amenities  
+        • **$500K–1M saved** in future infrastructure  
         """)
 
-    with st.expander("Benefit Components"):
-        st.write("""
-        write here
+    with st.expander("📡 **B5 – WiFi Crowd Tracking**", expanded=False):
+        st.markdown("""
+        **💰 Costs:**  
+        • $10K–15K one-time setup (existing WiFi infrastructure)  
+
+        **📈 Benefits:**  
+        • **$100K+/year saved** from efficient staffing  
+        • **15–30min shorter waits** via real-time rerouting  
+        • **20% faster response** to congestion  
         """)
 
 with tab3:
@@ -93,7 +106,7 @@ with tab4:
     
 
 with tab5:
-    st.header("8. Risk Assessment and Mitigation Strategies")
+    st.header("Risk Assessment and Mitigation Strategies")
     st.markdown("""
     Our project spanned ten distinct components, including customer segmentation, campaign effectiveness analysis, 
     trend forecasting, and crowd flow modelling. Given the scale, we conducted a comprehensive risk assessment 
@@ -157,7 +170,7 @@ with tab5:
     ✅ **Actionable** (aligned with operational capabilities)  
     ✅ **Impactful** (drove measurable business improvements)  
     """)
-    
+
 st.sidebar.markdown("""
 **Navigation Tips:**
 - Click on any tab to view that section
