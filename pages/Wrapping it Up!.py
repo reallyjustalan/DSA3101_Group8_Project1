@@ -37,7 +37,7 @@ with tab1:
     
 
 with tab2:
-    st.header("5. Cost and Benefit Analysis")
+    st.header("Cost and Benefit Analysis")
     
     with st.expander("🚀 **B2 – Ride Layout Optimization**", expanded=False):
         st.markdown("""
