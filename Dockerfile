@@ -6,12 +6,13 @@ WORKDIR /app
 # Expose port for Streamlit
 EXPOSE 8501
 
+RUN pip install uv
 # Copy requirements and install dependencies
 COPY requirements.txt ./
 
-RUN pip install -U pip && \
-    pip install -r requirements.txt && \
-    pip install streamlit && \
+RUN uv pip install -U pip && \
+    uv pip install -r requirements.txt && \
+    uv pip install streamlit && \
     which streamlit && \
     python -c "import streamlit; print(f'Streamlit version: {streamlit.__version__}')"
 
